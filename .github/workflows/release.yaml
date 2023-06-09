@@ -22,7 +22,8 @@ jobs:
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
       - run: yarn install
+      - run: npm version ${{ steps.release.outputs.version }}
       - name: Publish version
-        run: yarn npm publish --new-version ${{ steps.release.outputs.version }} --access public
+        run: yarn npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.npm_api_token }}
