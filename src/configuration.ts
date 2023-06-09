@@ -26,10 +26,7 @@ function defaultOnPremisesFlags(): {
 }
 
 export async function loadApps(configFilePath: string): Promise<Application[]> {
-  const file = await fsPromises.readFile(
-      configFilePath,
-    "utf8"
-  );
+  const file = await fsPromises.readFile(configFilePath, "utf8");
   const yamlApps: any = yaml.load(file);
   return yamlApps.apps.map((app: any) => {
     const application: Application = {
