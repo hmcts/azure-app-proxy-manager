@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
 yarn tsc -p .
-yarn node src/main.js
+yarn node lib/main.js -c apps.yaml

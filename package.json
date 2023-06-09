@@ -1,6 +1,6 @@
 {
-  "name": "apps",
-  "version": "1.0.0",
+  "name": "azure-app-proxy-manager",
+  "version": "0.0.1",
   "type": "module",
   "main": "index.js",
   "license": "MIT",
@@ -10,14 +10,20 @@
     "lint": "prettier --check .",
     "lint:fix": "prettier --write ."
   },
+  "files": [
+    "lib/"
+  ],
+  "bin": "./lib/main.js",
   "dependencies": {
     "@azure/identity": "^3.2.2",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "yargs": "^17.7.2"
   },
   "devDependencies": {
     "@types/js-yaml": "^4",
     "@types/node": "^20.2.5",
     "@types/prettier": "^2",
+    "@types/yargs": "^17",
     "prettier": "2.8.8",
     "typescript": "^5.1.3"
   }

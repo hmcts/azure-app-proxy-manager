@@ -13,7 +13,23 @@ import {
   setUserAssignmentRequired,
 } from "./servicePrincipalManager.js";
 
-const apps: Application[] = await loadApps();
+import yargs from "yargs/yargs";
+import {hideBin} from "yargs/helpers";
+import * as process from "process";
+
+const argv = await yargs(hideBin(process.argv))
+
+    .option('config', {
+      alias: 'c',
+      type: 'string',
+      description: 'Path to the configuration file',
+    })
+    .strict()
+    .usage('Usage: $0 -c [path]')
+    .demandOption(['config'])
+    .argv
+
+const apps: Application[] = await loadApps(argv.config);
 
 console.log("Processing", apps);
 

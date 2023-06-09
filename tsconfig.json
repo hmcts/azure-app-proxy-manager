@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "node16",
     "strict": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "outDir": "lib",
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*"],
 }

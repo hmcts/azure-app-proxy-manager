@@ -1,4 +1,4 @@
-# azure-app-proxy
+# azure-app-proxy-manager
 
 ## Prerequisites
 
@@ -8,6 +8,20 @@ license?
 ## Installing app proxy
 
 ## Configuring app proxy
+
+```bash
+yarn dlx azure-app-proxy-manager --config apps.yaml
+```
+
+### apps.yaml schema
+
+There is a JSON schema provided at [apps.schema.json](apps.schema.json)
+This is the quickest and easiest way to configure an app with autocompletion and documentation on the properties.
+
+IDE Configuration:
+
+- [IntelliJ](https://www.jetbrains.com/help/idea/json.html#ws_json_schema_add_custom)
+- [VSCode](https://github.com/redhat-developer/vscode-yaml#associating-a-schema-to-a-glob-pattern-via-yamlschemas)
 
 ## Features to be implemented
 
@@ -41,4 +55,14 @@ https://learn.microsoft.com/en-us/graph/api/resources/keycredential?view=graph-r
     }
   }
 }
+```
+
+## Contributing
+
+You can run this locally with:
+
+```bash
+yarn install
+yarn tsc -p .
+yarn node dist/index.js --config apps.yaml
 ```
