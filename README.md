@@ -29,10 +29,9 @@ IDE Configuration:
 - [ ] Possibly allow setting boolean values on per app basic if required
 - [ ] README
 - [ ] Tests
-- [ ] CI/CD
-- [ ] Publish to npm registry
 - [ ] Blog
 - [ ] Visible to users
+- [ ] Remove process.exit
 
 ### Notes
 

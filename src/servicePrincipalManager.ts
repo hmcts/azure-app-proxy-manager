@@ -26,6 +26,29 @@ export async function setUserAssignmentRequired({
   await errorHandler("updating servicePrincipal config", result);
 }
 
+export async function readServicePrincipal({
+  token,
+  servicePrincipalObjectId,
+}: {
+  token: string;
+  servicePrincipalObjectId: string;
+}) {
+  console.log("Retrieving service principal", servicePrincipalObjectId);
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/${servicePrincipalObjectId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  await errorHandler("reading service principal", result);
+
+  return await result.json();
+}
+
 export async function findExistingServicePrincipal({
   token,
   displayName,

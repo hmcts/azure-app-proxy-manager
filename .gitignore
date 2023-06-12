@@ -7,4 +7,6 @@
 !.yarn/versions
 yarn-error.log
 *.map
-*.js
+lib/*.js
+coverage/
+node_modules/.vitest
