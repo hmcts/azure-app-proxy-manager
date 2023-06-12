@@ -28,7 +28,6 @@ IDE Configuration:
 - [ ] SSL certificate
 - [ ] Possibly allow setting boolean values on per app basic if required
 - [ ] README
-- [ ] Tests
 - [ ] Blog
 - [ ] Visible to users
 
@@ -62,5 +61,16 @@ You can run this locally with:
 ```bash
 yarn install
 yarn tsc -p .
-yarn node dist/index.js --config apps.yaml
+yarn node --enable-source-maps dist/index.js --config apps.yaml
+```
+
+### Tests
+
+Login to Azure with an account that has the Application Administrator role in the tenant.
+It's recommended you use a sandbox tenant for this.
+
+Then run:
+
+```bash
+yarn test
 ```

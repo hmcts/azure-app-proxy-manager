@@ -6,7 +6,10 @@ export async function errorHandler(when: string, result: Response) {
     try {
       body = await result.json();
     } catch (err) {}
-    // @ts-ignore
-    throw new Error(`Error ${when}`, result.status, result.statusText, body);
+    throw new Error(
+      `Error ${when}, status: ${result.status}, statusText: ${
+        result.statusText
+      }, body: ${JSON.stringify(body)}`
+    );
   }
 }
