@@ -31,7 +31,6 @@ IDE Configuration:
 - [ ] Tests
 - [ ] Blog
 - [ ] Visible to users
-- [ ] Remove process.exit
 
 ### Notes
 

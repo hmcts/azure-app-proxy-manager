@@ -1,9 +1,12 @@
 export async function errorHandler(when: string, result: Response) {
   if (!result.ok) {
-    console.log(`Error ${when}`, result.status);
-    console.log(result.statusText);
-    console.log(await result.json());
+    console.log();
+
+    let body = null;
+    try {
+      body = await result.json();
+    } catch (err) {}
     // @ts-ignore
-    process.exit(1);
+    throw new Error(`Error ${when}`, result.status, result.statusText, body);
   }
 }

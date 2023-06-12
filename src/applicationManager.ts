@@ -24,10 +24,9 @@ export async function createApplication({
     });
 
     if (!servicePrincipalObjectId) {
-      console.log(
+      throw new Error(
         `Found application ${displayName} but no service principal, aborting`
       );
-      process.exit(1);
     }
 
     return { applicationId, servicePrincipalObjectId };
@@ -176,9 +175,9 @@ async function waitTillApplicationExists({
 
     const maxAttempts = 30;
     if (attempt > maxAttempts) {
-      console.log(`Failed to find application after ${maxAttempts} attempts`);
-      // @ts-ignore
-      process.exit(1);
+      throw new Error(
+        `Failed to find application after ${maxAttempts} attempts`
+      );
     }
   }
 }
