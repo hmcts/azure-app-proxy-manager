@@ -38,41 +38,54 @@ const { token } = await credential.getToken(
   "https://graph.microsoft.com/.default"
 );
 
+let errors = false;
+
 /**
  * Guides used to create this:
  * - https://learn.microsoft.com/en-us/graph/application-proxy-configure-api?tabs=http
  * - https://learn.microsoft.com/en-us/azure/active-directory/manage-apps/assign-user-or-group-access-portal?pivots=ms-graph
  */
 for await (const app of apps) {
-  const { applicationId, servicePrincipalObjectId } = await createApplication({
-    token,
-    displayName: app.name,
-  });
+  try {
+    const { applicationId, servicePrincipalObjectId } = await createApplication(
+      {
+        token,
+        displayName: app.name,
+      }
+    );
 
-  await updateApplicationConfig({
-    token,
-    externalUrl: app.onPremisesPublishing.externalUrl,
-    appId: applicationId,
-  });
+    await updateApplicationConfig({
+      token,
+      externalUrl: app.onPremisesPublishing.externalUrl,
+      appId: applicationId,
+    });
 
-  await setLogo({ token, appId: applicationId, logoUrl: app.logoUrl });
-  await setOnPremisesPublishing({
-    token,
-    appId: applicationId,
-    onPremisesPublishing: app.onPremisesPublishing,
-  });
+    await setLogo({ token, appId: applicationId, logoUrl: app.logoUrl });
+    await setOnPremisesPublishing({
+      token,
+      appId: applicationId,
+      onPremisesPublishing: app.onPremisesPublishing,
+    });
 
-  await setUserAssignmentRequired({
-    token,
-    objectId: servicePrincipalObjectId,
-    assignmentRequired: app.appRoleAssignmentRequired,
-  });
-  await assignGroups({
-    token,
-    objectId: servicePrincipalObjectId,
-    groups: app.appRoleAssignments,
-  });
-  // TODO SSL certificate
+    await setUserAssignmentRequired({
+      token,
+      objectId: servicePrincipalObjectId,
+      assignmentRequired: app.appRoleAssignmentRequired,
+    });
+    await assignGroups({
+      token,
+      objectId: servicePrincipalObjectId,
+      groups: app.appRoleAssignments,
+    });
+    // TODO SSL certificate
 
-  console.log("Created application successfully", app.name, applicationId);
+    console.log("Created application successfully", app.name, applicationId);
+  } catch (err) {
+    console.log(err);
+    errors = true;
+  }
+}
+
+if (errors) {
+  process.exit(1);
 }

@@ -1,11 +1,9 @@
 import yaml from "js-yaml";
 import { promises as fsPromises } from "fs";
 import { Application } from "./application.js";
-import path from "path";
-import { fileURLToPath } from "url";
 
 // TODO merge with config
-function defaultOnPremisesFlags(): {
+export function defaultOnPremisesFlags(): {
   externalAuthenticationType: "aadPreAuthentication";
   isHttpOnlyCookieEnabled: boolean;
   isOnPremPublishingEnabled: boolean;

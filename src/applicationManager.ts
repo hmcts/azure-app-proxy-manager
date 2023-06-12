@@ -1,7 +1,6 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { errorHandler } from "./errorHandler.js";
 import { findExistingServicePrincipal } from "./servicePrincipalManager.js";
-import * as process from "process";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
@@ -25,10 +24,9 @@ export async function createApplication({
     });
 
     if (!servicePrincipalObjectId) {
-      console.log(
+      throw new Error(
         `Found application ${displayName} but no service principal, aborting`
       );
-      process.exit(1);
     }
 
     return { applicationId, servicePrincipalObjectId };
@@ -58,6 +56,54 @@ export async function createApplication({
     applicationId: body.application.id,
     servicePrincipalObjectId: body.servicePrincipal.id,
   };
+}
+
+export function helloWorld() {
+  console.log("me");
+}
+
+export async function readApplication({
+  token,
+  applicationId,
+}: {
+  token: string;
+  applicationId: string;
+}) {
+  console.log("Retrieving application", applicationId);
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  await errorHandler("reading application", result);
+
+  return await result.json();
+}
+
+export async function deleteApplication({
+  token,
+  applicationId,
+}: {
+  token: string;
+  applicationId: string;
+}) {
+  console.log("Deleting application", applicationId);
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  await errorHandler("deleting application", result);
 }
 
 export async function findExistingApplication({
@@ -129,9 +175,9 @@ async function waitTillApplicationExists({
 
     const maxAttempts = 30;
     if (attempt > maxAttempts) {
-      console.log(`Failed to find application after ${maxAttempts} attempts`);
-      // @ts-ignore
-      process.exit(1);
+      throw new Error(
+        `Failed to find application after ${maxAttempts} attempts`
+      );
     }
   }
 }
