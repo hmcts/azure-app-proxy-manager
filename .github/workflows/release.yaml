@@ -24,11 +24,13 @@ jobs:
       - name: Set node version and build
         uses: actions/setup-node@v3
         with:
-          always-auth: true
           node-version-file: ".nvmrc"
           registry-url: "https://registry.npmjs.org"
       - run: yarn install
+      - name: Release config
+        run: |
+          yarn config set -H "npmRegistries['$(yarn config get npmRegistryServer)'].npmAlwaysAuth" true
+          yarn config set -H "npmRegistries['$(yarn config get npmRegistryServer)'].npmAuthToken" ${{ secrets.NPM_API_TOKEN }}
+
       - name: Publish version
         run: yarn npm publish --access public
-        env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_API_TOKEN }}
