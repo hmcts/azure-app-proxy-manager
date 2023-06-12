@@ -8,7 +8,16 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - run: npm version ${{ steps.release.outputs.version }}
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=version::${GITHUB_REF#refs/tags/v}
+      - run: npm version ${{ steps.get_version.outputs.version }}
+      - name: Validate and extract release information
+        id: release
+        uses: manovotny/github-releases-for-automated-package-publishing-action@v2.0.1
+
       - name: Set node version and build
         uses: actions/setup-node@v3
         with:
@@ -19,4 +28,4 @@ jobs:
       - name: Publish version
         run: yarn npm publish --access public
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.npm_api_token }}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_api_token }}
