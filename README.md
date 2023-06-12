@@ -1,13 +1,25 @@
 # azure-app-proxy-manager
 
+This tool allows you to manage Azure AD Application Proxy applications from a YAML file.
+It is based on the [Configure Application Proxy using the Microsoft Graph API](https://learn.microsoft.com/en-us/graph/application-proxy-configure-api?tabs=http) tutorial by Microsoft.
+
+Its goal is to allow you to completely manage your application proxy applications in a declarative way.
+
 ## Prerequisites
 
-App Admin in local tenant
-license?
+- Azure AD Premium P1 or P2 license.
+- Application administrator role or `Directory.ReadWrite.All` Graph API permission.
+- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+- [Node.js](https://nodejs.org/en/download/) 18 or higher
+- [Yarn](https://yarnpkg.com/getting-started/install)
 
 ## Installing app proxy
 
+See [Azure Active Directory Application Proxy Implementation](https://luke.geek.nz/azure/azure-active-directory-application-proxy-implementation/)
+
 ## Configuring app proxy
+
+Create a YAML file with your applications in it. See the [sample](apps.yaml) to get started.
 
 ```bash
 yarn dlx azure-app-proxy-manager --config apps.yaml
@@ -26,33 +38,7 @@ IDE Configuration:
 ## Features to be implemented
 
 - [ ] SSL certificate
-- [ ] Possibly allow setting boolean values on per app basic if required
-- [ ] README
 - [ ] Blog
-- [ ] Visible to users
-
-### Notes
-
-SSL certificate
-https://github.com/hmcts/cvp-audio-ingress/blob/8b53ce29176e7aa515f5d4b30318f5909d89a288/terraform/cloudconfig/cloudconfig.tpl#L890
-
-https://learn.microsoft.com/en-us/graph/api/resources/onpremisespublishing?view=graph-rest-beta
-https://learn.microsoft.com/en-us/graph/api/resources/keycredential?view=graph-rest-beta
-
-```json
-{
-  "onPremisesPublishing": {
-    "verifiedCustomDomainKeyCredential": {
-      "type": "X509CertAndPassword",
-      "keyId": "",
-      "value": ["byte array"]
-    },
-    "verifiedCustomDomainPasswordCredential": {
-      "value": "Password12"
-    }
-  }
-}
-```
 
 ## Contributing
 
