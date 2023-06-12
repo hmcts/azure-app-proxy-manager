@@ -22,7 +22,7 @@ jobs:
           node-version-file: ".nvmrc"
       - run: yarn install
       - run: yarn lint
-      - name: 'Az CLI login'
+      - name: "Az CLI login"
         uses: azure/login@v1
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
