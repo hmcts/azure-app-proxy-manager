@@ -15,7 +15,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/abort-controller@npm:^1.0.0":
+"@azure/abort-controller@npm:^1.0.0, @azure/abort-controller@npm:^1.0.4":
   version: 1.1.0
   resolution: "@azure/abort-controller@npm:1.1.0"
   dependencies:
@@ -34,7 +34,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-client@npm:^1.4.0":
+"@azure/core-client@npm:^1.3.0, @azure/core-client@npm:^1.4.0, @azure/core-client@npm:^1.5.0":
   version: 1.7.3
   resolution: "@azure/core-client@npm:1.7.3"
   dependencies:
@@ -49,7 +49,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-rest-pipeline@npm:^1.1.0, @azure/core-rest-pipeline@npm:^1.9.1":
+"@azure/core-http-compat@npm:^1.3.0":
+  version: 1.3.0
+  resolution: "@azure/core-http-compat@npm:1.3.0"
+  dependencies:
+    "@azure/abort-controller": ^1.0.4
+    "@azure/core-client": ^1.3.0
+    "@azure/core-rest-pipeline": ^1.3.0
+  checksum: 26938e58348c44b7fe3ede0dececaa3bf1f8b2012bdd457a004da973dd3cfbfd093c44184ea3fa0e6b41d4c4bf62574c268bc4cf50325f5dadedb7500158b742
+  languageName: node
+  linkType: hard
+
+"@azure/core-lro@npm:^2.2.0":
+  version: 2.5.3
+  resolution: "@azure/core-lro@npm:2.5.3"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    "@azure/core-util": ^1.2.0
+    "@azure/logger": ^1.0.0
+    tslib: ^2.2.0
+  checksum: 443ae1884a6bc9edfeee1e62463b218a020f1be987ef755c13d5afe39803bbceb8ca9174bd516e1db9bc3f3762f71168167ea0ee9873c66e3d86a6667d5a0457
+  languageName: node
+  linkType: hard
+
+"@azure/core-paging@npm:^1.1.1":
+  version: 1.5.0
+  resolution: "@azure/core-paging@npm:1.5.0"
+  dependencies:
+    tslib: ^2.2.0
+  checksum: 156230f0fdf757a0353a2aac6d012d385ed88f8ab5bccf00eee27d8d75843e681674b2d10ed43309669f9cb93bf8d9d000232896593b6fcf399fa391442a59c5
+  languageName: node
+  linkType: hard
+
+"@azure/core-rest-pipeline@npm:^1.1.0, @azure/core-rest-pipeline@npm:^1.3.0, @azure/core-rest-pipeline@npm:^1.8.0, @azure/core-rest-pipeline@npm:^1.9.1":
   version: 1.11.0
   resolution: "@azure/core-rest-pipeline@npm:1.11.0"
   dependencies:
@@ -75,7 +107,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-util@npm:^1.0.0, @azure/core-util@npm:^1.3.0":
+"@azure/core-util@npm:^1.0.0, @azure/core-util@npm:^1.2.0, @azure/core-util@npm:^1.3.0":
   version: 1.3.2
   resolution: "@azure/core-util@npm:1.3.2"
   dependencies:
@@ -106,6 +138,25 @@ __metadata:
     tslib: ^2.2.0
     uuid: ^8.3.0
   checksum: cbedd293ed6360d98c87148686a1be3a38aad3eaeadcaa7d73e79469904aac2f949a1be67e868d3fd295e749a24ad91bc389ddb82d8574dd173c0583767ec6bf
+  languageName: node
+  linkType: hard
+
+"@azure/keyvault-secrets@npm:^4.7.0":
+  version: 4.7.0
+  resolution: "@azure/keyvault-secrets@npm:4.7.0"
+  dependencies:
+    "@azure/abort-controller": ^1.0.0
+    "@azure/core-auth": ^1.3.0
+    "@azure/core-client": ^1.5.0
+    "@azure/core-http-compat": ^1.3.0
+    "@azure/core-lro": ^2.2.0
+    "@azure/core-paging": ^1.1.1
+    "@azure/core-rest-pipeline": ^1.8.0
+    "@azure/core-tracing": ^1.0.0
+    "@azure/core-util": ^1.0.0
+    "@azure/logger": ^1.0.0
+    tslib: ^2.2.0
+  checksum: 915bfbbc7ae339985a218ae3603077dab847eba5a140a9e0fb975d54e7c6bd9194a2dc7fb1f4a0788b936707ef088f32f784937ebd8830d0d977bf0c410c9bb3
   languageName: node
   linkType: hard
 
@@ -433,6 +484,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-forge@npm:^1":
+  version: 1.3.2
+  resolution: "@types/node-forge@npm:1.3.2"
+  dependencies:
+    "@types/node": "*"
+  checksum: f532326a616e946e5f6733d1461e7b8d31911bbdfbc480a6337c422053d79c1e22a0776d114a325439e26ae382a640f939d0abf156e24a3c3ca5079d04aa73f6
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 20.3.0
   resolution: "@types/node@npm:20.3.0"
@@ -664,12 +724,15 @@ __metadata:
   resolution: "azure-app-proxy-manager@workspace:."
   dependencies:
     "@azure/identity": ^3.2.2
+    "@azure/keyvault-secrets": ^4.7.0
     "@types/js-yaml": ^4
     "@types/node": ^20.2.5
+    "@types/node-forge": ^1
     "@types/prettier": ^2
     "@types/yargs": ^17
     "@vitest/coverage-v8": ^0.32.0
     js-yaml: ^4.1.0
+    node-forge: ^1.3.1
     prettier: 2.8.8
     typescript: ^5.1.3
     vitest: ^0.32.0
@@ -1700,6 +1763,13 @@ __metadata:
   version: 0.6.3
   resolution: "negotiator@npm:0.6.3"
   checksum: b8ffeb1e262eff7968fc90a2b6767b04cfd9842582a9d0ece0af7049537266e7b2506dfb1d107a32f06dd849ab2aea834d5830f7f4d0e5cb7d36e1ae55d021d9
+  languageName: node
+  linkType: hard
+
+"node-forge@npm:^1.3.1":
+  version: 1.3.1
+  resolution: "node-forge@npm:1.3.1"
+  checksum: 08fb072d3d670599c89a1704b3e9c649ff1b998256737f0e06fbd1a5bf41cae4457ccaee32d95052d80bbafd9ffe01284e078c8071f0267dc9744e51c5ed42a9
   languageName: node
   linkType: hard
 

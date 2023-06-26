@@ -37,7 +37,7 @@ IDE Configuration:
 
 ## Features to be implemented
 
-- [ ] SSL certificate
+- [ ] SAML auth
 - [ ] Blog
 
 ## Contributing

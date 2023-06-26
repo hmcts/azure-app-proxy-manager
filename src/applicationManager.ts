@@ -1,6 +1,13 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { errorHandler } from "./errorHandler.js";
 import { findExistingServicePrincipal } from "./servicePrincipalManager.js";
+import { TLS } from "./tls.js";
+
+import { SecretClient } from "@azure/keyvault-secrets";
+import { DefaultAzureCredential } from "@azure/identity";
+
+import forge from "node-forge";
+import { setPasswordOnPfx } from "./pfx.js";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
@@ -267,4 +274,62 @@ export async function setOnPremisesPublishing({
   );
 
   await errorHandler("setting onPremisesPublishing", result);
+}
+
+async function retrievePfxFromAzureKeyVault(tls: TLS) {
+  const credential = new DefaultAzureCredential();
+  const keyVaultName = tls.key_vault_name;
+  const url = "https://" + keyVaultName + ".vault.azure.net";
+  const secretClient = new SecretClient(url, credential);
+  const secret = await secretClient.getSecret(tls.name);
+
+  const pfx = secret.value;
+  if (!pfx) {
+    throw new Error("No certificate found");
+  }
+  return pfx;
+}
+
+export async function setTLSCertificate({
+  appId,
+  tls,
+  token,
+}: {
+  appId: string;
+  tls: TLS;
+  token: string;
+}) {
+  if (tls) {
+    const pfx = await retrievePfxFromAzureKeyVault(tls);
+
+    // the password doesn't matter as we just need anything set on it to be able to upload the pfx to Azure AD
+    const pfxPassword = "password";
+    const pfxBase64 = setPasswordOnPfx(pfx, pfxPassword);
+
+    const body = {
+      onPremisesPublishing: {
+        verifiedCustomDomainKeyCredential: {
+          type: "X509CertAndPassword",
+          value: pfxBase64,
+        },
+        verifiedCustomDomainPasswordCredential: {
+          value: pfxPassword,
+        },
+      },
+    };
+
+    const result = await fetch(
+      `https://graph.microsoft.com/beta/applications/${appId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    await errorHandler("setting tls certificate", result);
+  }
 }

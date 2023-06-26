@@ -30,6 +30,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
     const application: Application = {
       name: app.name,
       logoUrl: app.logoUrl,
+      tls: app.tls,
       appRoleAssignmentRequired:
         app.userAssignmentRequired === undefined
           ? true

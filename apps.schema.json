@@ -37,6 +37,25 @@
               "https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png"
             ]
           },
+          "tls": {
+            "type": "object",
+            "title": "TLS configuration for the application",
+            "required": ["name", "key_vault_name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "default": "",
+                "title": "Certificate name in the Azure Key Vault",
+                "examples": ["wildcard-my-domain"]
+              },
+              "key_vault_name": {
+                "type": "string",
+                "default": "",
+                "title": "Azure Key Vault name",
+                "examples": ["my-key-vault"]
+              }
+            }
+          },
           "appRoleAssignments": {
             "type": "array",
             "default": [],
