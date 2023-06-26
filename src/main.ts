@@ -5,6 +5,7 @@ import {
   createApplication,
   setLogo,
   setOnPremisesPublishing,
+  setTLSCertificate,
   updateApplicationConfig,
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
@@ -77,7 +78,8 @@ for await (const app of apps) {
       objectId: servicePrincipalObjectId,
       groups: app.appRoleAssignments,
     });
-    // TODO SSL certificate
+
+    await setTLSCertificate({ token, appId: applicationId, tls: app.tls });
 
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {

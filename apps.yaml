@@ -8,3 +8,6 @@ apps:
       - Test app
     internalUrl: "https://rees-on-bau101.sandbox.platform.hmcts.net"
     userAssignmentRequired: true
+    tls:
+      key_vault_name: "acmedcdcftappssbox"
+      name: "wildcard-app-proxy-poc-sandbox-platform-hmcts-net"

@@ -1,4 +1,5 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
+import { TLS } from "./tls.js";
 
 export type Application = {
   name: string;
@@ -6,4 +7,5 @@ export type Application = {
   logoUrl: string;
   appRoleAssignments: string[];
   onPremisesPublishing: OnPremisesPublishing;
+  tls: TLS;
 };
