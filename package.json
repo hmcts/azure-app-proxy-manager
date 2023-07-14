@@ -4,7 +4,7 @@
   "type": "module",
   "main": "index.js",
   "license": "MIT",
-  "packageManager": "yarn@3.6.0",
+  "packageManager": "yarn@3.6.1",
   "scripts": {
     "do-it": "./run.sh",
     "build": "tsc",
