@@ -10,5 +10,5 @@ export type Application = {
   onPremisesPublishing: OnPremisesPublishing;
   tls: TLS;
   redirectUrls: Array<string>;
-  saml: SAML
+  saml: SAML;
 };

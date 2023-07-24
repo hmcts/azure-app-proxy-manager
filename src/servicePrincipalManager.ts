@@ -1,10 +1,10 @@
 import { errorHandler } from "./errorHandler.js";
 
 const getDateByAddingDays = (days: number) => {
-  const date =  new Date();
+  const date = new Date();
   date.setDate(date.getDate() + days);
   return date;
-}
+};
 
 export async function setUserAssignmentRequired({
   token,
@@ -52,7 +52,7 @@ export async function readServicePrincipal({
 
   await errorHandler("reading service principal", result);
 
-return await result.json();
+  return await result.json();
 }
 
 export async function findExistingServicePrincipal({
@@ -211,12 +211,12 @@ export async function enableSaml({
   displayName,
   token,
   objectId,
-  appId
+  appId,
 }: {
   displayName: string;
   objectId: string;
   token: string;
-  appId: string
+  appId: string;
 }) {
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}`,
@@ -234,17 +234,14 @@ export async function enableSaml({
 
   await errorHandler("Enabling Saml config", result);
 
-  
-
-  
-  await addTokenSigningCertificate({displayName, token, objectId, appId});
+  await addTokenSigningCertificate({ displayName, token, objectId, appId });
 }
 
 async function addTokenSigningCertificate({
   displayName,
   token,
   objectId,
-  appId
+  appId,
 }: {
   displayName: string;
   objectId: string;
@@ -255,32 +252,50 @@ async function addTokenSigningCertificate({
     token,
     servicePrincipalObjectId: objectId,
   });
-  console.log(servicePrincipal)
-
+  console.log(servicePrincipal);
 
   //Adds a new signing certificate if all certificates are expiring.
-  if (servicePrincipal.keyCredentials === undefined || servicePrincipal.keyCredentials.length == 0 || areAllCertficatesExpiring(servicePrincipal.keyCredentials)) {
+  if (
+    servicePrincipal.keyCredentials === undefined ||
+    servicePrincipal.keyCredentials.length == 0 ||
+    areAllCertficatesExpiring(servicePrincipal.keyCredentials)
+  ) {
+    const addCertificateResult = await createNewSigningCert(
+      objectId,
+      token,
+      displayName
+    );
 
-    const addCertificateResult = await createNewSigningCert(objectId, token, displayName);
-
-    await makeCertDefault(objectId, token, (await addCertificateResult.json()).thumbprint);    
+    await makeCertDefault(
+      objectId,
+      token,
+      (
+        await addCertificateResult.json()
+      ).thumbprint
+    );
   }
 }
 
-function areAllCertficatesExpiring(keyCredentialsArray: any[]){
-    for (const credential of keyCredentialsArray) {
-      console.log(credential);
-      console.log(credential.endDateTime);
-      console.log(getDateByAddingDays(10))
-      if(new Date(credential.endDateTime) > new Date(getDateByAddingDays(10))) {
-        console.log("Skipping Creation of signing certificate as we have atleast one certificate with expiry more than 10 days")
-        return false;
-      }
+function areAllCertficatesExpiring(keyCredentialsArray: any[]) {
+  for (const credential of keyCredentialsArray) {
+    console.log(credential);
+    console.log(credential.endDateTime);
+    console.log(getDateByAddingDays(10));
+    if (new Date(credential.endDateTime) > new Date(getDateByAddingDays(10))) {
+      console.log(
+        "Skipping Creation of signing certificate as we have atleast one certificate with expiry more than 10 days"
+      );
+      return false;
     }
-    return true;
+  }
+  return true;
 }
 
-async function makeCertDefault(objectId: string, token: string, thumbprint: any) {
+async function makeCertDefault(
+  objectId: string,
+  token: string,
+  thumbprint: any
+) {
   console.log("Making new signing cert active");
 
   const preferredCertResult = await fetch(
@@ -300,7 +315,11 @@ async function makeCertDefault(objectId: string, token: string, thumbprint: any)
   await errorHandler("Adding Saml signing certificate", preferredCertResult);
 }
 
-async function createNewSigningCert(objectId: string, token: string, displayName: string) {
+async function createNewSigningCert(
+  objectId: string,
+  token: string,
+  displayName: string
+) {
   console.log("creating new signing cert");
   const addCertificateResult = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}/addTokenSigningCertificate`,
@@ -311,8 +330,8 @@ async function createNewSigningCert(objectId: string, token: string, displayName
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "displayName": `CN=${displayName}`,
-        "endDateTime": getDateByAddingDays(365)
+        displayName: `CN=${displayName}`,
+        endDateTime: getDateByAddingDays(365),
       }),
     }
   );
