@@ -259,7 +259,7 @@ async function addTokenSigningCertificate({
 
 
   //Adds a new signing certificate if all certificates are expiring.
-  if (servicePrincipal.keyCredentials && areAllCertficatesExpiring(servicePrincipal.keyCredentials)) {
+  if (servicePrincipal.keyCredentials === undefined || servicePrincipal.keyCredentials.length == 0 || areAllCertficatesExpiring(servicePrincipal.keyCredentials)) {
 
     const addCertificateResult = await createNewSigningCert(objectId, token, displayName);
 
