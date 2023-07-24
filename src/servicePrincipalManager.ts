@@ -266,25 +266,15 @@ async function addTokenSigningCertificate({
       displayName
     );
 
-    await makeCertDefault(
-      objectId,
-      token,
-      (
-        await addCertificateResult.json()
-      ).thumbprint
-    );
+    const certificateThumbprint = (await addCertificateResult.json())
+      .thumbprint;
+    await makeCertDefault(objectId, token, certificateThumbprint);
   }
 }
 
 function areAllCertficatesExpiring(keyCredentialsArray: any[]) {
   for (const credential of keyCredentialsArray) {
-    console.log(credential);
-    console.log(credential.endDateTime);
-    console.log(getDateByAddingDays(10));
     if (new Date(credential.endDateTime) > new Date(getDateByAddingDays(10))) {
-      console.log(
-        "Skipping Creation of signing certificate as we have atleast one certificate with expiry more than 10 days"
-      );
       return false;
     }
   }
