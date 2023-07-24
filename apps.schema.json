@@ -68,6 +68,31 @@
             },
             "examples": [["Developers"]]
           },
+          "redirectUrls": {
+            "type": "array",
+            "default": [],
+            "title": "A list of redirect Urls that will be added to the application. Defaults to externalUrl if not set",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Redirect URL of the application",
+              "examples": ["https://my-external-facing-url.domain.com/redirect"]
+            },
+            "examples": [["https://my-external-facing-url.domain.com/redirect"]]
+          },
+          "saml": {
+            "type": "object",
+            "default": {},
+            "title": "saml configuration for the application",
+            "required": ["enabled"],
+            "properties": {
+              "enabled": {
+                "type": "boolean",
+                "default": false,
+                "title": "Flag to enable saml on the application"
+              }
+            }
+          },
           "internalUrl": {
             "type": "string",
             "default": "",
