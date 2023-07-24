@@ -46,8 +46,8 @@ You can run this locally with:
 
 ```bash
 yarn install
-yarn tsc -p .
-yarn node --enable-source-maps dist/index.js --config apps.yaml
+yarn build
+yarn node --enable-source-maps lib/main.js --config apps.yaml
 ```
 
 ### Tests

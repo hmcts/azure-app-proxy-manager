@@ -7,7 +7,7 @@
   "packageManager": "yarn@3.6.0",
   "scripts": {
     "do-it": "./run.sh",
-    "build": "tsc",
+    "build": "tsc --noEmit false",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "vitest",

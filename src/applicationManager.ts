@@ -193,10 +193,12 @@ export async function updateApplicationConfig({
   token,
   appId,
   externalUrl,
+  redirectUrls,
 }: {
   token: string;
   appId: string;
   externalUrl: string;
+  redirectUrls: Array<string>;
 }): Promise<void> {
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/applications/${appId}`,
@@ -209,7 +211,7 @@ export async function updateApplicationConfig({
       body: JSON.stringify({
         identifierUris: [externalUrl],
         web: {
-          redirectUris: [externalUrl],
+          redirectUris: redirectUrls,
           homePageUrl: externalUrl,
         },
       }),

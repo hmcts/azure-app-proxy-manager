@@ -12,6 +12,7 @@ import { loadApps } from "./configuration.js";
 import {
   assignGroups,
   setUserAssignmentRequired,
+  enableSaml, 
 } from "./servicePrincipalManager.js";
 
 import yargs from "yargs/yargs";
@@ -58,6 +59,7 @@ for await (const app of apps) {
     await updateApplicationConfig({
       token,
       externalUrl: app.onPremisesPublishing.externalUrl,
+      redirectUrls: app.redirectUrls,
       appId: applicationId,
     });
 
@@ -80,6 +82,10 @@ for await (const app of apps) {
     });
 
     await setTLSCertificate({ token, appId: applicationId, tls: app.tls });
+
+    if(app.saml && app.saml.enabled){
+      await enableSaml({ displayName: app.name, token, objectId: servicePrincipalObjectId, appId: applicationId });
+    }
 
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {
