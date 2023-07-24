@@ -8,4 +8,6 @@ export type Application = {
   appRoleAssignments: string[];
   onPremisesPublishing: OnPremisesPublishing;
   tls: TLS;
+  redirectUrls: Array<string>;
+  preferredSingleSignOnMode: string;
 };

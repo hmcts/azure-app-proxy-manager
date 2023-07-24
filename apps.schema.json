@@ -68,6 +68,25 @@
             },
             "examples": [["Developers"]]
           },
+          "redirectUrls": {
+            "type": "array",
+            "default": [],
+            "title": "A list of redirect Urls that will be added to the application. Defaults to externalUrl if not set",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Redirect URL of the application",
+              "examples": ["https://my-external-facing-url.domain.com/redirect"]
+            },
+            "examples": [["https://my-external-facing-url.domain.com/redirect"]]
+          },
+          "preferredSingleSignOnMode": {
+            "type": "string",
+            "default": "",
+            "title": "Preferred Single sign-on mode, currently only saml is supported.",
+            "examples": ["saml"],
+            "enum": ["saml"]
+          },
           "internalUrl": {
             "type": "string",
             "default": "",

@@ -11,3 +11,6 @@ apps:
     tls:
       key_vault_name: "acmedcdcftappssbox"
       name: "wildcard-app-proxy-poc-sandbox-platform-hmcts-net"
+    redirectUrls:
+      - "https://my-test-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
+    preferredSingleSignOnMode: "saml"
