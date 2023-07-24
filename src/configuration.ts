@@ -31,7 +31,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       name: app.name,
       logoUrl: app.logoUrl,
       tls: app.tls,
-      saml: app.saml,
+      preferredSingleSignOnMode: app.preferredSingleSignOnMode,
       appRoleAssignmentRequired:
         app.userAssignmentRequired === undefined
           ? true

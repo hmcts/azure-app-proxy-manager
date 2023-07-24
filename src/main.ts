@@ -83,7 +83,10 @@ for await (const app of apps) {
 
     await setTLSCertificate({ token, appId: applicationId, tls: app.tls });
 
-    if (app.saml && app.saml.enabled) {
+    if (
+      app.preferredSingleSignOnMode &&
+      app.preferredSingleSignOnMode == "saml"
+    ) {
       await enableSaml({
         displayName: app.name,
         token,

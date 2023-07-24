@@ -80,18 +80,12 @@
             },
             "examples": [["https://my-external-facing-url.domain.com/redirect"]]
           },
-          "saml": {
-            "type": "object",
-            "default": {},
-            "title": "saml configuration for the application",
-            "required": ["enabled"],
-            "properties": {
-              "enabled": {
-                "type": "boolean",
-                "default": false,
-                "title": "Flag to enable saml on the application"
-              }
-            }
+          "preferredSingleSignOnMode": {
+            "type": "string",
+            "default": "",
+            "title": "Preferred Single sign-on mode, currently only saml is supported.",
+            "examples": ["saml"],
+            "enum": ["saml"]
           },
           "internalUrl": {
             "type": "string",
