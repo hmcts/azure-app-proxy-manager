@@ -234,7 +234,37 @@ export async function enableSaml({
 
   console.log((await getClaimsResult.json()));
 
- 
+  const getClaimsResult1 = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}/claimsMappingPolicies`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  await errorHandler("get claims", getClaimsResult1);
+
+  console.log((await getClaimsResult1.json()));
+
+  const getClaimsResult2 = await fetch(
+    `https://graph.microsoft.com/v1.0//policies/claimsMappingPolicies`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  await errorHandler("get claims", getClaimsResult2);
+
+  console.log((await getClaimsResult2.json()));
+
+
 
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}`,
