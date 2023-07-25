@@ -31,7 +31,7 @@ const argv = await yargs(hideBin(process.argv))
 
 const apps: Application[] = await loadApps(argv.config);
 
-console.log("Processing", apps);
+//console.log("Processing", apps);
 
 // Azure SDK clients accept the credential as a parameter
 const credential = new DefaultAzureCredential();

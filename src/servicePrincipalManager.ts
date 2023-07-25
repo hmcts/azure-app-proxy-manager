@@ -39,7 +39,7 @@ export async function readServicePrincipal({
   token: string;
   servicePrincipalObjectId: string;
 }) {
-  console.log("Retrieving service principal", servicePrincipalObjectId);
+  //console.log("Retrieving service principal", servicePrincipalObjectId);
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals/${servicePrincipalObjectId}`,
     {
@@ -218,6 +218,24 @@ export async function enableSaml({
   token: string;
   appId: string;
 }) {
+
+  const getClaimsResult = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/d7ff2cbe-95fb-4dd0-ac76-067076cdd255/claimsMappingPolicies`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  await errorHandler("get claims", getClaimsResult);
+
+  console.log((await getClaimsResult.json()));
+
+ 
+
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}`,
     {
