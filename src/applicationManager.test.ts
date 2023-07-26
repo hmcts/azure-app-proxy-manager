@@ -7,6 +7,7 @@ import {
   setLogo,
   setOnPremisesPublishing,
   updateApplicationConfig,
+  addOptionalClaims,
 } from "./applicationManager";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -53,17 +54,13 @@ function applicationName() {
 }
 
 function getExternalUrl() {
-  const suffix =
-    process.env.EXTERNAL_URL_SUFFIX ||
-    "app-proxy-poc.sandbox.platform.hmcts.net";
-  return `https://${randomString()}.${suffix}`;
+  const suffix = process.env.EXTERNAL_URL_SUFFIX || "app-proxy-poc.hmcts.net";
+  return `https://${randomString()}-${suffix}`;
 }
 
 function getInternalUrl() {
-  const suffix =
-    process.env.INTERNAL_URL_SUFFIX ||
-    "app-proxy-poc.sandbox.platform.hmcts.net";
-  return `https://${randomString()}.${suffix}`;
+  const suffix = process.env.INTERNAL_URL_SUFFIX || "app-proxy-poc.hmcts.net";
+  return `https://${randomString()}-${suffix}`;
 }
 
 describe("applicationManager", () => {
@@ -73,7 +70,7 @@ describe("applicationManager", () => {
 
   let appDetails: ApplicationAndServicePrincipalId;
   const groupNameForRoleAssignments =
-    process.env.ROLE_ASSIGNMENT_GROUP || "Test app";
+    process.env.ROLE_ASSIGNMENT_GROUP || "DTS Platform Operations";
 
   beforeAll(async () => {
     token = await authenticate();
@@ -104,6 +101,7 @@ describe("applicationManager", () => {
     await updateApplicationConfig({
       token,
       externalUrl,
+      redirectUrls: [externalUrl],
       appId: appDetails.applicationId,
     });
 
@@ -131,10 +129,22 @@ describe("applicationManager", () => {
       groups: [groupNameForRoleAssignments],
     });
 
+    await addOptionalClaims({
+      token,
+      applicationId: appDetails.applicationId,
+      samlConfig: {
+        groupMembershipClaims: "SecurityGroup",
+        optionalClaims: [{name: 'groups', additionalProperties: []}],
+      },
+    });
+
     const application = await readApplication({
       token,
       applicationId: appDetails.applicationId,
     });
+
+    expect(application.groupMembershipClaims).toEqual("SecurityGroup");
+    expect(application.optionalClaims.saml2Token[0].name).toEqual("groups");
 
     const identifierUri = application.identifierUris[0];
     expect(identifierUri).toEqual(externalUrl);
