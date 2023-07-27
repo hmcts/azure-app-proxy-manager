@@ -54,13 +54,17 @@ function applicationName() {
 }
 
 function getExternalUrl() {
-  const suffix = process.env.EXTERNAL_URL_SUFFIX || "app-proxy-poc.hmcts.net";
-  return `https://${randomString()}-${suffix}`;
+  const suffix =
+    process.env.EXTERNAL_URL_SUFFIX ||
+    "app-proxy-poc.sandbox.platform.hmcts.net";
+  return `https://${randomString()}.${suffix}`;
 }
 
 function getInternalUrl() {
-  const suffix = process.env.INTERNAL_URL_SUFFIX || "app-proxy-poc.hmcts.net";
-  return `https://${randomString()}-${suffix}`;
+  const suffix =
+    process.env.INTERNAL_URL_SUFFIX ||
+    "app-proxy-poc.sandbox.platform.hmcts.net";
+  return `https://${randomString()}.${suffix}`;
 }
 
 describe("applicationManager", () => {
@@ -70,7 +74,7 @@ describe("applicationManager", () => {
 
   let appDetails: ApplicationAndServicePrincipalId;
   const groupNameForRoleAssignments =
-    process.env.ROLE_ASSIGNMENT_GROUP || "DTS Platform Operations";
+    process.env.ROLE_ASSIGNMENT_GROUP || "Test app";
 
   beforeAll(async () => {
     token = await authenticate();
