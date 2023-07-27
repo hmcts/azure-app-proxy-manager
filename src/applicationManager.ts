@@ -358,7 +358,6 @@ export async function addOptionalClaims({
         saml2Token: samlConfig.optionalClaims,
       },
     };
-    console.log(body.optionalClaims.saml2Token);
     const result = await fetch(
       `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
       {

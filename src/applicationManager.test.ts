@@ -134,7 +134,7 @@ describe("applicationManager", () => {
       applicationId: appDetails.applicationId,
       samlConfig: {
         groupMembershipClaims: "SecurityGroup",
-        optionalClaims: [{name: 'groups', additionalProperties: []}],
+        optionalClaims: [{ name: "groups", additionalProperties: [] }],
       },
     });
 
