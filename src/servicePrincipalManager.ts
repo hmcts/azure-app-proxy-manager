@@ -329,3 +329,53 @@ async function createNewSigningCert(
   await errorHandler("Adding Saml signing certificate", addCertificateResult);
   return addCertificateResult;
 }
+
+export async function grantOauth2Permissions({
+  token,
+  objectId,
+  oauth2Permissions,
+}: {
+  token: string;
+  objectId: string;
+  oauth2Permissions: Array<string>;
+}) {
+  if (oauth2Permissions && oauth2Permissions.length > 0) {
+    console.log("Granting oauth2 permissions");
+
+    //Getting Object Id for graph api in the tenant.
+    const graphAPIIDResult = await fetch(
+      `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
+
+    const graphAPIObjectId = (await graphAPIIDResult.json()).value[0].id;
+
+    const grantPermissionsResult = await fetch(
+      `https://graph.microsoft.com/v1.0/oauth2PermissionGrants`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientId: `${objectId}`,
+          consentType: "AllPrincipals",
+          resourceId: `${graphAPIObjectId}`,
+          scope: `${oauth2Permissions.join(" ")}`,
+        }),
+      }
+    );
+    await errorHandler(
+      "Granting aouth2 permissions",
+      grantPermissionsResult
+    );
+  }
+}

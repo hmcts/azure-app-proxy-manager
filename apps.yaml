@@ -18,3 +18,7 @@ apps:
       optionalClaims:
         - name: "groups"
           additionalProperties: []
+    oauth2Permissions:
+      - "User.Read.All"
+      - "Group.Read.All"
+      - "People.Read"
