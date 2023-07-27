@@ -7,6 +7,7 @@ import {
   setOnPremisesPublishing,
   setTLSCertificate,
   updateApplicationConfig,
+  addOptionalClaims,
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
@@ -92,6 +93,12 @@ for await (const app of apps) {
         token,
         objectId: servicePrincipalObjectId,
         appId: applicationId,
+      });
+
+      await addOptionalClaims({
+        token: token,
+        applicationId: applicationId,
+        samlConfig: app.samlConfig,
       });
     }
 

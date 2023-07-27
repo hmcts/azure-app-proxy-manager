@@ -45,6 +45,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
         internalUrl: app.internalUrl,
         ...defaultOnPremisesFlags(),
       },
+      samlConfig: app.samlConfig,
     };
     return application;
   });

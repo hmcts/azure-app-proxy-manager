@@ -8,6 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import forge from "node-forge";
 import { setPasswordOnPfx } from "./pfx.js";
+import { SAMLConfig } from "./SAMLConfig.js";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
@@ -333,5 +334,41 @@ export async function setTLSCertificate({
     );
 
     await errorHandler("setting tls certificate", result);
+  }
+}
+
+export async function addOptionalClaims({
+  token,
+  applicationId,
+  samlConfig,
+}: {
+  token: string;
+  applicationId: string;
+  samlConfig: SAMLConfig;
+}): Promise<void> {
+  if (
+    samlConfig &&
+    samlConfig.optionalClaims &&
+    samlConfig.optionalClaims.length > 0
+  ) {
+    samlConfig.groupMembershipClaims ??= "SecurityGroup";
+    const body = {
+      groupMembershipClaims: samlConfig.groupMembershipClaims,
+      optionalClaims: {
+        saml2Token: samlConfig.optionalClaims,
+      },
+    };
+    const result = await fetch(
+      `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    await errorHandler("Add optional claims", result);
   }
 }
