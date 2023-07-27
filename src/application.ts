@@ -12,4 +12,5 @@ export type Application = {
   redirectUrls: Array<string>;
   preferredSingleSignOnMode: string;
   samlConfig: SAMLConfig;
+  oauth2Permissions: Array<string>;
 };

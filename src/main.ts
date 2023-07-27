@@ -14,6 +14,7 @@ import {
   assignGroups,
   setUserAssignmentRequired,
   enableSaml,
+  grantOauth2Permissions,
 } from "./servicePrincipalManager.js";
 
 import yargs from "yargs/yargs";
@@ -99,6 +100,12 @@ for await (const app of apps) {
         token: token,
         applicationId: applicationId,
         samlConfig: app.samlConfig,
+      });
+
+      await grantOauth2Permissions({
+        token: token,
+        objectId: servicePrincipalObjectId,
+        oauth2Permissions: app.oauth2Permissions,
       });
     }
 

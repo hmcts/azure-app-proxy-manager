@@ -103,6 +103,18 @@
             },
             "examples": [["Developers"]]
           },
+          "oauth2Permissions": {
+            "type": "array",
+            "default": [],
+            "title": "A list of Oauth2 graph api permissions to be added for application",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Graph Api permission",
+              "examples": ["User.Read.All"]
+            },
+            "examples": [["User.Read.All"]]
+          },
           "redirectUrls": {
             "type": "array",
             "default": [],

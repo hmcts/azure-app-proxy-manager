@@ -46,6 +46,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
         ...defaultOnPremisesFlags(),
       },
       samlConfig: app.samlConfig,
+      oauth2Permissions: app.oauth2Permissions,
     };
     return application;
   });
