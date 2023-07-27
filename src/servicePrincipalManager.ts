@@ -373,9 +373,6 @@ export async function grantOauth2Permissions({
         }),
       }
     );
-    await errorHandler(
-      "Granting aouth2 permissions",
-      grantPermissionsResult
-    );
+    await errorHandler("Granting aouth2 permissions", grantPermissionsResult);
   }
 }
