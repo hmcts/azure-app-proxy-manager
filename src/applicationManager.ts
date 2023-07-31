@@ -9,7 +9,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import forge from "node-forge";
 import { setPasswordOnPfx } from "./pfx.js";
 import { SAMLConfig } from "./SAMLConfig.js";
-import { CLIENTSECRET } from "./clientSecret.js";
+import { ClientSecret } from "./clientSecret.js";
 import { getDateByAddingDays } from "./utils.js";
 
 export type ApplicationAndServicePrincipalId = {
@@ -382,7 +382,7 @@ export async function addClientSecret({
 }: {
   token: string;
   applicationId: string;
-  clientSecret: CLIENTSECRET;
+  clientSecret: ClientSecret;
 }): Promise<void> {
   if (clientSecret && clientSecret.key_vault_name) {
     const application = await readApplication({ token, applicationId });
