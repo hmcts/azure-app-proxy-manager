@@ -1,10 +1,5 @@
 import { errorHandler } from "./errorHandler.js";
-
-const getDateByAddingDays = (days: number) => {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date;
-};
+import { getDateByAddingDays } from "./utils.js";
 
 export async function setUserAssignmentRequired({
   token,
@@ -231,7 +226,6 @@ export async function enableSaml({
       }),
     }
   );
-
   await errorHandler("Enabling Saml config", result);
 
   await addTokenSigningCertificate({ displayName, token, objectId, appId });

@@ -8,6 +8,7 @@ import {
   setTLSCertificate,
   updateApplicationConfig,
   addOptionalClaims,
+  addClientSecret,
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
@@ -106,6 +107,12 @@ for await (const app of apps) {
         token: token,
         objectId: servicePrincipalObjectId,
         oauth2Permissions: app.oauth2Permissions,
+      });
+
+      await addClientSecret({
+        token: token,
+        applicationId: applicationId,
+        clientSecret: app.clientSecret,
       });
     }
 
