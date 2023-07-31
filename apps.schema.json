@@ -91,6 +91,25 @@
               }
             }
           },
+          "clientSecret": {
+            "type": "object",
+            "title": "clientSecret configuration for the application, a new secret will be created and stored in Key Vault if the existing ones with the name are expiring",
+            "required": ["name", "key_vault_name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "default": "",
+                "title": "Name of the client secret and also the name of the secret to be stored in Azure Key Vault",
+                "examples": ["jenkins-client-secret"]
+              },
+              "key_vault_name": {
+                "type": "string",
+                "default": "",
+                "title": "Azure Key Vault name to store the client secret",
+                "examples": ["my-key-vault"]
+              }
+            }
+          },
           "appRoleAssignments": {
             "type": "array",
             "default": [],

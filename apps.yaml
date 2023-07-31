@@ -22,3 +22,6 @@ apps:
       - "User.Read.All"
       - "Group.Read.All"
       - "People.Read"
+    clientSecret:
++     name: test-jenkins
++     key_vault_name: cftsbox-intsvc
