@@ -93,7 +93,7 @@
           },
           "clientSecret": {
             "type": "object",
-            "title": "clientSecret configuration for the application, a new secret will be created and stored in keyvault if the existing ones with the name are expiring",
+            "title": "clientSecret configuration for the application, a new secret will be created and stored in Key Vault if the existing ones with the name are expiring",
             "required": ["name", "key_vault_name"],
             "properties": {
               "name": {
