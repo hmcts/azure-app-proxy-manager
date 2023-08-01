@@ -96,25 +96,25 @@ for await (const app of apps) {
         objectId: servicePrincipalObjectId,
         appId: applicationId,
       });
-
-      await addOptionalClaims({
-        token: token,
-        applicationId: applicationId,
-        samlConfig: app.samlConfig,
-      });
-
-      await grantOauth2Permissions({
-        token: token,
-        objectId: servicePrincipalObjectId,
-        oauth2Permissions: app.oauth2Permissions,
-      });
-
-      await addClientSecret({
-        token: token,
-        applicationId: applicationId,
-        clientSecret: app.clientSecret,
-      });
     }
+
+    await addOptionalClaims({
+      token: token,
+      applicationId: applicationId,
+      samlConfig: app.samlConfig,
+    });
+
+    await grantOauth2Permissions({
+      token: token,
+      objectId: servicePrincipalObjectId,
+      oauth2Permissions: app.oauth2Permissions,
+    });
+
+    await addClientSecret({
+      token: token,
+      applicationId: applicationId,
+      clientSecret: app.clientSecret,
+    });
 
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {
