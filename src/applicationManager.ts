@@ -8,6 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import forge from "node-forge";
 import { setPasswordOnPfx } from "./pfx.js";
+import { SAMLConfig } from "./SAMLConfig.js";
+import { ClientSecret } from "./clientSecret.js";
+import { getDateByAddingDays } from "./utils.js";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
@@ -193,10 +196,12 @@ export async function updateApplicationConfig({
   token,
   appId,
   externalUrl,
+  redirectUrls,
 }: {
   token: string;
   appId: string;
   externalUrl: string;
+  redirectUrls: Array<string>;
 }): Promise<void> {
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/applications/${appId}`,
@@ -209,7 +214,7 @@ export async function updateApplicationConfig({
       body: JSON.stringify({
         identifierUris: [externalUrl],
         web: {
-          redirectUris: [externalUrl],
+          redirectUris: redirectUrls,
           homePageUrl: externalUrl,
         },
       }),
@@ -332,4 +337,98 @@ export async function setTLSCertificate({
 
     await errorHandler("setting tls certificate", result);
   }
+}
+
+export async function addOptionalClaims({
+  token,
+  applicationId,
+  samlConfig,
+}: {
+  token: string;
+  applicationId: string;
+  samlConfig: SAMLConfig;
+}): Promise<void> {
+  if (
+    samlConfig &&
+    samlConfig.optionalClaims &&
+    samlConfig.optionalClaims.length > 0
+  ) {
+    samlConfig.groupMembershipClaims ??= "SecurityGroup";
+    const body = {
+      groupMembershipClaims: samlConfig.groupMembershipClaims,
+      optionalClaims: {
+        saml2Token: samlConfig.optionalClaims,
+      },
+    };
+    const result = await fetch(
+      `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      }
+    );
+    await errorHandler("Add optional claims", result);
+  }
+}
+
+export async function addClientSecret({
+  token,
+  applicationId,
+  clientSecret,
+}: {
+  token: string;
+  applicationId: string;
+  clientSecret: ClientSecret;
+}): Promise<void> {
+  if (clientSecret && clientSecret.key_vault_name) {
+    const application = await readApplication({ token, applicationId });
+
+    if (
+      application.passwordCredentials &&
+      application.passwordCredentials.length > 0 &&
+      areAllPasswordsExpired(clientSecret.name, application.passwordCredentials)
+    ) {
+      const body = {
+        passwordCredential: {
+          displayName: `${clientSecret.name}`,
+        },
+      };
+      const addPasswordResult = await fetch(
+        `https://graph.microsoft.com/v1.0/applications/${applicationId}/addPassword`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        }
+      );
+      await errorHandler("Add client password", addPasswordResult);
+
+      const clientPassword = (await addPasswordResult.json()).secretText;
+
+      const credential = new DefaultAzureCredential();
+      const keyVaultName = clientSecret.key_vault_name;
+      const url = "https://" + keyVaultName + ".vault.azure.net";
+      const secretClient = new SecretClient(url, credential);
+      await secretClient.setSecret(clientSecret.name, clientPassword);
+    }
+  }
+}
+
+function areAllPasswordsExpired(name: string, passwordCredentials: Array<any>) {
+  for (const credential of passwordCredentials) {
+    if (
+      credential.displayName == name &&
+      new Date(credential.endDateTime) > new Date(getDateByAddingDays(10))
+    ) {
+      return false;
+    }
+  }
+  return true;
 }

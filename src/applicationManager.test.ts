@@ -7,6 +7,7 @@ import {
   setLogo,
   setOnPremisesPublishing,
   updateApplicationConfig,
+  addOptionalClaims,
 } from "./applicationManager";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -104,6 +105,7 @@ describe("applicationManager", () => {
     await updateApplicationConfig({
       token,
       externalUrl,
+      redirectUrls: [externalUrl],
       appId: appDetails.applicationId,
     });
 
@@ -131,10 +133,22 @@ describe("applicationManager", () => {
       groups: [groupNameForRoleAssignments],
     });
 
+    await addOptionalClaims({
+      token,
+      applicationId: appDetails.applicationId,
+      samlConfig: {
+        groupMembershipClaims: "SecurityGroup",
+        optionalClaims: [{ name: "groups", additionalProperties: [] }],
+      },
+    });
+
     const application = await readApplication({
       token,
       applicationId: appDetails.applicationId,
     });
+
+    expect(application.groupMembershipClaims).toEqual("SecurityGroup");
+    expect(application.optionalClaims.saml2Token[0].name).toEqual("groups");
 
     const identifierUri = application.identifierUris[0];
     expect(identifierUri).toEqual(externalUrl);

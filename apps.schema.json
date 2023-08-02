@@ -37,6 +37,41 @@
               "https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png"
             ]
           },
+          "samlConfig": {
+            "type": "object",
+            "title": "SAML Configuration for application",
+            "required": [],
+            "properties": {
+              "optionalClaims": {
+                "type": "array",
+                "default": [],
+                "title": "A list of optionalClaims that will be added to the application token.",
+                "items": {
+                  "type": "object",
+                  "title": "Optional claim",
+                  "required": ["name"],
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "default": "",
+                      "title": "Name of the token",
+                      "examples": ["groups"]
+                    },
+                    "additionalProperties": {
+                      "type": "array",
+                      "default": [],
+                      "title": "A list of additionalProperties",
+                      "items": {
+                        "type": "string",
+                        "default": "",
+                        "examples": ["sam_account_name"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "tls": {
             "type": "object",
             "title": "TLS configuration for the application",
@@ -56,6 +91,25 @@
               }
             }
           },
+          "clientSecret": {
+            "type": "object",
+            "title": "clientSecret configuration for the application, a new secret will be created and stored in Key Vault if the existing ones with the name are expiring",
+            "required": ["name", "key_vault_name"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "default": "",
+                "title": "Name of the client secret and also the name of the secret to be stored in Azure Key Vault",
+                "examples": ["jenkins-client-secret"]
+              },
+              "key_vault_name": {
+                "type": "string",
+                "default": "",
+                "title": "Azure Key Vault name to store the client secret",
+                "examples": ["my-key-vault"]
+              }
+            }
+          },
           "appRoleAssignments": {
             "type": "array",
             "default": [],
@@ -67,6 +121,37 @@
               "examples": ["Developers"]
             },
             "examples": [["Developers"]]
+          },
+          "oauth2Permissions": {
+            "type": "array",
+            "default": [],
+            "title": "A list of Oauth2 graph api permissions to be added for application",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Graph Api permission",
+              "examples": ["User.Read.All"]
+            },
+            "examples": [["User.Read.All"]]
+          },
+          "redirectUrls": {
+            "type": "array",
+            "default": [],
+            "title": "A list of redirect Urls that will be added to the application. Defaults to externalUrl if not set",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Redirect URL of the application",
+              "examples": ["https://my-external-facing-url.domain.com/redirect"]
+            },
+            "examples": [["https://my-external-facing-url.domain.com/redirect"]]
+          },
+          "preferredSingleSignOnMode": {
+            "type": "string",
+            "default": "",
+            "title": "Preferred Single sign-on mode, currently only saml is supported.",
+            "examples": ["saml"],
+            "enum": ["saml"]
           },
           "internalUrl": {
             "type": "string",

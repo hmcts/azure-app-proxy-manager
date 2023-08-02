@@ -2,7 +2,7 @@
 
 apps:
   - name: "My app101"
-    externalUrl: "https://my-test-app.app-proxy-poc.sandbox.platform.hmcts.net"
+    externalUrl: "https://my-test-app-app-proxy-poc.hmcts.net"
     logoUrl: https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png
     appRoleAssignments:
       - Test app
@@ -11,3 +11,17 @@ apps:
     tls:
       key_vault_name: "acmedcdcftappssbox"
       name: "wildcard-app-proxy-poc-sandbox-platform-hmcts-net"
+    redirectUrls:
+      - "https://my-test-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
+    preferredSingleSignOnMode: "saml"
+    samlConfig:
+      optionalClaims:
+        - name: "groups"
+          additionalProperties: []
+    oauth2Permissions:
+      - "User.Read.All"
+      - "Group.Read.All"
+      - "People.Read"
+    clientSecret:
++     name: test-jenkins
++     key_vault_name: cftsbox-intsvc

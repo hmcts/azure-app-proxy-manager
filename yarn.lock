@@ -118,8 +118,8 @@ __metadata:
   linkType: hard
 
 "@azure/identity@npm:^3.2.2":
-  version: 3.2.3
-  resolution: "@azure/identity@npm:3.2.3"
+  version: 3.2.4
+  resolution: "@azure/identity@npm:3.2.4"
   dependencies:
     "@azure/abort-controller": ^1.0.0
     "@azure/core-auth": ^1.3.0
@@ -137,7 +137,7 @@ __metadata:
     stoppable: ^1.1.0
     tslib: ^2.2.0
     uuid: ^8.3.0
-  checksum: 8f74831a358f41490056fb1978d9214542f5e7a788cc607ded3c475e1e61784da2cb6409434cb736c66291c24b755dbab42ec7b93b218ca535dce3363183c64b
+  checksum: 71e33542742113c0c77f948fac3c1554cc8418cf0063f3d209bc357c021b49a42a5e0fef1e8b946fbf250feefa705727275b936ac7d8efad24f79c01abddb740
   languageName: node
   linkType: hard
 
@@ -494,25 +494,18 @@ __metadata:
   linkType: hard
 
 "@types/node-forge@npm:^1":
-  version: 1.3.3
-  resolution: "@types/node-forge@npm:1.3.3"
+  version: 1.3.4
+  resolution: "@types/node-forge@npm:1.3.4"
   dependencies:
     "@types/node": "*"
-  checksum: 36e3b597517ad9007822b0a0c4d44a8bcbdc4e8d8c388839d17bfeb8ff005efc1f8d3e997a1921bc54edf530000675d555f3ccb9aac8ab273285a8677a9dcb0b
+  checksum: c3c53ee5039a10d724bfc64fe859106baf0e39c4cac90a5d0ddd3480bf044de6ce145f104d4fa0184c365dff59df7ab4b754172c9d87800f751d10ccd7dcd1ad
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
-  version: 20.3.0
-  resolution: "@types/node@npm:20.3.0"
-  checksum: 613e878174febc0104dae210088645cbb5096a19ae5fdf57fbc06fa6ef71755b839858c2b313fb8c1df8b7c6660e1b5f7a64db2126af9d47d1d9238e2bc0a86d
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^20.2.5":
-  version: 20.2.5
-  resolution: "@types/node@npm:20.2.5"
-  checksum: 38ce7c7e9d76880dc632f71d71e0d5914fcda9d5e9a7095d6c339abda55ca4affb0f2a882aeb29398f8e09d2c5151f0b6586c81c8ccdfe529c34b1ea3337425e
+"@types/node@npm:*, @types/node@npm:^20.2.5":
+  version: 20.4.5
+  resolution: "@types/node@npm:20.4.5"
+  checksum: 36a0304a8dc346a1b2d2edac4c4633eecf70875793d61a5274d0df052d7a7af7a8e34f29884eac4fbd094c4f0201477dcb39c0ecd3307ca141688806538d1138
   languageName: node
   linkType: hard
 

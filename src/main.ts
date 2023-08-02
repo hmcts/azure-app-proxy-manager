@@ -7,11 +7,15 @@ import {
   setOnPremisesPublishing,
   setTLSCertificate,
   updateApplicationConfig,
+  addOptionalClaims,
+  addClientSecret,
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
   assignGroups,
   setUserAssignmentRequired,
+  enableSaml,
+  grantOauth2Permissions,
 } from "./servicePrincipalManager.js";
 
 import yargs from "yargs/yargs";
@@ -58,6 +62,7 @@ for await (const app of apps) {
     await updateApplicationConfig({
       token,
       externalUrl: app.onPremisesPublishing.externalUrl,
+      redirectUrls: app.redirectUrls,
       appId: applicationId,
     });
 
@@ -80,6 +85,36 @@ for await (const app of apps) {
     });
 
     await setTLSCertificate({ token, appId: applicationId, tls: app.tls });
+
+    if (
+      app.preferredSingleSignOnMode &&
+      app.preferredSingleSignOnMode == "saml"
+    ) {
+      await enableSaml({
+        displayName: app.name,
+        token,
+        objectId: servicePrincipalObjectId,
+        appId: applicationId,
+      });
+    }
+
+    await addOptionalClaims({
+      token: token,
+      applicationId: applicationId,
+      samlConfig: app.samlConfig,
+    });
+
+    await grantOauth2Permissions({
+      token: token,
+      objectId: servicePrincipalObjectId,
+      oauth2Permissions: app.oauth2Permissions,
+    });
+
+    await addClientSecret({
+      token: token,
+      applicationId: applicationId,
+      clientSecret: app.clientSecret,
+    });
 
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {

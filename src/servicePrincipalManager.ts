@@ -1,4 +1,5 @@
 import { errorHandler } from "./errorHandler.js";
+import { getDateByAddingDays } from "./utils.js";
 
 export async function setUserAssignmentRequired({
   token,
@@ -198,5 +199,174 @@ export async function assignGroups({
     for await (const group of groups) {
       await assignGroup({ group, token, objectId, appRoleId });
     }
+  }
+}
+
+export async function enableSaml({
+  displayName,
+  token,
+  objectId,
+  appId,
+}: {
+  displayName: string;
+  objectId: string;
+  token: string;
+  appId: string;
+}) {
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        preferredSingleSignOnMode: "saml",
+      }),
+    }
+  );
+  await errorHandler("Enabling Saml config", result);
+
+  await addTokenSigningCertificate({ displayName, token, objectId, appId });
+}
+
+async function addTokenSigningCertificate({
+  displayName,
+  token,
+  objectId,
+  appId,
+}: {
+  displayName: string;
+  objectId: string;
+  token: string;
+  appId: string;
+}) {
+  const servicePrincipal = await readServicePrincipal({
+    token,
+    servicePrincipalObjectId: objectId,
+  });
+  console.log(servicePrincipal);
+
+  //Adds a new signing certificate if all certificates are expiring.
+  if (
+    servicePrincipal.keyCredentials === undefined ||
+    servicePrincipal.keyCredentials.length == 0 ||
+    areAllCertficatesExpiring(servicePrincipal.keyCredentials)
+  ) {
+    const addCertificateResult = await createNewSigningCert(
+      objectId,
+      token,
+      displayName
+    );
+
+    const certificateThumbprint = (await addCertificateResult.json())
+      .thumbprint;
+    await makeCertDefault(objectId, token, certificateThumbprint);
+  }
+}
+
+function areAllCertficatesExpiring(keyCredentialsArray: any[]) {
+  for (const credential of keyCredentialsArray) {
+    if (new Date(credential.endDateTime) > new Date(getDateByAddingDays(10))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+async function makeCertDefault(
+  objectId: string,
+  token: string,
+  thumbprint: any
+) {
+  console.log("Making new signing cert active");
+
+  const preferredCertResult = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        preferredTokenSigningKeyThumbprint: `${thumbprint}`,
+      }),
+    }
+  );
+
+  await errorHandler("Adding Saml signing certificate", preferredCertResult);
+}
+
+async function createNewSigningCert(
+  objectId: string,
+  token: string,
+  displayName: string
+) {
+  console.log("creating new signing cert");
+  const addCertificateResult = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}/addTokenSigningCertificate`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        displayName: `CN=${displayName}`,
+        endDateTime: getDateByAddingDays(365),
+      }),
+    }
+  );
+
+  await errorHandler("Adding Saml signing certificate", addCertificateResult);
+  return addCertificateResult;
+}
+
+export async function grantOauth2Permissions({
+  token,
+  objectId,
+  oauth2Permissions,
+}: {
+  token: string;
+  objectId: string;
+  oauth2Permissions: Array<string>;
+}) {
+  if (oauth2Permissions && oauth2Permissions.length > 0) {
+    console.log("Granting oauth2 permissions");
+
+    //Getting Object Id for graph api in the tenant.
+    const graphAPIIDResult = await fetch(
+      `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
+
+    const graphAPIObjectId = (await graphAPIIDResult.json()).value[0].id;
+
+    const grantPermissionsResult = await fetch(
+      `https://graph.microsoft.com/v1.0/oauth2PermissionGrants`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          clientId: `${objectId}`,
+          consentType: "AllPrincipals",
+          resourceId: `${graphAPIObjectId}`,
+          scope: `${oauth2Permissions.join(" ")}`,
+        }),
+      }
+    );
+    await errorHandler("Granting aouth2 permissions", grantPermissionsResult);
   }
 }
