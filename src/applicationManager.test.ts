@@ -136,10 +136,8 @@ describe("applicationManager", () => {
     await addOptionalClaims({
       token,
       applicationId: appDetails.applicationId,
-      samlConfig: {
-        groupMembershipClaims: "SecurityGroup",
-        optionalClaims: [{ name: "groups", additionalProperties: [] }],
-      },
+      groupMembershipClaims: "SecurityGroup",
+      optionalClaims: [{ name: "groups", additionalProperties: [] }],
     });
 
     const application = await readApplication({

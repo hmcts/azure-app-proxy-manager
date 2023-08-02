@@ -37,36 +37,35 @@
               "https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png"
             ]
           },
-          "samlConfig": {
-            "type": "object",
-            "title": "SAML Configuration for application",
-            "required": [],
-            "properties": {
-              "optionalClaims": {
-                "type": "array",
-                "default": [],
-                "title": "A list of optionalClaims that will be added to the application token.",
-                "items": {
-                  "type": "object",
-                  "title": "Optional claim",
-                  "required": ["name"],
-                  "properties": {
-                    "name": {
-                      "type": "string",
-                      "default": "",
-                      "title": "Name of the token",
-                      "examples": ["groups"]
-                    },
-                    "additionalProperties": {
-                      "type": "array",
-                      "default": [],
-                      "title": "A list of additionalProperties",
-                      "items": {
-                        "type": "string",
-                        "default": "",
-                        "examples": ["sam_account_name"]
-                      }
-                    }
+          "groupMembershipClaims": {
+            "type": "string",
+            "default": "",
+            "title": "groupMembershipClaims setting for the application.",
+            "examples": ["SecurityGroup"]
+          },
+          "optionalClaims": {
+            "type": "array",
+            "default": [],
+            "title": "A list of optionalClaims that will be added to the application token.",
+            "items": {
+              "type": "object",
+              "title": "Optional claim",
+              "required": ["name"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "default": "",
+                  "title": "Name of the token",
+                  "examples": ["groups"]
+                },
+                "additionalProperties": {
+                  "type": "array",
+                  "default": [],
+                  "title": "A list of additionalProperties",
+                  "items": {
+                    "type": "string",
+                    "default": "",
+                    "examples": ["sam_account_name"]
                   }
                 }
               }

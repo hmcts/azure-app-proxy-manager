@@ -101,7 +101,8 @@ for await (const app of apps) {
     await addOptionalClaims({
       token: token,
       applicationId: applicationId,
-      samlConfig: app.samlConfig,
+      groupMembershipClaims: app.groupMembershipClaims,
+      optionalClaims: app.optionalClaims,
     });
 
     await grantOauth2Permissions({
