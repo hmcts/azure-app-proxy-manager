@@ -34,7 +34,7 @@ export async function createApplication({
 
     if (!servicePrincipalObjectId) {
       throw new Error(
-        `Found application ${displayName} but no service principal, aborting`
+        `Found application ${displayName} but no service principal, aborting`,
       );
     }
 
@@ -53,7 +53,7 @@ export async function createApplication({
       body: JSON.stringify({
         displayName,
       }),
-    }
+    },
   );
 
   const body = await result.json();
@@ -86,7 +86,7 @@ export async function readApplication({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("reading application", result);
@@ -109,7 +109,7 @@ export async function deleteApplication({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("deleting application", result);
@@ -129,7 +129,7 @@ export async function findExistingApplication({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("searching for application", result);
@@ -157,7 +157,7 @@ async function waitTillApplicationExists({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      },
     );
 
     if (!result.ok && result.status !== 404) {
@@ -185,7 +185,7 @@ async function waitTillApplicationExists({
     const maxAttempts = 30;
     if (attempt > maxAttempts) {
       throw new Error(
-        `Failed to find application after ${maxAttempts} attempts`
+        `Failed to find application after ${maxAttempts} attempts`,
       );
     }
   }
@@ -217,7 +217,7 @@ export async function updateApplicationConfig({
           homePageUrl: externalUrl,
         },
       }),
-    }
+    },
   );
 
   await errorHandler("updating application config", result);
@@ -247,7 +247,7 @@ export async function setLogo({
           "Content-Type": contentType || "image/png",
         },
         body: data,
-      }
+      },
     );
 
     await errorHandler("setting logo", result);
@@ -274,7 +274,7 @@ export async function setOnPremisesPublishing({
       body: JSON.stringify({
         onPremisesPublishing,
       }),
-    }
+    },
   );
 
   await errorHandler("setting onPremisesPublishing", result);
@@ -331,7 +331,7 @@ export async function setTLSCertificate({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
-      }
+      },
     );
 
     await errorHandler("setting tls certificate", result);
@@ -368,7 +368,7 @@ export async function addOptionalClaims({
           "Content-Type": "application/json",
         },
         body: JSON.stringify(body),
-      }
+      },
     );
     await errorHandler("Add optional claims", result);
   }
@@ -406,7 +406,7 @@ export async function addClientSecret({
             "Content-Type": "application/json",
           },
           body: JSON.stringify(body),
-        }
+        },
       );
       await errorHandler("Add client password", addPasswordResult);
 

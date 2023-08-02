@@ -9,7 +9,7 @@ export async function errorHandler(when: string, result: Response) {
     throw new Error(
       `Error ${when}, status: ${result.status}, statusText: ${
         result.statusText
-      }, body: ${JSON.stringify(body)}`
+      }, body: ${JSON.stringify(body)}`,
     );
   }
 }

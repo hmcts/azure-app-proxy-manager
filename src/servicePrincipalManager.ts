@@ -21,7 +21,7 @@ export async function setUserAssignmentRequired({
       body: JSON.stringify({
         appRoleAssignmentRequired: assignmentRequired,
       }),
-    }
+    },
   );
 
   await errorHandler("updating servicePrincipal config", result);
@@ -42,7 +42,7 @@ export async function readServicePrincipal({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("reading service principal", result);
@@ -64,7 +64,7 @@ export async function findExistingServicePrincipal({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("searching for service principal", result);
@@ -85,7 +85,7 @@ async function getAppRoleId(objectId: string, token: string) {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("finding app roles", result);
@@ -126,7 +126,7 @@ async function isAppRoleAssignedToGroup({
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }
+    },
   );
 
   await errorHandler("finding if app role is already assigned", result);
@@ -172,12 +172,12 @@ async function assignGroup({
           appRoleId,
           resourceId: objectId,
         }),
-      }
+      },
     );
 
     await errorHandler(
       "assigning app role assignment",
-      appRoleAssignmentsResult
+      appRoleAssignmentsResult,
     );
 
     console.log("Assigned group", group);
@@ -224,7 +224,7 @@ export async function enableSaml({
       body: JSON.stringify({
         preferredSingleSignOnMode: "saml",
       }),
-    }
+    },
   );
   await errorHandler("Enabling Saml config", result);
 
@@ -257,7 +257,7 @@ async function addTokenSigningCertificate({
     const addCertificateResult = await createNewSigningCert(
       objectId,
       token,
-      displayName
+      displayName,
     );
 
     const certificateThumbprint = (await addCertificateResult.json())
@@ -278,7 +278,7 @@ function areAllCertficatesExpiring(keyCredentialsArray: any[]) {
 async function makeCertDefault(
   objectId: string,
   token: string,
-  thumbprint: any
+  thumbprint: any,
 ) {
   console.log("Making new signing cert active");
 
@@ -293,7 +293,7 @@ async function makeCertDefault(
       body: JSON.stringify({
         preferredTokenSigningKeyThumbprint: `${thumbprint}`,
       }),
-    }
+    },
   );
 
   await errorHandler("Adding Saml signing certificate", preferredCertResult);
@@ -302,7 +302,7 @@ async function makeCertDefault(
 async function createNewSigningCert(
   objectId: string,
   token: string,
-  displayName: string
+  displayName: string,
 ) {
   console.log("creating new signing cert");
   const addCertificateResult = await fetch(
@@ -317,7 +317,7 @@ async function createNewSigningCert(
         displayName: `CN=${displayName}`,
         endDateTime: getDateByAddingDays(365),
       }),
-    }
+    },
   );
 
   await errorHandler("Adding Saml signing certificate", addCertificateResult);
@@ -345,7 +345,7 @@ export async function grantOauth2Permissions({
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-      }
+      },
     );
     await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
 
@@ -365,7 +365,7 @@ export async function grantOauth2Permissions({
           resourceId: `${graphAPIObjectId}`,
           scope: `${oauth2Permissions.join(" ")}`,
         }),
-      }
+      },
     );
     await errorHandler("Granting aouth2 permissions", grantPermissionsResult);
   }

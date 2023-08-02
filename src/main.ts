@@ -40,7 +40,7 @@ console.log("Processing", apps);
 const credential = new DefaultAzureCredential();
 
 const { token } = await credential.getToken(
-  "https://graph.microsoft.com/.default"
+  "https://graph.microsoft.com/.default",
 );
 
 let errors = false;
@@ -56,7 +56,7 @@ for await (const app of apps) {
       {
         token,
         displayName: app.name,
-      }
+      },
     );
 
     await updateApplicationConfig({
