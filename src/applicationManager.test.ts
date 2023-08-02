@@ -107,7 +107,7 @@ describe("applicationManager", () => {
       externalUrl,
       redirectUrls: [externalUrl],
       appId: appDetails.applicationId,
-      hideApp: true
+      hideApp: true,
     });
 
     await setLogo({ token, appId: appDetails.applicationId, logoUrl });
