@@ -41,9 +41,7 @@
             "type": "string",
             "default": "",
             "title": "groupMembershipClaims setting for the application. Defaulted to SecurityGroup when adding optionalClaims",
-            "examples": [
-              "SecurityGroup"
-            ]
+            "examples": ["SecurityGroup"]
           },
           "optionalClaims": {
             "type": "array",

@@ -10,7 +10,6 @@ import forge from "node-forge";
 import { setPasswordOnPfx } from "./pfx.js";
 import { ClientSecret } from "./clientSecret.js";
 import { getDateByAddingDays } from "./utils.js";
-import { Application } from "./application.js";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
