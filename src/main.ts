@@ -64,6 +64,7 @@ for await (const app of apps) {
       externalUrl: app.onPremisesPublishing.externalUrl,
       redirectUrls: app.redirectUrls,
       appId: applicationId,
+      hideApp: app.hideApp,
     });
 
     await setLogo({ token, appId: applicationId, logoUrl: app.logoUrl });

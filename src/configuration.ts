@@ -50,6 +50,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       optionalClaims: app.optionalClaims,
       oauth2Permissions: app.oauth2Permissions,
       clientSecret: app.clientSecret,
+      hideApp: app.hideApp,
     };
     return application;
   });

@@ -49,6 +49,12 @@
             "title": "groupMembershipClaims setting for the application.",
             "examples": ["SecurityGroup"]
           },
+          "hideApp": {
+            "type": "boolean",
+            "default": false,
+            "title": "Flag to determine whether an app should be hidden from end user.",
+            "examples": [true, false]
+          },
           "optionalClaims": {
             "type": "array",
             "default": [],
