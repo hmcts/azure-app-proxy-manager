@@ -353,7 +353,7 @@ export async function addOptionalClaims({
     const body = {
       groupMembershipClaims: groupMembershipClaims,
       optionalClaims:
-        optionalClaims.length > 0
+        optionalClaims && optionalClaims.length > 0
           ? {
               saml2Token: optionalClaims,
             }
