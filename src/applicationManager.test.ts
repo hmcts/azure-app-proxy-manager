@@ -24,7 +24,7 @@ async function authenticate() {
   const credential = new DefaultAzureCredential();
 
   const { token } = await credential.getToken(
-    "https://graph.microsoft.com/.default"
+    "https://graph.microsoft.com/.default",
   );
 
   return token;
@@ -169,7 +169,7 @@ describe("applicationManager", () => {
 
     expect(appDetails.applicationId).toEqual(appDetails2.applicationId);
     expect(appDetails.servicePrincipalObjectId).toEqual(
-      appDetails2.servicePrincipalObjectId
+      appDetails2.servicePrincipalObjectId,
     );
   });
 
