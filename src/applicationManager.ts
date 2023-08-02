@@ -8,9 +8,9 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 import forge from "node-forge";
 import { setPasswordOnPfx } from "./pfx.js";
-import { SAMLConfig } from "./SAMLConfig.js";
 import { ClientSecret } from "./clientSecret.js";
 import { getDateByAddingDays } from "./utils.js";
+import { Application } from "./application.js";
 
 export type ApplicationAndServicePrincipalId = {
   applicationId: string;
@@ -342,22 +342,20 @@ export async function setTLSCertificate({
 export async function addOptionalClaims({
   token,
   applicationId,
-  samlConfig,
+  groupMembershipClaims,
+  optionalClaims,
 }: {
   token: string;
   applicationId: string;
-  samlConfig: SAMLConfig;
+  groupMembershipClaims: String;
+  optionalClaims: [{ name: string; additionalProperties: Array<String> }];
 }): Promise<void> {
-  if (
-    samlConfig &&
-    samlConfig.optionalClaims &&
-    samlConfig.optionalClaims.length > 0
-  ) {
-    samlConfig.groupMembershipClaims ??= "SecurityGroup";
+  if (optionalClaims && optionalClaims.length > 0) {
+    groupMembershipClaims ??= "SecurityGroup";
     const body = {
-      groupMembershipClaims: samlConfig.groupMembershipClaims,
+      groupMembershipClaims: groupMembershipClaims,
       optionalClaims: {
-        saml2Token: samlConfig.optionalClaims,
+        saml2Token: optionalClaims,
       },
     };
     const result = await fetch(
@@ -385,6 +383,7 @@ export async function addClientSecret({
   clientSecret: ClientSecret;
 }): Promise<void> {
   if (clientSecret && clientSecret.key_vault_name) {
+    console.log("creating secret");
     const application = await readApplication({ token, applicationId });
 
     if (

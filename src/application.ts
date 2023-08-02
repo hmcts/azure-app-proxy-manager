@@ -1,4 +1,3 @@
-import { SAMLConfig } from "./SAMLConfig.js";
 import { ClientSecret } from "./clientSecret.js";
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { TLS } from "./tls.js";
@@ -12,7 +11,8 @@ export type Application = {
   tls: TLS;
   redirectUrls: Array<string>;
   preferredSingleSignOnMode: string;
-  samlConfig: SAMLConfig;
+  optionalClaims: [{ name: string; additionalProperties: Array<String> }];
+  groupMembershipClaims: string;
   oauth2Permissions: Array<string>;
   clientSecret: ClientSecret;
 };
