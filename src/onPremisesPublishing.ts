@@ -1,5 +1,5 @@
 export type OnPremisesPublishing = {
-  externalAuthenticationType: "aadPreAuthentication";
+  externalAuthenticationType: string;
   externalUrl: string;
   internalUrl: string;
   isHttpOnlyCookieEnabled: boolean;

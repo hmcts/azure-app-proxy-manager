@@ -4,7 +4,6 @@ import { Application } from "./application.js";
 
 // TODO merge with config
 export function defaultOnPremisesFlags(): {
-  externalAuthenticationType: "aadPreAuthentication";
   isHttpOnlyCookieEnabled: boolean;
   isOnPremPublishingEnabled: boolean;
   isPersistentCookieEnabled: boolean;
@@ -13,7 +12,6 @@ export function defaultOnPremisesFlags(): {
   isTranslateLinksInBodyEnabled: boolean;
 } {
   return {
-    externalAuthenticationType: "aadPreAuthentication",
     isHttpOnlyCookieEnabled: true,
     isOnPremPublishingEnabled: true,
     isPersistentCookieEnabled: true,
@@ -43,6 +41,9 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       onPremisesPublishing: {
         externalUrl: app.externalUrl,
         internalUrl: app.internalUrl,
+        externalAuthenticationType: app.externalAuthenticationType
+          ? app.externalAuthenticationType
+          : "aadPreAuthentication",
         ...defaultOnPremisesFlags(),
       },
       groupMembershipClaims: app.groupMembershipClaims,

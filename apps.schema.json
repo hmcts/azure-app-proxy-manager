@@ -37,6 +37,12 @@
               "https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png"
             ]
           },
+          "externalAuthenticationType": {
+            "type": "string",
+            "default": "aadPreAuthentication",
+            "title": "externalAuthenticationType to be set on application onPremisesPublishing setting. Defaults to aadPreAuthentication ",
+            "examples": ["passthru"]
+          },
           "groupMembershipClaims": {
             "type": "string",
             "default": "",
