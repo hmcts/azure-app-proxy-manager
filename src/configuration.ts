@@ -45,7 +45,8 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
         internalUrl: app.internalUrl,
         ...defaultOnPremisesFlags(),
       },
-      samlConfig: app.samlConfig,
+      groupMembershipClaims: app.groupMembershipClaims,
+      optionalClaims: app.optionalClaims,
       oauth2Permissions: app.oauth2Permissions,
       clientSecret: app.clientSecret,
     };
