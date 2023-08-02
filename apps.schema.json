@@ -40,7 +40,7 @@
           "groupMembershipClaims": {
             "type": "string",
             "default": "",
-            "title": "groupMembershipClaims setting for the application. Defaulted to SecurityGroup when adding optionalClaims",
+            "title": "groupMembershipClaims setting for the application.",
             "examples": ["SecurityGroup"]
           },
           "optionalClaims": {

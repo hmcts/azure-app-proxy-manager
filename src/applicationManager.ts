@@ -349,13 +349,15 @@ export async function addOptionalClaims({
   groupMembershipClaims: String;
   optionalClaims: [{ name: string; additionalProperties: Array<String> }];
 }): Promise<void> {
-  if (optionalClaims && optionalClaims.length > 0) {
-    groupMembershipClaims ??= "SecurityGroup";
+  if (optionalClaims || groupMembershipClaims) {
     const body = {
       groupMembershipClaims: groupMembershipClaims,
-      optionalClaims: {
-        saml2Token: optionalClaims,
-      },
+      optionalClaims:
+        optionalClaims.length > 0
+          ? {
+              saml2Token: optionalClaims,
+            }
+          : {},
     };
     const result = await fetch(
       `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
