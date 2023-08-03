@@ -120,6 +120,7 @@ describe("applicationManager", () => {
         externalUrl: externalUrl,
         internalUrl,
         ...defaultOnPremisesFlags(),
+        externalAuthenticationType: ""
       },
     });
 

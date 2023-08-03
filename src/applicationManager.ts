@@ -387,7 +387,6 @@ export async function addClientSecret({
   clientSecret: ClientSecret;
 }): Promise<void> {
   if (clientSecret && clientSecret.key_vault_name) {
-    console.log("creating secret");
     const application = await readApplication({ token, applicationId });
 
     if (
