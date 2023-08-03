@@ -350,7 +350,7 @@ export async function grantOauth2Permissions({
     await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
 
     const graphAPIObjectId = (await graphAPIIDResult.json()).value[0].id;
-      
+
     const searchGrantsResponse = await fetch(
       `https://graph.microsoft.com/v1.0/oauth2PermissionGrants?$filter=(clientId eq '${objectId}' and resourceId eq '${graphAPIObjectId}')`,
       {
@@ -358,37 +358,35 @@ export async function grantOauth2Permissions({
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
-        }
+        },
       },
     );
     await errorHandler("Granting aouth2 permissions", searchGrantsResponse);
-    const grants = (await searchGrantsResponse.json())
-    
-    console.log(grants)
-    let grantPermissionUrl = 'https://graph.microsoft.com/v1.0/oauth2PermissionGrants'
-    let grantPermissionMethod = 'POST'
-    
-    if(grants && grants.value.length>0 ){
-      grantPermissionMethod = "PATCH"
-      grantPermissionUrl = `https://graph.microsoft.com/v1.0/oauth2PermissionGrants/${grants.value[0].id}`
+    const grants = await searchGrantsResponse.json();
+
+    console.log(grants);
+    let grantPermissionUrl =
+      "https://graph.microsoft.com/v1.0/oauth2PermissionGrants";
+    let grantPermissionMethod = "POST";
+
+    if (grants && grants.value.length > 0) {
+      grantPermissionMethod = "PATCH";
+      grantPermissionUrl = `https://graph.microsoft.com/v1.0/oauth2PermissionGrants/${grants.value[0].id}`;
     }
-    
-    const grantPermissionsResult = await fetch(
-      `${grantPermissionUrl}`,
-      {
-        method: `${grantPermissionMethod}`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          clientId: `${objectId}`,
-          consentType: "AllPrincipals",
-          resourceId: `${graphAPIObjectId}`,
-          scope: `${oauth2Permissions.join(" ")}`,
-        }),
+
+    const grantPermissionsResult = await fetch(`${grantPermissionUrl}`, {
+      method: `${grantPermissionMethod}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        clientId: `${objectId}`,
+        consentType: "AllPrincipals",
+        resourceId: `${graphAPIObjectId}`,
+        scope: `${oauth2Permissions.join(" ")}`,
+      }),
+    });
     await errorHandler("Granting aouth2 permissions", grantPermissionsResult);
   }
 }
