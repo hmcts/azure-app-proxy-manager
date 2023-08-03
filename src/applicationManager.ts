@@ -196,11 +196,13 @@ export async function updateApplicationConfig({
   appId,
   externalUrl,
   redirectUrls,
+  hideApp,
 }: {
   token: string;
   appId: string;
   externalUrl: string;
   redirectUrls: Array<string>;
+  hideApp: boolean;
 }): Promise<void> {
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/applications/${appId}`,
@@ -216,6 +218,7 @@ export async function updateApplicationConfig({
           redirectUris: redirectUrls,
           homePageUrl: externalUrl,
         },
+        tags: hideApp ? ["HideApp"] : [],
       }),
     },
   );

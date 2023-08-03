@@ -15,4 +15,5 @@ export type Application = {
   groupMembershipClaims: string;
   oauth2Permissions: Array<string>;
   clientSecret: ClientSecret;
+  hideApp: boolean;
 };
