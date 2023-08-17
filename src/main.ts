@@ -15,7 +15,7 @@ import {
   assignGroups,
   setUserAssignmentRequired,
   enableSaml,
-  grantOauth2Permissions,
+  grantGraphApiPermissions,
 } from "./servicePrincipalManager.js";
 
 import yargs from "yargs/yargs";
@@ -106,10 +106,10 @@ for await (const app of apps) {
       optionalClaims: app.optionalClaims,
     });
 
-    await grantOauth2Permissions({
+    await grantGraphApiPermissions({
       token: token,
       objectId: servicePrincipalObjectId,
-      oauth2Permissions: app.oauth2Permissions,
+      graphApiPermissions: app.graphApiPermissions,
     });
 
     await addClientSecret({

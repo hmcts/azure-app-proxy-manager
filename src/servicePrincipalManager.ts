@@ -324,21 +324,21 @@ async function createNewSigningCert(
   return addCertificateResult;
 }
 
-export async function grantOauth2Permissions({
+export async function grantGraphApiPermissions({
   token,
   objectId,
-  oauth2Permissions,
+  graphApiPermissions,
 }: {
   token: string;
   objectId: string;
-  oauth2Permissions: Array<string>;
+  graphApiPermissions: Array<string>;
 }) {
-  if (oauth2Permissions && oauth2Permissions.length > 0) {
-    console.log("Granting oauth2 permissions");
+  if (graphApiPermissions && graphApiPermissions.length > 0) {
+    console.log("Granting graphapi permissions");
 
     //Getting Object Id for graph api in the tenant.
     const graphAPIIDResult = await fetch(
-      `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id`,
+      `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id,appRoles`,
       {
         method: "GET",
         headers: {
@@ -348,45 +348,57 @@ export async function grantOauth2Permissions({
       },
     );
     await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
+    
+    const graphAPIObject = (await graphAPIIDResult.json()).value[0]
+    const graphAPIObjectId = graphAPIObject.id;
+    const graphAPIAppRoles = graphAPIObject.appRoles;
 
-    const graphAPIObjectId = (await graphAPIIDResult.json()).value[0].id;
-
-    const searchGrantsResponse = await fetch(
-      `https://graph.microsoft.com/v1.0/oauth2PermissionGrants?$filter=(clientId eq '${objectId}' and resourceId eq '${graphAPIObjectId}')`,
+    const existingAssignmentResult = await fetch(
+      `https://graph.microsoft.com/v1.0/servicePrincipals/${objectId}/appRoleAssignments?$select=appRoleId`,
       {
-        method: "Get",
+        method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       },
     );
-    await errorHandler("Granting aouth2 permissions", searchGrantsResponse);
-    const grants = await searchGrantsResponse.json();
+    await errorHandler("Getting Graph API Object ID", existingAssignmentResult);
+    const existingRolesIds: string[] = (
+      await existingAssignmentResult.json()
+    ).value.map((item: { appRoleId: string }) => item.appRoleId);
 
-    console.log(grants);
-    let grantPermissionUrl =
-      "https://graph.microsoft.com/v1.0/oauth2PermissionGrants";
-    let grantPermissionMethod = "POST";
+    const appRoleIds: string[] = [];
 
-    if (grants && grants.value.length > 0) {
-      grantPermissionMethod = "PATCH";
-      grantPermissionUrl = `https://graph.microsoft.com/v1.0/oauth2PermissionGrants/${grants.value[0].id}`;
+    for (const appRole of graphAPIAppRoles) {
+      if (
+        graphApiPermissions.includes(appRole.value) &&
+        !existingRolesIds.includes(appRole.id)
+      ) {
+        appRoleIds.push(appRole.id);
+      }
     }
 
-    const grantPermissionsResult = await fetch(`${grantPermissionUrl}`, {
-      method: `${grantPermissionMethod}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        clientId: `${objectId}`,
-        consentType: "AllPrincipals",
-        resourceId: `${graphAPIObjectId}`,
-        scope: `${oauth2Permissions.join(" ")}`,
-      }),
-    });
-    await errorHandler("Granting aouth2 permissions", grantPermissionsResult);
+    console.log(appRoleIds)
+    console.log(graphAPIObjectId)
+    console.log(objectId)
+    for (const appRoleId of appRoleIds) {
+      const assignRolesResult = await fetch(
+        `https://graph.microsoft.com/v1.0/servicePrincipals/${graphAPIObjectId}/appRoleAssignedTo`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            principalId: `${objectId}`,
+            resourceId: `${graphAPIObjectId}`,
+            appRoleId: `${appRoleId}`,
+          }),
+        },
+      );
+      await errorHandler("Granting graphql permissions", assignRolesResult);
+    }
   }
 }
