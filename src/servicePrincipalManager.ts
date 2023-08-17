@@ -379,9 +379,6 @@ export async function grantGraphApiPermissions({
       }
     }
 
-    console.log(appRoleIds)
-    console.log(graphAPIObjectId)
-    console.log(objectId)
     for (const appRoleId of appRoleIds) {
       const assignRolesResult = await fetch(
         `https://graph.microsoft.com/v1.0/servicePrincipals/${graphAPIObjectId}/appRoleAssignedTo`,
