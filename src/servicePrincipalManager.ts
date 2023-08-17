@@ -398,7 +398,7 @@ export async function grantGraphApiPermissions({
           }),
         },
       );
-      await errorHandler("Granting graphql permissions", assignRolesResult);
+      await errorHandler("Granting graph api permissions", assignRolesResult);
     }
   }
 }
