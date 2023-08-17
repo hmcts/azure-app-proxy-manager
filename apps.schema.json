@@ -133,7 +133,7 @@
             },
             "examples": [["Developers"]]
           },
-          "oauth2Permissions": {
+          "graphApiPermissions": {
             "type": "array",
             "default": [],
             "title": "A list of Oauth2 graph api permissions to be added for application",

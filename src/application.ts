@@ -13,7 +13,7 @@ export type Application = {
   preferredSingleSignOnMode: string;
   optionalClaims: [{ name: string; additionalProperties: Array<String> }];
   groupMembershipClaims: string;
-  oauth2Permissions: Array<string>;
+  graphApiPermissions: Array<string>;
   clientSecret: ClientSecret;
   hideApp: boolean;
 };
