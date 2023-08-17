@@ -348,8 +348,8 @@ export async function grantGraphApiPermissions({
       },
     );
     await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
-    
-    const graphAPIObject = (await graphAPIIDResult.json()).value[0]
+
+    const graphAPIObject = (await graphAPIIDResult.json()).value[0];
     const graphAPIObjectId = graphAPIObject.id;
     const graphAPIAppRoles = graphAPIObject.appRoles;
 
