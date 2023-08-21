@@ -323,4 +323,3 @@ async function createNewSigningCert(
   await errorHandler("Adding Saml signing certificate", addCertificateResult);
   return addCertificateResult;
 }
-
