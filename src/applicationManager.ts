@@ -434,3 +434,92 @@ function areAllPasswordsExpired(name: string, passwordCredentials: Array<any>) {
   }
   return true;
 }
+
+export async function setResourceAccess({
+  token,
+  applicationId,
+  graphApiPermissions,
+}: {
+  token: string;
+  applicationId: string;
+  graphApiPermissions: Array<string>;
+}) {
+  if (graphApiPermissions && graphApiPermissions.length > 0) {
+    const graphAppId = "00000003-0000-0000-c000-000000000000";
+    console.log("Granting graphapi permissions");
+
+    const {
+      appRoleIds,
+      graphAPIObjectId,
+    }: { appRoleIds: string[]; graphAPIObjectId: any } = await getGraphAPIRoles(
+      token,
+      graphApiPermissions,
+    );
+
+    const application = await readApplication({ token, applicationId });
+
+    let requiredResourceAccess = application.requiredResourceAccess ?? [];
+
+    const graphPerms = {
+      resourceAppId: graphAppId,
+      resourceAccess: appRoleIds.map((id) => ({ id, type: "Role" })),
+    };
+
+    let graphPermsFound = false;
+
+    for (let i = 0; i < requiredResourceAccess.length; i++) {
+      if (requiredResourceAccess[i].resourceAppId === graphAppId) {
+        requiredResourceAccess[i].resourceAccess = graphPerms.resourceAccess;
+        graphPermsFound = true;
+        break; // Assuming you want to replace only the first match
+      }
+    }
+
+    if (!graphPermsFound) {
+      requiredResourceAccess.push(graphPerms);
+    }
+
+    const body = {
+      requiredResourceAccess: requiredResourceAccess,
+    };
+
+    const assignRolesResult = await fetch(
+      `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    await errorHandler("Granting graph api permissions", assignRolesResult);
+  }
+}
+async function getGraphAPIRoles(token: string, graphApiPermissions: string[]) {
+  const graphAPIIDResult = await fetch(
+    `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id,appRoles`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  await errorHandler("Getting Graph API Object ID", graphAPIIDResult);
+
+  const graphAPIObject = (await graphAPIIDResult.json()).value[0];
+  const graphAPIObjectId = graphAPIObject.id;
+  const graphAPIAppRoles = graphAPIObject.appRoles;
+
+  const appRoleIds: string[] = [];
+
+  for (const appRole of graphAPIAppRoles) {
+    if (graphApiPermissions.includes(appRole.value)) {
+      appRoleIds.push(appRole.id);
+    }
+  }
+  return { appRoleIds, graphAPIObjectId };
+}

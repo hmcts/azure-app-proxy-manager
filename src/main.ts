@@ -9,13 +9,13 @@ import {
   updateApplicationConfig,
   addOptionalClaims,
   addClientSecret,
+  setResourceAccess,
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
   assignGroups,
   setUserAssignmentRequired,
   enableSaml,
-  grantGraphApiPermissions,
 } from "./servicePrincipalManager.js";
 
 import yargs from "yargs/yargs";
@@ -106,9 +106,9 @@ for await (const app of apps) {
       optionalClaims: app.optionalClaims,
     });
 
-    await grantGraphApiPermissions({
+    await setResourceAccess({
       token: token,
-      objectId: servicePrincipalObjectId,
+      applicationId: applicationId,
       graphApiPermissions: app.graphApiPermissions,
     });
 
