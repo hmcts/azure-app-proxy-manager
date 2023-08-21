@@ -516,9 +516,14 @@ async function getGraphAPIRoles(token: string, graphApiPermissions: string[]) {
 
   const appRoleIds: string[] = [];
 
-  for (const appRole of graphAPIAppRoles) {
-    if (graphApiPermissions.includes(appRole.value)) {
-      appRoleIds.push(appRole.id);
+  for (const permission of graphApiPermissions) {
+    const matchingAppRole = graphAPIAppRoles.find(
+      (appRole: { value: string }) => appRole.value === permission,
+    );
+    if (matchingAppRole) {
+      appRoleIds.push(matchingAppRole.id);
+    } else {
+      console.log(`"${permission}" couldn't be found in Graph API roles`);
     }
   }
   return { appRoleIds, graphAPIObjectId };
