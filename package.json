@@ -18,7 +18,7 @@
   ],
   "bin": "./lib/main.js",
   "dependencies": {
-    "@azure/identity": "^3.2.2",
+    "@azure/identity": "^4.0.0",
     "@azure/keyvault-secrets": "^4.7.0",
     "js-yaml": "^4.1.0",
     "node-forge": "^1.3.1",
