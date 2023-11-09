@@ -138,37 +138,25 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-util@npm:^1.6.1":
-  version: 1.6.1
-  resolution: "@azure/core-util@npm:1.6.1"
-  dependencies:
-    "@azure/abort-controller": ^1.0.0
-    tslib: ^2.2.0
-  checksum: 1f8cd130993f161c98925070af863510cbcc79e0471864e4b16852afc2ee7413c9c7fabe72f20f3e521ee75c3cd7e3085661fdc8d5d0a643a6e1b1b7bf691ddd
-  languageName: node
-  linkType: hard
-
-"@azure/identity@npm:^3.2.2":
-  version: 3.4.0
-  resolution: "@azure/identity@npm:3.4.0"
+"@azure/identity@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@azure/identity@npm:4.0.0"
   dependencies:
     "@azure/abort-controller": ^1.0.0
     "@azure/core-auth": ^1.5.0
     "@azure/core-client": ^1.4.0
     "@azure/core-rest-pipeline": ^1.1.0
     "@azure/core-tracing": ^1.0.0
-    "@azure/core-util": ^1.6.1
+    "@azure/core-util": ^1.0.0
     "@azure/logger": ^1.0.0
     "@azure/msal-browser": ^3.5.0
-    "@azure/msal-common": ^13.1.0
     "@azure/msal-node": ^2.5.1
     events: ^3.0.0
     jws: ^4.0.0
     open: ^8.0.0
     stoppable: ^1.1.0
     tslib: ^2.2.0
-    uuid: ^8.3.0
-  checksum: 1c2a2f3b4a195c5f108b66bc6828db3eb0359b72f2a8159a81fae9e062fec5aab47b1d1f4897695c48e51c46c06a4335792b33882a53018f965c9f088bce4f13
+  checksum: 534a62afe4715d18e221e021f8088873b1efad34344bd4c6c4685572c89517f15a646e246e9233e8db7942b0a5c73f1961ea63e3baf39c28edde1ba51da4423d
   languageName: node
   linkType: hard
 
@@ -213,13 +201,6 @@ __metadata:
   version: 14.4.0
   resolution: "@azure/msal-common@npm:14.4.0"
   checksum: 63c63fac0915b4dbd026add260e2527138a02ba6f9ccd8d92d2641fc3e2b5d59c6943415d470e40af2f34c55e77ccfc2d3f90e8a2befc1eeae3a9896ec65ade8
-  languageName: node
-  linkType: hard
-
-"@azure/msal-common@npm:^13.1.0":
-  version: 13.2.0
-  resolution: "@azure/msal-common@npm:13.2.0"
-  checksum: 44f4e2c545cd47c7763502ce34bee89cd1c1d8378526606b6af675cfab6ae2254616245b1f0b1621b61697df0d35277398834ad7c44613d56f4a019dd9cd6431
   languageName: node
   linkType: hard
 
@@ -773,7 +754,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "azure-app-proxy-manager@workspace:."
   dependencies:
-    "@azure/identity": ^3.2.2
+    "@azure/identity": ^4.0.0
     "@azure/keyvault-secrets": ^4.7.0
     "@types/js-yaml": ^4
     "@types/node": ^20.2.5
