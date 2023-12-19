@@ -18,10 +18,24 @@ apps:
       optionalClaims:
         - name: "groups"
           additionalProperties: []
-    graphApiPermissions::
+    appRoles:
+      - displayName: "A first app role"
+        description: "Some description"
+        value: "testing"
+        id: "aa9aaaaa-2aa8-49aa-954a-a3aaaa08aaa3"
+        groups:
+          - "test_group_A"
+      - displayName: "My second app role"
+        description: "Some description"
+        value: "testing_again"
+        id: "dd9ddddd-2dd3-49dd-954d-a3dddd08ddd3"
+        groups:
+          - "test_group_A"
+          - "test_group_B"
+    graphApiPermissions:
       - "User.Read.All"
       - "Group.Read.All"
       - "People.Read"
     clientSecret:
-+     name: test-jenkins
-+     key_vault_name: cftsbox-intsvc
+      name: test-jenkins
+      key_vault_name: cftsbox-intsvc

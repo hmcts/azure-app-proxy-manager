@@ -1,3 +1,4 @@
+import { AppRoles } from "./applicationManager.js";
 import { ClientSecret } from "./clientSecret.js";
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { TLS } from "./tls.js";
@@ -14,6 +15,7 @@ export type Application = {
   optionalClaims: [{ name: string; additionalProperties: Array<String> }];
   groupMembershipClaims: string;
   graphApiPermissions: Array<string>;
+  appRoles: AppRoles;
   clientSecret: ClientSecret;
   hideApp: boolean;
 };

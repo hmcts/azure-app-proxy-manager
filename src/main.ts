@@ -10,6 +10,9 @@ import {
   addOptionalClaims,
   addClientSecret,
   setResourceAccess,
+  addAppRoles,
+  addAppRoleGroupAssignmentsToApp,
+
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
@@ -118,6 +121,18 @@ for await (const app of apps) {
       clientSecret: app.clientSecret,
     });
 
+    await addAppRoles({
+      token: token,
+      applicationId: applicationId,
+      appRoles: app.appRoles,
+    });
+
+    // Pass the object ID of the enterprise app
+    await addAppRoleGroupAssignmentsToApp({
+      token: token,
+      applicationId: servicePrincipalObjectId,
+      appRoles: app.appRoles,
+    });
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {
     console.log(err);
