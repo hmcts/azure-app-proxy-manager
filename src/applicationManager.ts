@@ -240,6 +240,7 @@ export async function updateApplicationConfig({
 
   await errorHandler("updating application config", result);
 }
+
 export async function setLogo({
   token,
   appId,
@@ -496,7 +497,7 @@ export async function setResourceAccess({
     const body = {
       requiredResourceAccess: requiredResourceAccess,
     };
-    
+
     const assignRolesResult = await fetch(
       `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
       {
