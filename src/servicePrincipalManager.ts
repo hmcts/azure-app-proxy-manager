@@ -94,7 +94,7 @@ async function getAppRoleId(objectId: string, token: string) {
   return body.value[0].id;
 }
 
-async function getGroupId(objectId: string, token: string) {
+export async function getGroupId(objectId: string, token: string) {
   const url = `https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${objectId}' and securityEnabled eq true&$select=id`;
 
   const result = await fetch(url, {
@@ -110,7 +110,7 @@ async function getGroupId(objectId: string, token: string) {
   return body.value[0].id;
 }
 
-async function isAppRoleAssignedToGroup({
+export async function isAppRoleAssignedToGroup({
   groupId,
   objectId,
   token,
