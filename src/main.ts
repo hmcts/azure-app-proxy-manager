@@ -12,7 +12,6 @@ import {
   setResourceAccess,
   addAppRoles,
   addAppRoleGroupAssignmentsToApp,
-
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {

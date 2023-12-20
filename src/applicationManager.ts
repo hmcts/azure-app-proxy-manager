@@ -21,15 +21,15 @@ export type AppRoleAndGroupAssignments = {
   value: string;
   id: string;
   groups: Array<string>;
-}
+};
 export type AppRole = {
   allowedMemberTypes: Array<string>;
-  description: string,
+  description: string;
   displayName: string;
   id: string;
   isEnabled: Boolean;
   value: string;
-}
+};
 export type AppRoles = Array<AppRoleAndGroupAssignments>;
 export async function createApplication({
   token,
@@ -558,10 +558,9 @@ export async function updateApplicationAppRoles({
   applicationId: string;
   appRoles: Array<AppRole>;
 }): Promise<void> {
-
   let body = {
-    appRoles: appRoles
-  }
+    appRoles: appRoles,
+  };
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
     {
@@ -582,30 +581,42 @@ export async function updateApplicationAppRoles({
  * @param value Must be unique compared to other App Roles on this application
  * @return AppRole Returns a promise of structured AppRole type object
  */
-async function generateStructuredAppRole(displayName: string, description: string, id: string, value: string): Promise<AppRole>{
+async function generateStructuredAppRole(
+  displayName: string,
+  description: string,
+  id: string,
+  value: string,
+): Promise<AppRole> {
   return {
-    "allowedMemberTypes": ["User"],
-    "description": description,
-    "displayName": displayName,
-    "id": id,
-    "isEnabled": true,
-    "value": value,
-  }
+    allowedMemberTypes: ["User"],
+    description: description,
+    displayName: displayName,
+    id: id,
+    isEnabled: true,
+    value: value,
+  };
 }
 
 /**
  * Necessary where an app role is deleted, they must all be disabled first. Easier to disable by default and enable when updating.
-*/
-async function disableAppRoles(applicationId: string, token: string){
-  const app = await readApplication({token, applicationId});
+ */
+async function disableAppRoles(applicationId: string, token: string) {
+  const app = await readApplication({ token, applicationId });
   let appRolesJson: Array<AppRole> = app.appRoles;
   // Keep fetched array of AppRoles but change enabled to false
-  const disabledAppRolesJson = appRolesJson.map((role) => ({
-    ...role,
-    isEnabled: false,
-  } as AppRole));
-  await updateApplicationAppRoles({token, applicationId, appRoles: disabledAppRolesJson});
-  console.log("Temporarily disabled app roles to allow updates")
+  const disabledAppRolesJson = appRolesJson.map(
+    (role) =>
+      ({
+        ...role,
+        isEnabled: false,
+      }) as AppRole,
+  );
+  await updateApplicationAppRoles({
+    token,
+    applicationId,
+    appRoles: disabledAppRolesJson,
+  });
+  console.log("Temporarily disabled app roles to allow updates");
 }
 
 /**
@@ -632,9 +643,11 @@ async function checkIfGroupAppRoleAssignmentExists({
       },
     },
   );
-  const assignments = (await response.json());
-  const assignmentExists =  (assignments.value.some(
-    (assignment: { appRoleId: string , resourceId: string }) => assignment.appRoleId === appRoleId && assignment.resourceId === applicationId)
+  const assignments = await response.json();
+  const assignmentExists = assignments.value.some(
+    (assignment: { appRoleId: string; resourceId: string }) =>
+      assignment.appRoleId === appRoleId &&
+      assignment.resourceId === applicationId,
   );
   return assignmentExists;
 }
@@ -663,12 +676,12 @@ async function updateApplicationGroupAssignments({
     applicationId,
   });
   // Necessary to stop multiple runs breaking
-  if (!existingAssignment){
+  if (!existingAssignment) {
     let body = {
       principalId: groupId,
       resourceId: applicationId,
-      appRoleId: appRoleId
-    }
+      appRoleId: appRoleId,
+    };
     const result = await fetch(
       `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`,
       {
@@ -691,7 +704,7 @@ async function updateApplicationGroupAssignments({
  * Returns the ID of an Azure Entra group given it's display name
  * @param groupName Display name of Azure Entra group
  */
-async function getAzureEntraGroupId(groupName: string, token: string){
+async function getAzureEntraGroupId(groupName: string, token: string) {
   const response = await fetch(
     `https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${groupName}'&$top=1&$select=id`,
     {
@@ -722,10 +735,20 @@ export async function addAppRoleGroupAssignmentsToApp({
   appRoles: AppRoles;
 }) {
   for (const role of appRoles) {
-    for (const group of role.groups){
+    for (const group of role.groups) {
       let groupId = await getAzureEntraGroupId(group, token);
-      await updateApplicationGroupAssignments({token: token, groupId: groupId, appRoleId: role.id, applicationId: applicationId});
-      console.log("Updated group role assignments for:", role.displayName, "App Role, processing group:", group);
+      await updateApplicationGroupAssignments({
+        token: token,
+        groupId: groupId,
+        appRoleId: role.id,
+        applicationId: applicationId,
+      });
+      console.log(
+        "Updated group role assignments for:",
+        role.displayName,
+        "App Role, processing group:",
+        group,
+      );
     }
   }
 }
@@ -748,9 +771,20 @@ export async function addAppRoles({
   // Must all be disabled first in case of deletion of an app role
   await disableAppRoles(applicationId, token);
   for (const role of appRoles) {
-    let appRole = await generateStructuredAppRole(role.displayName, role.description, role.id, role.value);
+    let appRole = await generateStructuredAppRole(
+      role.displayName,
+      role.description,
+      role.id,
+      role.value,
+    );
     appRolesCollection.push(appRole);
   }
-  await updateApplicationAppRoles({token, applicationId, appRoles: appRolesCollection});
-  console.log("Updated App Roles of application, moving on to group assignments")
+  await updateApplicationAppRoles({
+    token,
+    applicationId,
+    appRoles: appRolesCollection,
+  });
+  console.log(
+    "Updated App Roles of application, moving on to group assignments",
+  );
 }

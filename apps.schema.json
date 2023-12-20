@@ -139,7 +139,13 @@
             "items": {
               "type": "object",
               "title": "App Role",
-              "required": ["displayName", "description", "value", "id", "groups"],
+              "required": [
+                "displayName",
+                "description",
+                "value",
+                "id",
+                "groups"
+              ],
               "properties": {
                 "displayName": {
                   "type": "string",
