@@ -1,6 +1,8 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { errorHandler } from "./errorHandler.js";
-import { findExistingServicePrincipal } from "./servicePrincipalManager.js";
+import { findExistingServicePrincipal,
+         getEntraGroupId,
+} from "./servicePrincipalManager.js";
 import { TLS } from "./tls.js";
 
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -700,25 +702,6 @@ async function updateApplicationGroupAssignments({
   }
 }
 
-/**
- * Returns the ID of an Azure Entra group given it's display name
- * @param groupName Display name of Azure Entra group
- */
-async function getAzureEntraGroupId(groupName: string, token: string) {
-  const response = await fetch(
-    `https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${groupName}'&$top=1&$select=id`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    },
-  );
-  const groupId = (await response.json()).value[0].id;
-  await errorHandler("Getting Azure group ID", response);
-  return groupId;
-}
 
 /**
  * Updates an Azure Entra Application group assignments, specifically for app roles
@@ -736,7 +719,7 @@ export async function addAppRoleGroupAssignmentsToApp({
 }) {
   for (const role of appRoles) {
     for (const group of role.groups) {
-      let groupId = await getAzureEntraGroupId(group, token);
+      let groupId = await getEntraGroupId(group, token);
       await updateApplicationGroupAssignments({
         token: token,
         groupId: groupId,

@@ -21,7 +21,7 @@ import {
   readServicePrincipal,
   setUserAssignmentRequired,
   isAppRoleAssignedToGroup,
-  getGroupId,
+  getEntraGroupId,
 } from "./servicePrincipalManager";
 import * as process from "process";
 
@@ -164,7 +164,7 @@ describe("applicationManager", () => {
       applicationId: appDetails.applicationId,
     });
 
-    const groupId = await getGroupId(appRoles[0].groups[0], token);
+    const groupId = await getEntraGroupId(appRoles[0].groups[0], token);
 
     await addAppRoles({
       token,
