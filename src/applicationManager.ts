@@ -1,7 +1,8 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { errorHandler } from "./errorHandler.js";
-import { findExistingServicePrincipal,
-         getEntraGroupId,
+import {
+  findExistingServicePrincipal,
+  getEntraGroupId,
 } from "./servicePrincipalManager.js";
 import { TLS } from "./tls.js";
 
@@ -701,7 +702,6 @@ async function updateApplicationGroupAssignments({
     console.log("Group role assignment already exists, skipping");
   }
 }
-
 
 /**
  * Updates an Azure Entra Application group assignments, specifically for app roles
