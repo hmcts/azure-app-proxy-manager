@@ -246,7 +246,6 @@ async function addTokenSigningCertificate({
     token,
     servicePrincipalObjectId: objectId,
   });
-  console.log(servicePrincipal);
 
   //Adds a new signing certificate if all certificates are expiring.
   if (

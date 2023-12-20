@@ -120,7 +120,7 @@ for await (const app of apps) {
       clientSecret: app.clientSecret,
     });
 
-    if(app.appRoles){
+    if (app.appRoles) {
       await addAppRoles({
         token: token,
         applicationId: applicationId,
