@@ -722,7 +722,7 @@ async function getAzureEntraGroupId(groupName: string, token: string) {
 
 /**
  * Updates an Azure Entra Application group assignments, specifically for app roles
- * @param applicationId The object ID of application registration
+ * @param applicationId The object ID of enterprise application
  * @param appRoles A collection (array) of AppRole custom objects to update the application with
  */
 export async function addAppRoleGroupAssignmentsToApp({
