@@ -740,7 +740,7 @@ export async function addAppRoles({
       ...remaining,
     };
     appRolesCollection.push(appRole);
-  } 
+  }
   console.log(appRolesCollection);
   await updateApplicationAppRoles({
     token,
