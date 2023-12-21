@@ -52,7 +52,7 @@ yarn node --enable-source-maps lib/main.js --config apps.yaml
 ### Tests
 
 Login to Azure with an account that has the Application Administrator role in the tenant.
-It's recommended you use a sandbox tenant for this.
+It's recommended you use a sandbox tenant (e.g. E5 SANDBOX) for this.
 
 Then run:
 
