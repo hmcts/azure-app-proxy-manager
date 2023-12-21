@@ -23,10 +23,10 @@ export type AppRoleAndGroupAssignments = {
   description: string;
   value: string;
   id: string;
-  groups: Array<string>;
+  groups: string[];
 };
 export type AppRole = {
-  allowedMemberTypes: Array<string>;
+  allowedMemberTypes: string[];
   description: string;
   displayName: string;
   id: string;
@@ -548,9 +548,9 @@ async function getGraphAPIRoles(token: string, graphApiPermissions: string[]) {
 }
 
 /**
- * Updates an Azure Entra Application, specifically with a collection of new App Roles
+ * Updates an Azure Entra Application, with a collection of App Roles
  * @param applicationId The object ID of application registration
- * @param appRoles A collection (array) of AppRole custom objects to update the application with
+ * @param appRoles appRoles to update the application with
  */
 export async function updateApplicationAppRoles({
   token,
@@ -559,7 +559,7 @@ export async function updateApplicationAppRoles({
 }: {
   token: string;
   applicationId: string;
-  appRoles: Array<AppRole>;
+  appRoles: AppRole[];
 }): Promise<void> {
   let body = {
     appRoles: appRoles,
@@ -584,12 +584,12 @@ export async function updateApplicationAppRoles({
  * @param value Must be unique compared to other App Roles on this application
  * @return AppRole Returns a promise of structured AppRole type object
  */
-async function generateStructuredAppRole(
+function generateStructuredAppRole(
   displayName: string,
   description: string,
   id: string,
   value: string,
-): Promise<AppRole> {
+): AppRole {
   return {
     allowedMemberTypes: ["User"],
     description: description,
@@ -678,7 +678,7 @@ async function updateApplicationGroupAssignments({
     appRoleId,
     applicationId,
   });
-  // Necessary to stop multiple runs breaking
+
   if (!existingAssignment) {
     let body = {
       principalId: groupId,
