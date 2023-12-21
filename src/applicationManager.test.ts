@@ -78,9 +78,7 @@ describe("applicationManager", () => {
   let token: string;
 
   let appDetails: ApplicationAndServicePrincipalId;
-  let appRoles: AppRoles;
-
-  appRoles = [
+  let appRoles: AppRoles = [
     {
       description: "Some description",
       displayName: "Some name",
