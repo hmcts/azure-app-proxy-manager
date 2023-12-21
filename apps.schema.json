@@ -135,7 +135,7 @@
           },
           "appRoles": {
             "type": "array",
-            "title": "Array of new app roles to be added to application, and the groups that they should have these roles assigned to them for the application.",
+            "title": "App roles to be added to application, and the groups that they should have these roles assigned to them for the application.",
             "items": {
               "type": "object",
               "title": "App Role",
@@ -168,7 +168,7 @@
                 "id": {
                   "type": "string",
                   "default": "",
-                  "title": "Generate some GUID for each app role, must be unique within this file",
+                  "title": "Generate some GUID for each app role, must be unique within each application assignment",
                   "examples": ["ac9deede-2ee8-49ae-954f-f3ddfb08eee3"]
                 },
                 "groups": {
