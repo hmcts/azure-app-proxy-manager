@@ -579,28 +579,6 @@ export async function updateApplicationAppRoles({
 }
 
 /**
- * Create formatted AppRole object which is expected by graph api
- * @param id Must be unique compared to other App Roles on this application
- * @param value Must be unique compared to other App Roles on this application
- * @return AppRole Returns a promise of structured AppRole type object
- */
-function generateStructuredAppRole(
-  displayName: string,
-  description: string,
-  id: string,
-  value: string,
-): AppRole {
-  return {
-    allowedMemberTypes: ["User"],
-    description: description,
-    displayName: displayName,
-    id: id,
-    isEnabled: true,
-    value: value,
-  };
-}
-
-/**
  * Necessary where an app role is deleted, they must all be disabled first. Easier to disable by default and enable when updating.
  */
 async function disableAppRoles(applicationId: string, token: string) {
@@ -754,14 +732,16 @@ export async function addAppRoles({
   // Must all be disabled first in case of deletion of an app role
   await disableAppRoles(applicationId, token);
   for (const role of appRoles) {
-    let appRole = await generateStructuredAppRole(
-      role.displayName,
-      role.description,
-      role.id,
-      role.value,
-    );
+    // Destructure to remove groups from this function as they aren't needed here
+    const { groups, ...remaining } = role;
+    let appRole: AppRole = {
+      allowedMemberTypes: ["User"],
+      isEnabled: true,
+      ...remaining,
+    };
     appRolesCollection.push(appRole);
-  }
+  } 
+  console.log(appRolesCollection);
   await updateApplicationAppRoles({
     token,
     applicationId,
