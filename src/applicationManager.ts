@@ -750,7 +750,18 @@ export async function addAppRoles({
   appRoles: AppRoles;
 }) {
   let appRolesCollection: Array<AppRole> = [];
-  // Must all be disabled first in case of deletion of an app role
+
+  // To keep existing functionality working of assigning AD groups general access
+  appRolesCollection.push({
+    allowedMemberTypes: ["User"],
+    description: "User",
+    displayName: "User",
+    id: "18d14569-c3bd-439b-9a66-3a2aee01d14f",
+    isEnabled: true,
+    value: "",
+  });
+
+  // In case of deletion of an app role
   await disableAppRoles(applicationId, token, appRoles);
   for (const role of appRoles) {
     // Destructure to remove groups from this function as they aren't needed here
