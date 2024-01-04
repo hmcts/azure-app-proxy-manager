@@ -581,9 +581,20 @@ export async function updateApplicationAppRoles({
 /**
  * Necessary where an app role is deleted, they must all be disabled first. Easier to disable by default and enable when updating.
  */
-async function disableAppRoles(applicationId: string, token: string) {
+async function disableAppRoles(applicationId: string, token: string, appRoles: AppRoles) {
   const app = await readApplication({ token, applicationId });
   let appRolesJson: Array<AppRole> = app.appRoles;
+
+  // Finds pairs of displayName and ID of app roles to compare existing app roles with incoming app roles
+  const incomingAppRolePairs = appRoles.map(({ displayName, id }) => `name:${displayName}_id:${id}`);
+  const existingAppRolePairs = appRolesJson.map(({ displayName, id }) => `name:${displayName}_id:${id}`);
+  const commonPairs = existingAppRolePairs.filter(pair => incomingAppRolePairs.includes(pair));
+
+  // Break here if app roles are the same as current file - not disabling all roles if unnecessary
+  if(!(commonPairs.length < existingAppRolePairs.length)){
+    return
+  }
+
   // Keep fetched array of AppRoles but change enabled to false
   const disabledAppRolesJson = appRolesJson.map(
     (role) =>
@@ -730,7 +741,7 @@ export async function addAppRoles({
 }) {
   let appRolesCollection: Array<AppRole> = [];
   // Must all be disabled first in case of deletion of an app role
-  await disableAppRoles(applicationId, token);
+  await disableAppRoles(applicationId, token, appRoles);
   for (const role of appRoles) {
     // Destructure to remove groups from this function as they aren't needed here
     const { groups, ...remaining } = role;
@@ -741,7 +752,6 @@ export async function addAppRoles({
     };
     appRolesCollection.push(appRole);
   }
-  console.log(appRolesCollection);
   await updateApplicationAppRoles({
     token,
     applicationId,
