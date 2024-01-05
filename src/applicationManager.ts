@@ -661,7 +661,7 @@ async function checkIfGroupAppRoleAssignmentExists({
  * @param appRoleId ID of the app role to assign the group to
  * @param applicationId ID of the application to assign the group to app roles for
  */
-async function updateApplicationGroupAssignments({
+async function createApplicationGroupAssignments({
   token,
   groupId,
   appRoleId,
@@ -720,7 +720,7 @@ export async function addAppRoleGroupAssignmentsToApp({
   for (const role of appRoles) {
     for (const group of role.groups) {
       let groupId = await getEntraGroupId(group, token);
-      await updateApplicationGroupAssignments({
+      await createApplicationGroupAssignments({
         token: token,
         groupId: groupId,
         appRoleId: role.id,
