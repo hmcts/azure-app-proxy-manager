@@ -584,41 +584,42 @@ export async function updateApplicationAppRoles({
 async function disableAppRoles(
   applicationId: string,
   token: string,
-  appRoles: AppRoles,
+  appRoles: Array<AppRole>,
 ) {
   const app = await readApplication({ token, applicationId });
   let appRolesJson: Array<AppRole> = app.appRoles;
-
-  // Finds pairs of displayName and ID of app roles to compare existing app roles with incoming app roles
-  const incomingAppRolePairs = appRoles.map(
+  // App Role combinations defined locally
+  const requiredAppRoles = appRoles.map(
     ({ displayName, id }) => `name:${displayName}_id:${id}`,
   );
-  const existingAppRolePairs = appRolesJson.map(
+  // App Role combinations already existing on application
+  const existingAppRoles = appRolesJson.map(
     ({ displayName, id }) => `name:${displayName}_id:${id}`,
   );
-  const commonPairs = existingAppRolePairs.filter((pair) =>
-    incomingAppRolePairs.includes(pair),
+  // Finds matching pairs of app roles in Azure compared to locally
+  const commonPairs = existingAppRoles.filter((pair) =>
+    requiredAppRoles.includes(pair),
   );
 
-  // Break here if app roles are the same as current file - not disabling all roles if unnecessary
-  if (!(commonPairs.length < existingAppRolePairs.length)) {
+  // Only disable roles if there are more roles in Azure than there is defined locally
+  if (commonPairs.length < existingAppRoles.length) {
+    // Keep fetched array of AppRoles but change enabled to false
+    const disabledAppRolesJson = appRolesJson.map(
+      (role) =>
+        ({
+          ...role,
+          isEnabled: false,
+        }) as AppRole,
+    );
+    await updateApplicationAppRoles({
+      token,
+      applicationId,
+      appRoles: disabledAppRolesJson,
+    });
+    console.log("Temporarily disabled app roles to allow updates");
+  } else {
     return;
   }
-
-  // Keep fetched array of AppRoles but change enabled to false
-  const disabledAppRolesJson = appRolesJson.map(
-    (role) =>
-      ({
-        ...role,
-        isEnabled: false,
-      }) as AppRole,
-  );
-  await updateApplicationAppRoles({
-    token,
-    applicationId,
-    appRoles: disabledAppRolesJson,
-  });
-  console.log("Temporarily disabled app roles to allow updates");
 }
 
 /**
@@ -750,7 +751,6 @@ export async function addAppRoles({
   appRoles: AppRoles;
 }) {
   let appRolesCollection: Array<AppRole> = [];
-
   // To keep existing functionality working of assigning AD groups general access
   appRolesCollection.push({
     allowedMemberTypes: ["User"],
@@ -761,8 +761,6 @@ export async function addAppRoles({
     value: "",
   });
 
-  // In case of deletion of an app role
-  await disableAppRoles(applicationId, token, appRoles);
   for (const role of appRoles) {
     // Destructure to remove groups from this function as they aren't needed here
     const { groups, ...remaining } = role;
@@ -773,6 +771,9 @@ export async function addAppRoles({
     };
     appRolesCollection.push(appRole);
   }
+  // In case of deletion of an app role
+  await disableAppRoles(applicationId, token, appRolesCollection);
+
   await updateApplicationAppRoles({
     token,
     applicationId,
