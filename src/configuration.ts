@@ -49,6 +49,7 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       groupMembershipClaims: app.groupMembershipClaims,
       optionalClaims: app.optionalClaims,
       graphApiPermissions: app.graphApiPermissions,
+      appRoles: app.appRoles,
       clientSecret: app.clientSecret,
       hideApp: app.hideApp,
     };

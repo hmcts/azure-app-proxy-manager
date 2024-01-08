@@ -8,6 +8,9 @@ import {
   setOnPremisesPublishing,
   updateApplicationConfig,
   addOptionalClaims,
+  addAppRoles,
+  addAppRoleGroupAssignmentsToApp,
+  AppRoles,
 } from "./applicationManager";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -17,6 +20,8 @@ import {
   assignGroups,
   readServicePrincipal,
   setUserAssignmentRequired,
+  isAppRoleAssignedToGroup,
+  getEntraGroupId,
 } from "./servicePrincipalManager";
 import * as process from "process";
 
@@ -73,6 +78,16 @@ describe("applicationManager", () => {
   let token: string;
 
   let appDetails: ApplicationAndServicePrincipalId;
+  let appRoles: AppRoles = [
+    {
+      description: "Some description",
+      displayName: "Some name",
+      value: "some_value",
+      id: "aa9aaaaa-2aa8-49aa-954a-a3aaaa08aaa3",
+      groups: ["test_group_A"],
+    },
+  ];
+
   const groupNameForRoleAssignments =
     process.env.ROLE_ASSIGNMENT_GROUP || "Test app";
 
@@ -142,11 +157,39 @@ describe("applicationManager", () => {
       optionalClaims: [{ name: "groups", additionalProperties: [] }],
     });
 
-    const application = await readApplication({
+    let application = await readApplication({
       token,
       applicationId: appDetails.applicationId,
     });
 
+    const groupId = await getEntraGroupId(appRoles[0].groups[0], token);
+
+    await addAppRoles({
+      token,
+      applicationId: appDetails.applicationId,
+      appRoles: appRoles,
+    });
+
+    await addAppRoleGroupAssignmentsToApp({
+      token: token,
+      applicationId: appDetails.servicePrincipalObjectId,
+      appRoles: appRoles,
+    });
+
+    // Needs to be re-read after updating
+    application = await readApplication({
+      token,
+      applicationId: appDetails.applicationId,
+    });
+
+    expect(application.appRoles[0].displayName).toEqual("Some name");
+    expect(
+      await isAppRoleAssignedToGroup({
+        token,
+        groupId: groupId,
+        objectId: appDetails.servicePrincipalObjectId,
+      }),
+    ).toEqual(true);
     expect(application.groupMembershipClaims).toEqual("SecurityGroup");
     expect(application.optionalClaims.saml2Token[0].name).toEqual("groups");
 

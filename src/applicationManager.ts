@@ -1,6 +1,9 @@
 import { OnPremisesPublishing } from "./onPremisesPublishing.js";
 import { errorHandler } from "./errorHandler.js";
-import { findExistingServicePrincipal } from "./servicePrincipalManager.js";
+import {
+  findExistingServicePrincipal,
+  getEntraGroupId,
+} from "./servicePrincipalManager.js";
 import { TLS } from "./tls.js";
 
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -15,7 +18,22 @@ export type ApplicationAndServicePrincipalId = {
   applicationId: string;
   servicePrincipalObjectId: string;
 };
-
+export type AppRoleAndGroupAssignments = {
+  displayName: string;
+  description: string;
+  value: string;
+  id: string;
+  groups: string[];
+};
+export type AppRole = {
+  allowedMemberTypes: string[];
+  description: string;
+  displayName: string;
+  id: string;
+  isEnabled: Boolean;
+  value: string;
+};
+export type AppRoles = Array<AppRoleAndGroupAssignments>;
 export async function createApplication({
   token,
   displayName,
@@ -527,4 +545,241 @@ async function getGraphAPIRoles(token: string, graphApiPermissions: string[]) {
     }
   }
   return { appRoleIds, graphAPIObjectId };
+}
+
+/**
+ * Updates an Azure Entra Application, with a collection of App Roles
+ * @param applicationId The object ID of application registration
+ * @param appRoles appRoles to update the application with
+ */
+export async function updateApplicationAppRoles({
+  token,
+  applicationId,
+  appRoles,
+}: {
+  token: string;
+  applicationId: string;
+  appRoles: AppRole[];
+}): Promise<void> {
+  let body = {
+    appRoles: appRoles,
+  };
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    },
+  );
+  await errorHandler("updating application config", result);
+}
+
+/**
+ * Necessary where an app role is deleted, they must all be disabled first. Easier to disable by default and enable when updating.
+ */
+async function disableAppRoles(
+  applicationId: string,
+  token: string,
+  appRoles: Array<AppRole>,
+) {
+  const app = await readApplication({ token, applicationId });
+  let appRolesJson: Array<AppRole> = app.appRoles;
+  // App Role combinations defined locally
+  const requiredAppRoles = appRoles.map(
+    ({ displayName, id }) => `name:${displayName}_id:${id}`,
+  );
+  // App Role combinations already existing on application
+  const existingAppRoles = appRolesJson.map(
+    ({ displayName, id }) => `name:${displayName}_id:${id}`,
+  );
+  // Finds matching pairs of app roles in Azure compared to locally
+  const commonPairs = existingAppRoles.filter((pair) =>
+    requiredAppRoles.includes(pair),
+  );
+
+  // Only disable roles if there are more roles in Azure than there is defined locally
+  if (commonPairs.length < existingAppRoles.length) {
+    // Keep fetched array of AppRoles but change enabled to false
+    const disabledAppRolesJson = appRolesJson.map(
+      (role) =>
+        ({
+          ...role,
+          isEnabled: false,
+        }) as AppRole,
+    );
+    await updateApplicationAppRoles({
+      token,
+      applicationId,
+      appRoles: disabledAppRolesJson,
+    });
+    console.log("Temporarily disabled app roles to allow updates");
+  } else {
+    return;
+  }
+}
+
+/**
+ * Checks at least one of the group app role assignment mappings exists for a given entra group ID and app role ID, for a given application
+ */
+async function checkIfGroupAppRoleAssignmentExists({
+  token,
+  groupId,
+  appRoleId,
+  applicationId,
+}: {
+  token: string;
+  groupId: string;
+  appRoleId: string;
+  applicationId: string;
+}): Promise<boolean> {
+  const response = await fetch(
+    `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    },
+  );
+  const assignments = await response.json();
+  const assignmentExists = assignments.value.some(
+    (assignment: { appRoleId: string; resourceId: string }) =>
+      assignment.appRoleId === appRoleId &&
+      assignment.resourceId === applicationId,
+  );
+  return assignmentExists;
+}
+
+/**
+ * Assigns groups to App Roles for a given application
+ * @param groupId Azure entra group ID to assign an app role to
+ * @param appRoleId ID of the app role to assign the group to
+ * @param applicationId ID of the application to assign the group to app roles for
+ */
+async function createApplicationGroupAssignments({
+  token,
+  groupId,
+  appRoleId,
+  applicationId,
+}: {
+  token: string;
+  groupId: string;
+  appRoleId: string;
+  applicationId: string;
+}): Promise<void> {
+  const existingAssignment = await checkIfGroupAppRoleAssignmentExists({
+    token,
+    groupId,
+    appRoleId,
+    applicationId,
+  });
+
+  if (!existingAssignment) {
+    let body = {
+      principalId: groupId,
+      resourceId: applicationId,
+      appRoleId: appRoleId,
+    };
+    const result = await fetch(
+      `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      },
+    );
+    console.log("Added group role assignment");
+    await errorHandler("updating application config", result);
+  } else {
+    console.log("Group role assignment already exists, skipping");
+  }
+}
+
+/**
+ * Updates an Azure Entra Application group assignments, specifically for app roles
+ * @param applicationId The object ID of enterprise application
+ * @param appRoles A collection (array) of AppRole custom objects to update the application with
+ */
+export async function addAppRoleGroupAssignmentsToApp({
+  token,
+  applicationId,
+  appRoles,
+}: {
+  token: string;
+  applicationId: string;
+  appRoles: AppRoles;
+}) {
+  for (const role of appRoles) {
+    for (const group of role.groups) {
+      let groupId = await getEntraGroupId(group, token);
+      await createApplicationGroupAssignments({
+        token: token,
+        groupId: groupId,
+        appRoleId: role.id,
+        applicationId: applicationId,
+      });
+      console.log(
+        "Updated group role assignments for:",
+        role.displayName,
+        "App Role, processing group:",
+        group,
+      );
+    }
+  }
+}
+
+/**
+ * Updates an Azure Entra Application with a collection of App Roles
+ * @param applicationId The object ID of application registration
+ * @param appRoles A collection (array) of AppRole custom objects to update the application with
+ */
+export async function addAppRoles({
+  token,
+  applicationId,
+  appRoles,
+}: {
+  token: string;
+  applicationId: string;
+  appRoles: AppRoles;
+}) {
+  let appRolesCollection: Array<AppRole> = [];
+  // To keep existing functionality working of assigning AD groups general access
+  appRolesCollection.push({
+    allowedMemberTypes: ["User"],
+    description: "User",
+    displayName: "User",
+    id: "18d14569-c3bd-439b-9a66-3a2aee01d14f",
+    isEnabled: true,
+    value: "",
+  });
+
+  for (const role of appRoles) {
+    // Destructure to remove groups from this function as they aren't needed here
+    const { groups, ...remaining } = role;
+    let appRole: AppRole = {
+      allowedMemberTypes: ["User"],
+      isEnabled: true,
+      ...remaining,
+    };
+    appRolesCollection.push(appRole);
+  }
+  // In case of deletion of an app role
+  await disableAppRoles(applicationId, token, appRolesCollection);
+
+  await updateApplicationAppRoles({
+    token,
+    applicationId,
+    appRoles: appRolesCollection,
+  });
+  console.log(
+    "Updated App Roles of application, moving on to group assignments",
+  );
 }

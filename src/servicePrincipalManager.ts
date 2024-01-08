@@ -94,8 +94,8 @@ async function getAppRoleId(objectId: string, token: string) {
   return body.value[0].id;
 }
 
-async function getGroupId(objectId: string, token: string) {
-  const url = `https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${objectId}' and securityEnabled eq true&$select=id`;
+export async function getEntraGroupId(groupName: string, token: string) {
+  const url = `https://graph.microsoft.com/v1.0/groups?$filter=displayName eq '${groupName}' and securityEnabled eq true&$select=id`;
 
   const result = await fetch(url, {
     method: "GET",
@@ -110,7 +110,7 @@ async function getGroupId(objectId: string, token: string) {
   return body.value[0].id;
 }
 
-async function isAppRoleAssignedToGroup({
+export async function isAppRoleAssignedToGroup({
   groupId,
   objectId,
   token,
@@ -147,7 +147,7 @@ async function assignGroup({
   objectId: string;
   appRoleId: string;
 }) {
-  const groupId = await getGroupId(group, token);
+  const groupId = await getEntraGroupId(group, token);
 
   const appRoleAssignedAlready = await isAppRoleAssignedToGroup({
     groupId,
@@ -246,7 +246,6 @@ async function addTokenSigningCertificate({
     token,
     servicePrincipalObjectId: objectId,
   });
-  console.log(servicePrincipal);
 
   //Adds a new signing certificate if all certificates are expiring.
   if (
