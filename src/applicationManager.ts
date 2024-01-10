@@ -457,9 +457,9 @@ function areAllPasswordsExpired(name: string, passwordCredentials: Array<any>) {
   * This function will set the Graph API roles (i.e. permissions) and oAuth2 permission scopes for a given application.
   * In the light of the Graph API resources this function mainly deal with the
   * {@link https://learn.microsoft.com/en-us/graph/api/resources/requiredresourceaccess?view=graph-rest-1.0 | requiredResourceAccess } property of the application resource.
-  * @param: token: the access token
-  * @param: applicationId: the application object Id
-  * @param: graphApiPermissions: the list of permissions and permission scopes to be set for the application
+  * @param: token - the access token
+  * @param: applicationId - the application object Id
+  * @param: graphApiPermissions - the list of permissions and permission scopes to be set for the application
   * @returns: void
   */
 export async function setResourceAccess({
@@ -493,7 +493,7 @@ export async function setResourceAccess({
       token,
       graphApiPermissions,
     );
-
+    console.log("GraphAppOAuth2PermissionScopes: ", scopeIds.length)
     const application = await readApplication({ token, applicationId });
 
     let currRequiredResourceAccess = application.requiredResourceAccess ?? [];
@@ -503,7 +503,7 @@ export async function setResourceAccess({
     const body = {
       requiredResourceAccess: newRequiredResourceAccess,
     };
-
+   console.log("requiredResourceAccess", JSON.stringify(body))
     const assignRolesResult = await fetch(
       `https://graph.microsoft.com/v1.0/applications/${applicationId}`,
       {
@@ -528,37 +528,37 @@ function _buildResourceAccess(roleIds: string[], accessType: string) {
   return roleIds.map((id) => ({ id, type: accessType }));
 }
 
-async function _buildRequiredResourceAccessPayload(currRequiredResourceAccessObj: any[], graphAppId: string, appRoleIds: string[],
+async function _buildRequiredResourceAccessPayload(currRequiredResourceAccessList: any[], graphAppId: string, appRoleIds: string[],
                                                    scopeIds: string[]) {
 
   /* todo: to remove current resource access and then build a new one based on access roles and access scopes. However we need to deal with
            the eventual consistency of the graph API. */
   let roleAccess = _buildResourceAccess(appRoleIds, "Role") ?? []
   let scopeAccess = _buildResourceAccess(scopeIds, "Scope") ?? []
-
+  console.log("currRequiredResourceAccessObj", JSON.stringify(currRequiredResourceAccessList))
   const requiredResourceAccessForGraphAPI = {
     resourceAppId: graphAppId,
     resourceAccess: roleAccess.concat(scopeAccess)
   };
 
+  // find the matching resource app id (i.e. Microsoft Graph) and replace the resource access
   let resourceAccessFound = false;
-
-  for (let i = 0; i < currRequiredResourceAccessObj.length; i++) {
-    if (currRequiredResourceAccessObj[i].resourceAppId === graphAppId) {
-      //todo: check if the resourceAccess object is the same in terms of the order of the elements inside
-      currRequiredResourceAccessObj[i].resourceAccess = requiredResourceAccessForGraphAPI.resourceAccess;
+  for (let i = 0; i < currRequiredResourceAccessList.length; i++) {
+    if (currRequiredResourceAccessList[i].resourceAppId === graphAppId) {
+      currRequiredResourceAccessList[i].resourceAccess = requiredResourceAccessForGraphAPI.resourceAccess;
       resourceAccessFound = true;
       break; // Assuming you want to replace only the first match
     }
   }
 
   if (!resourceAccessFound) {
-    currRequiredResourceAccessObj.push(requiredResourceAccessForGraphAPI);
+    currRequiredResourceAccessList.push(requiredResourceAccessForGraphAPI);
   }
-  return currRequiredResourceAccessObj;
+  return currRequiredResourceAccessList;
 }
 
 async function getGraphAppOAuth2PermissionScopes(token: string, graphApiPermissions: string[]) {
+  console.log("Getting MS Graph oAuth2 permission scopes")
   const graphResponse = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id,oauth2PermissionScopes`,
     {
@@ -584,7 +584,7 @@ async function getGraphAppOAuth2PermissionScopes(token: string, graphApiPermissi
     if (matchingPermission) {
       scopeIds.push(matchingPermission.id);
     } else {
-      console.log(`"${permission}" couldn't be found in MS Graph oAuth2 permission scopes`);
+      console.log(`[WARN] "${permission}" couldn't be found in MS Graph oAuth2 permission scopes`);
     }
   }
 

@@ -36,6 +36,10 @@ apps:
       - "User.Read.All"
       - "Group.Read.All"
       - "People.Read"
+      - "offline_access"
+      - "openid"
+      - "profile"
+      - "email"
     clientSecret:
       name: test-jenkins
       key_vault_name: cftsbox-intsvc
