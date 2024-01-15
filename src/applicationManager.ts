@@ -568,7 +568,7 @@ async function getGraphAppOAuth2PermissionScopes(
   token: string,
   graphApiPermissions: string[],
 ) {
-  // console.log("Getting MS Graph oAuth2 permission scopes");
+  console.log("Getting MS Graph oAuth2 permission scopes");
   const graphResponse = await fetch(
     `https://graph.microsoft.com/v1.0/servicePrincipals?$filter=displayName eq 'Microsoft Graph'&$select=id,oauth2PermissionScopes`,
     {
@@ -596,6 +596,10 @@ async function getGraphAppOAuth2PermissionScopes(
     );
     if (matchingPermission) {
       scopeIds.push(matchingPermission.id);
+    } else {
+      console.log(
+        `[WARN] "${permission}" couldn't be found in MS Graph oAuth2 permission scopes`,
+      );
     }
   }
 
@@ -633,6 +637,8 @@ async function getGraphAppRoles(token: string, graphApiPermissions: string[]) {
     );
     if (matchingAppRole) {
       appRoleIds.push(matchingAppRole.id);
+    } else {
+      console.log(`"${permission}" couldn't be found in Graph API roles`);
     }
   }
   return { appRoleIds, graphAPIObjectId };
