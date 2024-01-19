@@ -717,7 +717,6 @@ async function disableAppRoles(
   } else {
     return;
   }
-  console.log("Temporarily disabled app roles to allow updates");
 }
 
 /**
