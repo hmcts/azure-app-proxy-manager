@@ -733,9 +733,8 @@ async function checkIfGroupAppRoleAssignmentExists({
   appRoleId: string;
   applicationId: string;
 }): Promise<boolean> {
-  let nextLink:
-    | string
-    | null = `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`;
+  let nextLink: string | null =
+    `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`;
   let assignmentExists = false;
 
   while (nextLink) {
