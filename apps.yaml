@@ -1,19 +1,19 @@
 apps:
-  - name: "MF app101"
-    externalUrl: "https://MF-app.app-proxy-poc.sandbox.platform.hmcts.net"
+  - name: "My app101"
+    externalUrl: "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net"
     logoUrl: https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png
     appRoleAssignments:
       - Test app
-    internalUrl: "https://MF-on-bau101.sandbox.platform.hmcts.net"
+    internalUrl: "https://my-on-bau101.sandbox.platform.hmcts.net"
     userAssignmentRequired: true
     tls:
       key_vault_name: "acmedcdcftappssbox"
       name: "wildcard-app-proxy-poc-sandbox-platform-hmcts-net"
     redirectUrls:
-      - "https://MF-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
+      - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
     identifierUrls: 
-      - "https://MF-app.app-proxy-poc.sandbox.platform.hmcts.net/identify"
-      - "https://MF-app.app-proxy-poc.sandbox.platform.hmcts.net"
+      - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/identify"
+      - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net"
     preferredSingleSignOnMode: "saml"
     samlConfig:
       optionalClaims:
