@@ -13,7 +13,6 @@ apps:
       - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
     identifierUrls: 
       - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/identify"
-      - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net"
     preferredSingleSignOnMode: "saml"
     samlConfig:
       optionalClaims:

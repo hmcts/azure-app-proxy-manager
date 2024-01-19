@@ -8,6 +8,7 @@ import {
   setTLSCertificate,
   updateApplicationConfig,
   addOptionalClaims,
+  addSsoSamlUris,
   addClientSecret,
   setResourceAccess,
   addAppRoles,
@@ -134,7 +135,19 @@ for await (const app of apps) {
         appRoles: app.appRoles,
       });
     }
- 
+
+    if (
+      app.preferredSingleSignOnMode &&
+      app.preferredSingleSignOnMode == "saml"
+    ) {
+      await addSsoSamlUris({
+        token: token,
+        appId: applicationId,
+        identifierUrls: app.identifierUrls,
+        redirectUrls: app.redirectUrls,
+      });
+    }
+
     console.log("Created application successfully", app.name, applicationId);
 
   } catch (err) {

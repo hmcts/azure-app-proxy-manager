@@ -8,6 +8,7 @@ import {
   setOnPremisesPublishing,
   updateApplicationConfig,
   addOptionalClaims,
+  addSsoSamlUris,
   addAppRoles,
   addAppRoleGroupAssignmentsToApp,
   AppRoles,
@@ -157,6 +158,13 @@ describe("applicationManager", () => {
       applicationId: appDetails.applicationId,
       groupMembershipClaims: "SecurityGroup",
       optionalClaims: [{ name: "groups", additionalProperties: [] }],
+    });
+
+    await addSsoSamlUris({
+      token,
+      appId: appDetails.applicationId,
+      identifierUrls: [ externalUrl ],
+      redirectUrls: [ externalUrl ],
     });
 
     const groupId = await getEntraGroupId(appRoles[0].groups[0], token);

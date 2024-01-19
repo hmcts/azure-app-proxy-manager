@@ -397,6 +397,37 @@ export async function addOptionalClaims({
   }
 }
 
+export async function addSsoSamlUris({
+  token,
+  appId,
+  redirectUrls,
+  identifierUrls,
+}: {
+  token: string;
+  appId: string;
+  redirectUrls: Array<string>;
+  identifierUrls: Array<string>;
+}): Promise<void> {
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/applications/${appId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifierUris: identifierUrls,
+        web: {
+          redirectUris: redirectUrls,
+        },
+      }),
+    },
+  );
+  await errorHandler("Adding Saml config", result);
+}
+
+
 export async function addClientSecret({
   token,
   applicationId,
