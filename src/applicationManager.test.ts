@@ -163,8 +163,8 @@ describe("applicationManager", () => {
     await addSsoSamlUris({
       token,
       appId: appDetails.applicationId,
-      identifierUrls: [ externalUrl ],
-      redirectUrls: [ externalUrl ],
+      identifierUrls: [externalUrl],
+      redirectUrls: [externalUrl],
     });
 
     const groupId = await getEntraGroupId(appRoles[0].groups[0], token);

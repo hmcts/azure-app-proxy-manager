@@ -427,7 +427,6 @@ export async function addSsoSamlUris({
   await errorHandler("Adding Saml config", result);
 }
 
-
 export async function addClientSecret({
   token,
   applicationId,

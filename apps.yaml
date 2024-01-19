@@ -11,7 +11,7 @@ apps:
       name: "wildcard-app-proxy-poc-sandbox-platform-hmcts-net"
     redirectUrls:
       - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/finishLogin"
-    identifierUrls: 
+    identifierUrls:
       - "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net/identify"
     preferredSingleSignOnMode: "saml"
     samlConfig:

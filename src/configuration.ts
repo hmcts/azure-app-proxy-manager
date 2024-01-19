@@ -33,7 +33,9 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       redirectUrls:
         app.redirectUrls === undefined ? [app.externalUrl] : app.redirectUrls,
       identifierUrls:
-        app.identifierUrls === undefined ? [app.externalUrl] : app.identifierUrls,
+        app.identifierUrls === undefined
+          ? [app.externalUrl]
+          : app.identifierUrls,
       appRoleAssignmentRequired:
         app.userAssignmentRequired === undefined
           ? true

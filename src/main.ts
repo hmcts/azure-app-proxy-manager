@@ -149,7 +149,6 @@ for await (const app of apps) {
     }
 
     console.log("Created application successfully", app.name, applicationId);
-
   } catch (err) {
     console.log(err);
     errors = true;
