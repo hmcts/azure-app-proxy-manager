@@ -717,6 +717,7 @@ async function disableAppRoles(
   } else {
     return;
   }
+  console.log("Temporarily disabled app roles to allow updates");
 }
 
 /**
@@ -733,23 +734,38 @@ async function checkIfGroupAppRoleAssignmentExists({
   appRoleId: string;
   applicationId: string;
 }): Promise<boolean> {
-  const response = await fetch(
-    `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`,
-    {
+  let nextLink:
+    | string
+    | null = `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments`;
+  let assignmentExists = false;
+
+  while (nextLink) {
+    const response: Response = await fetch(nextLink, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-    },
-  );
-  const assignments = await response.json();
-  const assignmentExists = assignments.value.some(
-    (assignment: { appRoleId: string; resourceId: string }) =>
-      assignment.appRoleId === appRoleId &&
-      assignment.resourceId === applicationId,
-  );
-  return assignmentExists;
+    });
+
+    const assignments = await response.json();
+    assignmentExists = assignments.value.some(
+      (assignment: {
+        appRoleId: string;
+        resourceId: string;
+        resourceDisplayName: string;
+      }) =>
+        assignment.appRoleId === appRoleId &&
+        assignment.resourceId === applicationId,
+    );
+
+    if (assignmentExists) {
+      return true;
+    }
+    // Check if there are more pages
+    nextLink = assignments["@odata.nextLink"];
+  }
+  return false;
 }
 
 /**
