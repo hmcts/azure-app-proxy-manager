@@ -214,12 +214,14 @@ export async function updateApplicationConfig({
   appId,
   externalUrl,
   redirectUrls,
+  identifierUrls,
   hideApp,
 }: {
   token: string;
   appId: string;
   externalUrl: string;
   redirectUrls: Array<string>;
+  identifierUrls: Array<string>;
   hideApp: boolean;
 }): Promise<void> {
   const result = await fetch(
@@ -231,7 +233,7 @@ export async function updateApplicationConfig({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identifierUris: [externalUrl],
+        identifierUris: identifierUrls,
         web: {
           redirectUris: redirectUrls,
           homePageUrl: externalUrl,

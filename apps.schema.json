@@ -207,6 +207,18 @@
             },
             "examples": [["https://my-external-facing-url.domain.com/redirect"]]
           },
+          "identifierUrls": {
+            "type": "array",
+            "default": [],
+            "title": "A list of identifier Urls that will be added to the application SAML config when preferredSingleSignOnMode set to `saml`. Defaults to externalUrl if not set",
+            "items": {
+              "type": "string",
+              "default": "",
+              "title": "Identifier URL for the application SAML Config",
+              "examples": ["https://my-external-facing-url.domain.com/"]
+            },
+            "examples": [["https://my-external-facing-url.domain.com/"]]
+          },
           "preferredSingleSignOnMode": {
             "type": "string",
             "default": "",

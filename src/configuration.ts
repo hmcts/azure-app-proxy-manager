@@ -30,14 +30,17 @@ export async function loadApps(configFilePath: string): Promise<Application[]> {
       logoUrl: app.logoUrl,
       tls: app.tls,
       preferredSingleSignOnMode: app.preferredSingleSignOnMode,
+      redirectUrls:
+        app.redirectUrls === undefined ? [app.externalUrl] : app.redirectUrls,
+      identifierUrls:
+        app.identifierUrls === undefined ? [app.externalUrl] : app.identifierUrls,
       appRoleAssignmentRequired:
         app.userAssignmentRequired === undefined
           ? true
           : app.userAssignmentRequired,
       appRoleAssignments:
         app.appRoleAssignments === undefined ? [] : app.appRoleAssignments,
-      redirectUrls:
-        app.redirectUrls === undefined ? [app.externalUrl] : app.redirectUrls,
+
       onPremisesPublishing: {
         externalUrl: app.externalUrl,
         internalUrl: app.internalUrl,

@@ -121,6 +121,7 @@ describe("applicationManager", () => {
       token,
       externalUrl,
       redirectUrls: [externalUrl],
+      identifierUrls: [externalUrl],
       appId: appDetails.applicationId,
       hideApp: true,
     });

@@ -65,6 +65,7 @@ for await (const app of apps) {
       token,
       externalUrl: app.onPremisesPublishing.externalUrl,
       redirectUrls: app.redirectUrls,
+      identifierUrls: app.identifierUrls,
       appId: applicationId,
       hideApp: app.hideApp,
     });
@@ -134,7 +135,9 @@ for await (const app of apps) {
         appRoles: app.appRoles,
       });
     }
+ 
     console.log("Created application successfully", app.name, applicationId);
+
   } catch (err) {
     console.log(err);
     errors = true;
