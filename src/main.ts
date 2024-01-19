@@ -44,7 +44,6 @@ const credential = new DefaultAzureCredential();
 const { token } = await credential.getToken(
   "https://graph.microsoft.com/.default",
 );
-
 let errors = false;
 
 /**

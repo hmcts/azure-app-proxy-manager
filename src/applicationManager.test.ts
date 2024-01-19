@@ -11,6 +11,7 @@ import {
   addAppRoles,
   addAppRoleGroupAssignmentsToApp,
   AppRoles,
+  setResourceAccess,
 } from "./applicationManager";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -158,11 +159,6 @@ describe("applicationManager", () => {
       optionalClaims: [{ name: "groups", additionalProperties: [] }],
     });
 
-    let application = await readApplication({
-      token,
-      applicationId: appDetails.applicationId,
-    });
-
     const groupId = await getEntraGroupId(appRoles[0].groups[0], token);
 
     await addAppRoles({
@@ -178,7 +174,7 @@ describe("applicationManager", () => {
     });
 
     // Needs to be re-read after updating
-    application = await readApplication({
+    let application = await readApplication({
       token,
       applicationId: appDetails.applicationId,
     });
@@ -232,5 +228,41 @@ describe("applicationManager", () => {
       servicePrincipalObjectId: appDetails.servicePrincipalObjectId,
     });
     expect(servicePrincipal.info.logoUrl).toBeNull();
+  });
+
+  test("setResourceAccess - one appRole and one oauth2 permission scope", async () => {
+    const displayName = applicationName();
+    appDetails = await createApplication({ token, displayName });
+
+    await setResourceAccess({
+      token: token,
+      applicationId: appDetails.applicationId,
+      graphApiPermissions: ["Group.Create", "offline_access"],
+    });
+    // sleep for 10 seconds to allow the changes to propagate
+    await new Promise((r) => setTimeout(r, 10000));
+
+    let application = await readApplication({
+      token,
+      applicationId: appDetails.applicationId,
+    });
+    let requiredResourceAccessList = application.requiredResourceAccess;
+    expect(requiredResourceAccessList).toBeDefined();
+    console.log("requiredResourceAccess -", requiredResourceAccessList);
+    expect(requiredResourceAccessList.length).toEqual(1);
+    let resourceAccessDetails = requiredResourceAccessList[0];
+    expect(resourceAccessDetails).toBeDefined();
+    expect(resourceAccessDetails.resourceAccess.length).toEqual(2);
+    expect(resourceAccessDetails.resourceAppId).toEqual(
+      "00000003-0000-0000-c000-000000000000",
+    );
+    expect(resourceAccessDetails.resourceAccess[0].id).toEqual(
+      "bf7b1a76-6e77-406b-b258-bf5c7720e98f",
+    );
+    expect(resourceAccessDetails.resourceAccess[0].type).toEqual("Role");
+    expect(resourceAccessDetails.resourceAccess[1].id).toEqual(
+      "7427e0e9-2fba-42fe-b0c0-848c9e6a8182",
+    );
+    expect(resourceAccessDetails.resourceAccess[1].type).toEqual("Scope");
   });
 });
