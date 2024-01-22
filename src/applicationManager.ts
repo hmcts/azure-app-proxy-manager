@@ -397,7 +397,7 @@ export async function addOptionalClaims({
   }
 }
 
-export async function addSsoSamlUris({
+export async function addIdentifierRedirectUris({
   token,
   appId,
   redirectUrls,

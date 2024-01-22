@@ -8,7 +8,7 @@ import {
   setOnPremisesPublishing,
   updateApplicationConfig,
   addOptionalClaims,
-  addSsoSamlUris,
+  addIdentifierRedirectUris,
   addAppRoles,
   addAppRoleGroupAssignmentsToApp,
   AppRoles,
@@ -160,7 +160,7 @@ describe("applicationManager", () => {
       optionalClaims: [{ name: "groups", additionalProperties: [] }],
     });
 
-    await addSsoSamlUris({
+    await addIdentifierRedirectUris({
       token,
       appId: appDetails.applicationId,
       identifierUrls: [externalUrl],

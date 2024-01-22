@@ -8,7 +8,7 @@ import {
   setTLSCertificate,
   updateApplicationConfig,
   addOptionalClaims,
-  addSsoSamlUris,
+  addIdentifierRedirectUris,
   addClientSecret,
   setResourceAccess,
   addAppRoles,
@@ -137,10 +137,10 @@ for await (const app of apps) {
     }
 
     if (
-      app.preferredSingleSignOnMode &&
-      app.preferredSingleSignOnMode == "saml"
+      (app.identifierUrls && app.identifierUrls.length > 0) ||
+      (app.redirectUrls && app.redirectUrls.length > 0)
     ) {
-      await addSsoSamlUris({
+      await addIdentifierRedirectUris({
         token: token,
         appId: applicationId,
         identifierUrls: app.identifierUrls,
