@@ -424,7 +424,7 @@ export async function addIdentifierRedirectUris({
       }),
     },
   );
-  await errorHandler("Adding Saml config", result);
+  await errorHandler("Adding identifier and redirect uris", result);
 }
 
 export async function addClientSecret({
