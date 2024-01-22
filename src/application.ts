@@ -10,8 +10,9 @@ export type Application = {
   appRoleAssignments: string[];
   onPremisesPublishing: OnPremisesPublishing;
   tls: TLS;
-  redirectUrls: Array<string>;
   preferredSingleSignOnMode: string;
+  redirectUrls: Array<string>;
+  identifierUrls: Array<string>;
   optionalClaims: [{ name: string; additionalProperties: Array<String> }];
   groupMembershipClaims: string;
   graphApiPermissions: Array<string>;

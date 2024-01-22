@@ -214,12 +214,14 @@ export async function updateApplicationConfig({
   appId,
   externalUrl,
   redirectUrls,
+  identifierUrls,
   hideApp,
 }: {
   token: string;
   appId: string;
   externalUrl: string;
   redirectUrls: Array<string>;
+  identifierUrls: Array<string>;
   hideApp: boolean;
 }): Promise<void> {
   const result = await fetch(
@@ -231,7 +233,7 @@ export async function updateApplicationConfig({
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        identifierUris: [externalUrl],
+        identifierUris: identifierUrls,
         web: {
           redirectUris: redirectUrls,
           homePageUrl: externalUrl,
@@ -393,6 +395,36 @@ export async function addOptionalClaims({
     );
     await errorHandler("Add optional claims", result);
   }
+}
+
+export async function addIdentifierRedirectUris({
+  token,
+  appId,
+  redirectUrls,
+  identifierUrls,
+}: {
+  token: string;
+  appId: string;
+  redirectUrls: Array<string>;
+  identifierUrls: Array<string>;
+}): Promise<void> {
+  const result = await fetch(
+    `https://graph.microsoft.com/v1.0/applications/${appId}`,
+    {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        identifierUris: identifierUrls,
+        web: {
+          redirectUris: redirectUrls,
+        },
+      }),
+    },
+  );
+  await errorHandler("Adding identifier and redirect uris", result);
 }
 
 export async function addClientSecret({

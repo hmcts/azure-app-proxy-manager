@@ -8,6 +8,7 @@ import {
   setOnPremisesPublishing,
   updateApplicationConfig,
   addOptionalClaims,
+  addIdentifierRedirectUris,
   addAppRoles,
   addAppRoleGroupAssignmentsToApp,
   AppRoles,
@@ -122,6 +123,7 @@ describe("applicationManager", () => {
       token,
       externalUrl,
       redirectUrls: [externalUrl],
+      identifierUrls: [externalUrl],
       appId: appDetails.applicationId,
       hideApp: true,
     });
@@ -156,6 +158,13 @@ describe("applicationManager", () => {
       applicationId: appDetails.applicationId,
       groupMembershipClaims: "SecurityGroup",
       optionalClaims: [{ name: "groups", additionalProperties: [] }],
+    });
+
+    await addIdentifierRedirectUris({
+      token,
+      appId: appDetails.applicationId,
+      identifierUrls: [externalUrl],
+      redirectUrls: [externalUrl],
     });
 
     const groupId = await getEntraGroupId(appRoles[0].groups[0], token);

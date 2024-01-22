@@ -8,6 +8,7 @@ import {
   setTLSCertificate,
   updateApplicationConfig,
   addOptionalClaims,
+  addIdentifierRedirectUris,
   addClientSecret,
   setResourceAccess,
   addAppRoles,
@@ -64,6 +65,7 @@ for await (const app of apps) {
       token,
       externalUrl: app.onPremisesPublishing.externalUrl,
       redirectUrls: app.redirectUrls,
+      identifierUrls: app.identifierUrls,
       appId: applicationId,
       hideApp: app.hideApp,
     });
@@ -133,6 +135,19 @@ for await (const app of apps) {
         appRoles: app.appRoles,
       });
     }
+
+    if (
+      (app.identifierUrls && app.identifierUrls.length > 0) ||
+      (app.redirectUrls && app.redirectUrls.length > 0)
+    ) {
+      await addIdentifierRedirectUris({
+        token: token,
+        appId: applicationId,
+        identifierUrls: app.identifierUrls,
+        redirectUrls: app.redirectUrls,
+      });
+    }
+
     console.log("Created application successfully", app.name, applicationId);
   } catch (err) {
     console.log(err);
