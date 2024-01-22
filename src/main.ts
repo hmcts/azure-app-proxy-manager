@@ -16,7 +16,7 @@ import {
 } from "./applicationManager.js";
 import { loadApps } from "./configuration.js";
 import {
-  assignGroups,
+  assignUserRoleToGroups,
   setUserAssignmentRequired,
   enableSaml,
 } from "./servicePrincipalManager.js";
@@ -82,7 +82,8 @@ for await (const app of apps) {
       objectId: servicePrincipalObjectId,
       assignmentRequired: app.appRoleAssignmentRequired,
     });
-    await assignGroups({
+
+    await assignUserRoleToGroups({
       token,
       objectId: servicePrincipalObjectId,
       groups: app.appRoleAssignments,

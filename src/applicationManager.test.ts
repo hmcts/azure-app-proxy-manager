@@ -19,11 +19,12 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { expect, describe, test, beforeAll, afterEach } from "vitest";
 import { defaultOnPremisesFlags } from "./configuration";
 import {
-  assignGroups,
+  assignUserRoleToGroups,
   readServicePrincipal,
   setUserAssignmentRequired,
   isAppRoleAssignedToGroup,
   getEntraGroupId,
+  getAppRoleId,
 } from "./servicePrincipalManager";
 import * as process from "process";
 
@@ -147,7 +148,8 @@ describe("applicationManager", () => {
       objectId: appDetails.servicePrincipalObjectId,
       assignmentRequired: false,
     });
-    await assignGroups({
+
+    await assignUserRoleToGroups({
       token,
       objectId: appDetails.servicePrincipalObjectId,
       groups: [groupNameForRoleAssignments],
@@ -187,12 +189,19 @@ describe("applicationManager", () => {
       applicationId: appDetails.applicationId,
     });
 
+    let testAppRoleId = await getAppRoleId({
+      token,
+      objectId: appDetails.servicePrincipalObjectId,
+      displayName: application.appRoles[0].displayName,
+    }); // Find app role id
+
     expect(application.appRoles[0].displayName).toEqual("Some name");
     expect(
       await isAppRoleAssignedToGroup({
         token,
         groupId: groupId,
         objectId: appDetails.servicePrincipalObjectId,
+        appRoleId: testAppRoleId,
       }),
     ).toEqual(true);
     expect(application.groupMembershipClaims).toEqual("SecurityGroup");
