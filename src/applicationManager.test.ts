@@ -203,7 +203,7 @@ describe("applicationManager", () => {
         objectId: appDetails.servicePrincipalObjectId,
         appRoleId: testAppRoleId,
       }),
-    ).toEqual(true);
+    ).toBeTruthy();
     expect(application.groupMembershipClaims).toEqual("SecurityGroup");
     expect(application.optionalClaims.saml2Token[0].name).toEqual("groups");
 
