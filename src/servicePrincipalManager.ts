@@ -98,10 +98,11 @@ export async function getAppRoleId({
   await errorHandler("finding app role Id", result);
 
   const body = await result.json();
-  var appRole = body.find(
+  var appRole = body.value.find(
     (element: any) => element.displayName === displayName,
   );
 
+  console.log("App Role Id found:", appRole.id);
   return appRole.id;
 }
 
