@@ -1,6 +1,6 @@
 {
   "name": "azure-app-proxy-manager",
-  "version": "SetViaReleaseScript",
+  "version": "1.2.10",
   "type": "module",
   "main": "index.js",
   "license": "MIT",
