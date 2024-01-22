@@ -146,14 +146,10 @@ export async function isAppRoleAssignedToGroup({
   await errorHandler("Checking if app role is already assigned", result);
 
   const body = await result.json();
-  var appRole =
+  const appRole =
     body.value.find((element: any) => element.appRoleId === appRoleId) || false;
 
-  if (appRole) {
-    return true;
-  } else {
-    return false;
-  }
+  return appRole;
 }
 
 async function assignRoleToGroup({
