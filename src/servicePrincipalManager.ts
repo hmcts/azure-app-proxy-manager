@@ -102,7 +102,7 @@ export async function getAppRoleId({
     (element: any) => element.displayName === displayName,
   );
 
-  console.log("App Role Id found:", appRole.id);
+  console.log("App Role Id for role:", displayName, "found:", appRole.id);
   return appRole.id;
 }
 
@@ -146,7 +146,7 @@ export async function isAppRoleAssignedToGroup({
   await errorHandler("Checking if app role is already assigned", result);
 
   const body = await result.json();
-  var appRole = body.value.find((element: any) => element.id === appRoleId);
+  var appRole = body.value.find((element: any) => element.appRoleId === appRoleId) || false;
 
   if (appRole) {
     return true;
