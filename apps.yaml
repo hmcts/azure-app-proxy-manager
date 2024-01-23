@@ -2,8 +2,6 @@ apps:
   - name: "My app101"
     externalUrl: "https://my-app.app-proxy-poc.sandbox.platform.hmcts.net"
     logoUrl: https://raw.githubusercontent.com/hmcts/azure-app-proxy/main/logos/incident-bot.png
-    appRoleAssignments:
-      - Test app
     internalUrl: "https://my-on-bau101.sandbox.platform.hmcts.net"
     userAssignmentRequired: true
     tls:
@@ -18,6 +16,9 @@ apps:
       optionalClaims:
         - name: "groups"
           additionalProperties: []
+    appRoleAssignments:
+      - Test app
+      - test_group_A
     appRoles:
       - displayName: "A first app role"
         description: "Some description"
@@ -25,6 +26,7 @@ apps:
         id: "aa9aaaaa-2aa8-49aa-954a-a3aaaa08aaa3"
         groups:
           - "test_group_A"
+          - "Test app"
       - displayName: "My second app role"
         description: "Some description"
         value: "testing_again"

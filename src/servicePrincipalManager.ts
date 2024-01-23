@@ -77,21 +77,33 @@ export async function findExistingServicePrincipal({
   return undefined;
 }
 
-async function getAppRoleId(objectId: string, token: string) {
-  const result = await fetch(
-    `https://graph.microsoft.com/beta/servicePrincipals/${objectId}/appRoles`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+export async function getAppRoleId({
+  token,
+  objectId,
+  displayName,
+}: {
+  token: string;
+  objectId: string;
+  displayName: string;
+}) {
+  const url = `https://graph.microsoft.com/beta/servicePrincipals/${objectId}/appRoles`;
 
-  await errorHandler("finding app roles", result);
+  const result = await fetch(url, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  await errorHandler("finding app role Id", result);
 
   const body = await result.json();
-  return body.value[0].id;
+  var appRole = body.value.find(
+    (element: any) => element.displayName === displayName,
+  );
+
+  console.log("App Role Id for role:", displayName, "found:", appRole.id);
+  return appRole.id;
 }
 
 export async function getEntraGroupId(groupName: string, token: string) {
@@ -114,10 +126,12 @@ export async function isAppRoleAssignedToGroup({
   groupId,
   objectId,
   token,
+  appRoleId,
 }: {
   groupId: string;
   objectId: string;
   token: string;
+  appRoleId: string;
 }) {
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/groups/${groupId}/appRoleAssignments?$filter=resourceId eq ${objectId}`,
@@ -129,14 +143,16 @@ export async function isAppRoleAssignedToGroup({
     },
   );
 
-  await errorHandler("finding if app role is already assigned", result);
+  await errorHandler("Checking if app role is already assigned", result);
 
   const body = await result.json();
+  const appRole =
+    body.value.find((element: any) => element.appRoleId === appRoleId) || false;
 
-  return body.value.length === 1;
+  return appRole;
 }
 
-async function assignGroup({
+async function assignRoleToGroup({
   group,
   token,
   objectId,
@@ -153,6 +169,7 @@ async function assignGroup({
     groupId,
     objectId,
     token,
+    appRoleId,
   });
 
   if (appRoleAssignedAlready) {
@@ -184,7 +201,7 @@ async function assignGroup({
   }
 }
 
-export async function assignGroups({
+export async function assignUserRoleToGroups({
   token,
   objectId,
   groups,
@@ -194,10 +211,14 @@ export async function assignGroups({
   token: string;
 }) {
   if (groups.length > 0) {
-    const appRoleId = await getAppRoleId(objectId, token);
+    const appRoleId = await getAppRoleId({
+      token,
+      objectId,
+      displayName: "User",
+    }); // Find User app role id
 
     for await (const group of groups) {
-      await assignGroup({ group, token, objectId, appRoleId });
+      await assignRoleToGroup({ group, token, objectId, appRoleId });
     }
   }
 }
