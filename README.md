@@ -63,3 +63,18 @@ yarn test
 ### Releases
 
 Code pushed to the main branch is not published as a new release by default. Once your Pull Request has been merged, [draft a new release](https://github.com/hmcts/azure-app-proxy-manager/releases). Once the release is published a [Github Action](https://github.com/hmcts/azure-app-proxy-manager/actions/workflows/release.yaml) is triggered to push the latest version to NPM.
+
+### Helper modules
+
+#### Application Registrations Finder
+
+`applicationRegistrationsFinder` - This module used to find app registrations by their displayName.
+To run it you need to modify an constant  `applicationNames` in the `applicationRegistrationsFinder.ts` file, and then run the following commands:
+
+```bash
+yarn install
+yarn build
+yarn tsc -p .
+yarn node lib/applicationRegistrationsFinder.js
+```
+
