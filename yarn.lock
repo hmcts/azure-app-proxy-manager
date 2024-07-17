@@ -173,8 +173,8 @@ __metadata:
   linkType: hard
 
 "@azure/identity@npm:^4.0.0":
-  version: 4.3.0
-  resolution: "@azure/identity@npm:4.3.0"
+  version: 4.4.0
+  resolution: "@azure/identity@npm:4.4.0"
   dependencies:
     "@azure/abort-controller": ^1.0.0
     "@azure/core-auth": ^1.5.0
@@ -183,14 +183,14 @@ __metadata:
     "@azure/core-tracing": ^1.0.0
     "@azure/core-util": ^1.3.0
     "@azure/logger": ^1.0.0
-    "@azure/msal-browser": ^3.11.1
+    "@azure/msal-browser": ^3.14.0
     "@azure/msal-node": ^2.9.2
     events: ^3.0.0
     jws: ^4.0.0
     open: ^8.0.0
     stoppable: ^1.1.0
     tslib: ^2.2.0
-  checksum: 7f4256b39c4e27bf072c33f02dd63bd50dcf54ad578e3e483dcf89283546a6086b1640adfe4c93a537cbe483dd2e3a29f6d7b837e51f333229f7bbbc448966b3
+  checksum: d3aecb92e4e2a2f0fa9063eb605bc893ad2e80bd7f3426cf6027d7581cc4e29a38b6f8df1c688a1f01789975390d0d0c7caae01aa868fabc245a40ae6ba6da6c
   languageName: node
   linkType: hard
 
@@ -222,12 +222,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-browser@npm:^3.11.1":
-  version: 3.13.0
-  resolution: "@azure/msal-browser@npm:3.13.0"
+"@azure/msal-browser@npm:^3.14.0":
+  version: 3.19.1
+  resolution: "@azure/msal-browser@npm:3.19.1"
   dependencies:
-    "@azure/msal-common": 14.9.0
-  checksum: 978c3ae577fd9a17a58035627429bad379e839996273b4d8eff245aeee365fc6aa630cc1732748344de407dd8b37bc16e631360b5015b0467a4c48100781a5ac
+    "@azure/msal-common": 14.13.1
+  checksum: fe1116ed1269f017fb6f4b66b99e1a310b85b11a6133bbe22c0696471070aed35db9ef395d0af03117ac413e1ad31fa7640c7e825d33ce592c9246d6e9968bfc
   languageName: node
   linkType: hard
 
@@ -238,10 +238,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-common@npm:14.9.0":
-  version: 14.9.0
-  resolution: "@azure/msal-common@npm:14.9.0"
-  checksum: f5d071c5241aba68a6585eb53fcf049aa976719f31f211c0044c0d0107b7300d4827412ce0389f7e6d3ce7bc6444c20d2baba3e9a7c1a1116ccc1f1b3edd253b
+"@azure/msal-common@npm:14.13.1":
+  version: 14.13.1
+  resolution: "@azure/msal-common@npm:14.13.1"
+  checksum: 43ba692c2bde781a76113b40ae5316568b4aece64fd2b77f336a17b1a5de73af5e809f04edd49ffea619eba398bb31cf3e2a2574167118a8b0d64144e59c621f
   languageName: node
   linkType: hard
 
