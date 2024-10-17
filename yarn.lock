@@ -162,6 +162,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-util@npm:^1.10.0":
+  version: 1.11.0
+  resolution: "@azure/core-util@npm:1.11.0"
+  dependencies:
+    "@azure/abort-controller": ^2.0.0
+    tslib: ^2.6.2
+  checksum: 91e3ec329d9eddaa66be5efb1785dad68dcb48dd779fca36e39db041673230510158ff5ca9ccef9f19c3e4d8e9af29f66a367cfc31a7b94d2541f80ef94ec797
+  languageName: node
+  linkType: hard
+
 "@azure/core-util@npm:^1.6.1":
   version: 1.9.0
   resolution: "@azure/core-util@npm:1.9.0"
@@ -194,11 +204,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/keyvault-secrets@npm:^4.7.0":
-  version: 4.8.0
-  resolution: "@azure/keyvault-secrets@npm:4.8.0"
+"@azure/keyvault-common@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@azure/keyvault-common@npm:2.0.0"
   dependencies:
-    "@azure/abort-controller": ^1.0.0
+    "@azure/abort-controller": ^2.0.0
+    "@azure/core-auth": ^1.3.0
+    "@azure/core-client": ^1.5.0
+    "@azure/core-rest-pipeline": ^1.8.0
+    "@azure/core-tracing": ^1.0.0
+    "@azure/core-util": ^1.10.0
+    "@azure/logger": ^1.1.4
+    tslib: ^2.2.0
+  checksum: 36e37f71ef5f0963fb82b1bf86f1e6aa7066beb62ca2bf82a441e75df98b21ff111515b09af1a6d7bfe257c2f74187ddbef06e345a4c84496a6320d03214d2dd
+  languageName: node
+  linkType: hard
+
+"@azure/keyvault-secrets@npm:^4.7.0":
+  version: 4.9.0
+  resolution: "@azure/keyvault-secrets@npm:4.9.0"
+  dependencies:
+    "@azure/abort-controller": ^2.0.0
     "@azure/core-auth": ^1.3.0
     "@azure/core-client": ^1.5.0
     "@azure/core-http-compat": ^2.0.1
@@ -207,9 +233,10 @@ __metadata:
     "@azure/core-rest-pipeline": ^1.8.0
     "@azure/core-tracing": ^1.0.0
     "@azure/core-util": ^1.0.0
+    "@azure/keyvault-common": ^2.0.0
     "@azure/logger": ^1.0.0
     tslib: ^2.2.0
-  checksum: 5684b593a448fbaf7fc90461b988f7c91855ec713090f5de19dc3e4268df1f1370a1a6f692efc38d2de47416836eeeddeab4dbb750367bf8dde685a2af4e674c
+  checksum: f3158a220500f7a432b058a7c2e27f0f234556218f341c19afb6b6fc629b5debdfa28888dc760bbd9eba3cf1fdb70e119d6d6a34694d7bee1df5391a639dc9cc
   languageName: node
   linkType: hard
 
@@ -219,6 +246,15 @@ __metadata:
   dependencies:
     tslib: ^2.2.0
   checksum: 2c243d4c667bbc5cd3e60d4473d0f1169fcef2498a02138398af15547fe1b2870197bcb4c487327451488e4d71dee05244771d51328f03611e193b99fb9aa9af
+  languageName: node
+  linkType: hard
+
+"@azure/logger@npm:^1.1.4":
+  version: 1.1.4
+  resolution: "@azure/logger@npm:1.1.4"
+  dependencies:
+    tslib: ^2.6.2
+  checksum: d4bfd83f31afc465689e02ac2d8eb0a1c6573cc47ea3fa18778c5d7d096ee7a4fdc130f00e9d162ec8ed192aeb9a54d5c3ab15bd7a12bbe039d5f594ba0f797b
   languageName: node
   linkType: hard
 
