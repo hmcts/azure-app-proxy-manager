@@ -723,21 +723,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*":
+"@types/node@npm:*, @types/node@npm:^22.0.0":
   version: 22.8.5
   resolution: "@types/node@npm:22.8.5"
   dependencies:
     undici-types: ~6.19.8
   checksum: c5c3466047c2cc5f70824a89aa3873fb21abc231d7d52672ea157c01e5acbbca9831362c1d2df589f9ea10a3bdfade867ec647850d9dcf88dce7119885cb8d22
-  languageName: node
-  linkType: hard
-
-"@types/node@npm:^20.2.5":
-  version: 20.17.4
-  resolution: "@types/node@npm:20.17.4"
-  dependencies:
-    undici-types: ~6.19.2
-  checksum: 63a8016ca4763e6be039d6f52ce358450d891cd2131243e975f2a6e06c78f1619e0d56d62aef724bcbf643e0249def7fe114fe72d46444ebb3df2e6774415f9a
   languageName: node
   linkType: hard
 
@@ -982,7 +973,7 @@ __metadata:
     "@azure/identity": ^4.0.0
     "@azure/keyvault-secrets": ^4.7.0
     "@types/js-yaml": ^4
-    "@types/node": ^20.2.5
+    "@types/node": ^22.0.0
     "@types/node-forge": ^1
     "@types/prettier": ^3.0.0
     "@types/yargs": ^17
@@ -2774,13 +2765,6 @@ __metadata:
   version: 1.3.2
   resolution: "ufo@npm:1.3.2"
   checksum: f1180bb715ff4dd46152fd4dec41c731e84d7b9eaf1432548a0210b2f7e0cd29de125ac88e582c6a079d8ae5bc9ab04ef2bdbafe125086480b10c1006b81bfce
-  languageName: node
-  linkType: hard
-
-"undici-types@npm:~6.19.2":
-  version: 6.19.6
-  resolution: "undici-types@npm:6.19.6"
-  checksum: e66df2447b6d93a48b0605a54269d8c3f228edcd1e9563229f6de37e48ed53b3e49b4bc965733643ed9717e0e0fa1ee664c929db91d787c9f488fb3f9e17c533
   languageName: node
   linkType: hard
 
