@@ -140,6 +140,7 @@ export async function findExistingApplication({
   token: string;
   displayName: string;
 }): Promise<string | undefined> {
+  // todo: call 'findApplicationsByName' from applicationRegistrations.js
   const result = await fetch(
     `https://graph.microsoft.com/v1.0/applications?$filter=displayName eq '${displayName}'&$top=1&$select=id`,
     {
