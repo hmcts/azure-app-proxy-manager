@@ -15,9 +15,7 @@ describe("servicePrincipalManager", () => {
   });
 
   test("getEntraGroupId group does not exist", async () => {
-    expect(
-      async () => await getEntraGroupId("does_not_exist", token),
-    ).toThrowError(
+    expect(() => getEntraGroupId("does_not_exist", token)).rejects.toThrowError(
       "Error finding group id, does the group does_not_exist exist?",
     );
   });
