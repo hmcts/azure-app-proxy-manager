@@ -122,7 +122,9 @@ export async function getEntraGroupId(groupName: string, token: string) {
   const value: Array<any> = body.value;
 
   if (value.length === 0) {
-    throw new Error(`Error finding group id, does the group ${groupName} exist?`);
+    throw new Error(
+      `Error finding group id, does the group ${groupName} exist?`,
+    );
   }
   return value[0].id;
 }
