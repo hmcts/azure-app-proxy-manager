@@ -27,16 +27,7 @@ import {
   getAppRoleId,
 } from "./servicePrincipalManager";
 import * as process from "process";
-
-async function authenticate() {
-  const credential = new DefaultAzureCredential();
-
-  const { token } = await credential.getToken(
-    "https://graph.microsoft.com/.default",
-  );
-
-  return token;
-}
+import { authenticate } from "./testUtils";
 
 async function cleanup({
   token,
