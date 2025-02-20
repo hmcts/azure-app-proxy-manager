@@ -119,7 +119,12 @@ export async function getEntraGroupId(groupName: string, token: string) {
   await errorHandler("finding group id", result);
 
   const body = await result.json();
-  return body.value[0].id;
+  const value: Array<any> = body.value;
+
+  if (value.length === 0) {
+    throw new Error(`Error finding group id, does the group ${groupName} exist?`);
+  }
+  return value[0].id;
 }
 
 export async function isAppRoleAssignedToGroup({
