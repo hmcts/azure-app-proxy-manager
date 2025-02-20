@@ -1,6 +1,6 @@
 import { getEntraGroupId } from "./servicePrincipalManager";
 import { expect, describe, test, beforeAll, afterEach } from "vitest";
-import { authenticate } from "./testUtils.test";
+import { authenticate } from "./testUtils";
 
 describe("servicePrincipalManager", () => {
   let token: string;

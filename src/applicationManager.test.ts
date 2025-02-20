@@ -27,7 +27,7 @@ import {
   getAppRoleId,
 } from "./servicePrincipalManager";
 import * as process from "process";
-import { authenticate } from "./testUtils.test";
+import { authenticate } from "./testUtils";
 
 async function cleanup({
   token,
