@@ -11,7 +11,7 @@ describe("servicePrincipalManager", () => {
 
   test("getEntraGroupId group exists", async () => {
     const groupId = await getEntraGroupId("test_group_A", token);
-    expect(groupId).toEqual("844e7f86-e45e-4d9b-90ef-deaeb15a3e11");
+    expect(groupId).toEqual("42912662-6e7b-4682-968d-c5d4c22a8aec");
   });
 
   test("getEntraGroupId group does not exist", async () => {
