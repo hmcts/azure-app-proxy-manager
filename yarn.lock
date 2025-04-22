@@ -767,8 +767,8 @@ __metadata:
   linkType: hard
 
 "@vitest/coverage-v8@npm:^3.0.0":
-  version: 3.1.1
-  resolution: "@vitest/coverage-v8@npm:3.1.1"
+  version: 3.1.2
+  resolution: "@vitest/coverage-v8@npm:3.1.2"
   dependencies:
     "@ampproject/remapping": ^2.3.0
     "@bcoe/v8-coverage": ^1.0.2
@@ -779,16 +779,16 @@ __metadata:
     istanbul-reports: ^3.1.7
     magic-string: ^0.30.17
     magicast: ^0.3.5
-    std-env: ^3.8.1
+    std-env: ^3.9.0
     test-exclude: ^7.0.1
     tinyrainbow: ^2.0.0
   peerDependencies:
-    "@vitest/browser": 3.1.1
-    vitest: 3.1.1
+    "@vitest/browser": 3.1.2
+    vitest: 3.1.2
   peerDependenciesMeta:
     "@vitest/browser":
       optional: true
-  checksum: 5f55207c0f3ccf66cb56267643fffdce06bece64eb7f777c49257094c82371fb087e83976821f1c234dc796bc396dd89a3e26c59ad1534dcc639c39caa116532
+  checksum: f0ffe4b64ef6eed5d9af8756ccc6ff662ecc9af152b42018494c53f7ad35a25f596ad7651a1731b1bbb9952e220c79f6a9aa3d96dd340e2869f24b2dee2d449c
   languageName: node
   linkType: hard
 
@@ -2774,7 +2774,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"std-env@npm:^3.8.1":
+"std-env@npm:^3.9.0":
   version: 3.9.0
   resolution: "std-env@npm:3.9.0"
   checksum: d40126e4a650f6e5456711e6c297420352a376ef99a9599e8224d2d8f2ff2b91a954f3264fcef888d94fce5c9ae14992c5569761c95556fc87248ce4602ed212
