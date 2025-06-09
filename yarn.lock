@@ -767,8 +767,8 @@ __metadata:
   linkType: hard
 
 "@vitest/coverage-v8@npm:^3.0.0":
-  version: 3.2.1
-  resolution: "@vitest/coverage-v8@npm:3.2.1"
+  version: 3.2.3
+  resolution: "@vitest/coverage-v8@npm:3.2.3"
   dependencies:
     "@ampproject/remapping": ^2.3.0
     "@bcoe/v8-coverage": ^1.0.2
@@ -784,12 +784,12 @@ __metadata:
     test-exclude: ^7.0.1
     tinyrainbow: ^2.0.0
   peerDependencies:
-    "@vitest/browser": 3.2.1
-    vitest: 3.2.1
+    "@vitest/browser": 3.2.3
+    vitest: 3.2.3
   peerDependenciesMeta:
     "@vitest/browser":
       optional: true
-  checksum: 539cc65d9c28bfccef8ff4124e0ad96188e0b916fd830ce52148fbd7e5173cce3be4d2527b744e929252a36d2c9524cca8b285bf32531cf23fb5f1b9efb2d83f
+  checksum: 18e52f105b703fbaee3e6e387a58c46a54467a8da6ba53de1940eb97a84393e886a38d898168656c780d188c0ed4a429e4b47b104b4b87c2ac8b52cf21b808d8
   languageName: node
   linkType: hard
 
