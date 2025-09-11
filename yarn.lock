@@ -227,8 +227,8 @@ __metadata:
   linkType: hard
 
 "@azure/identity@npm:^4.0.0":
-  version: 4.11.1
-  resolution: "@azure/identity@npm:4.11.1"
+  version: 4.12.0
+  resolution: "@azure/identity@npm:4.12.0"
   dependencies:
     "@azure/abort-controller": ^2.0.0
     "@azure/core-auth": ^1.9.0
@@ -241,7 +241,7 @@ __metadata:
     "@azure/msal-node": ^3.5.0
     open: ^10.1.0
     tslib: ^2.2.0
-  checksum: 5f4c2b465a56bf7ae4d50d85db93387ad839a4db19b65a628ac80d179feb8b3956a5db6789f6f2f135f783b4994784e0490d1e28be0e2228fcabf0e16e499e48
+  checksum: 26bd283fc479e7cd6c17bde0c9774a59f261e30bc5edab7240bd157fec74448cb1aecf061dafb4a78119d8309981ae5b6327d4dab4be6a01c7322ed6d835329f
   languageName: node
   linkType: hard
 
