@@ -13,12 +13,16 @@ export function setPasswordOnPfx(pfx: string, password: string) {
   // Use non-strict mode and empty password for Azure Key Vault certificates
   // Azure Key Vault strips passwords from PFX but leaves macData intact
   // node-forge 1.3.2+ (CVE-2025-12816 fix) requires this to handle such certificates
-  const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, false, '');
+  const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, false, "");
 
   const certificates = getCertificates(p12);
   const key = getKey(p12);
 
-  const pfxNewAs1 = forge.pkcs12.toPkcs12Asn1(key as forge.pki.rsa.PrivateKey, certificates, password);
+  const pfxNewAs1 = forge.pkcs12.toPkcs12Asn1(
+    key as forge.pki.rsa.PrivateKey,
+    certificates,
+    password,
+  );
 
   const pfxNewDer = forge.asn1.toDer(pfxNewAs1).getBytes();
   return forge.util.encode64(pfxNewDer);
