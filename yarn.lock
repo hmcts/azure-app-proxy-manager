@@ -726,11 +726,11 @@ __metadata:
   linkType: hard
 
 "@vitest/coverage-v8@npm:^4.0.0":
-  version: 4.0.14
-  resolution: "@vitest/coverage-v8@npm:4.0.14"
+  version: 4.0.15
+  resolution: "@vitest/coverage-v8@npm:4.0.15"
   dependencies:
     "@bcoe/v8-coverage": ^1.0.2
-    "@vitest/utils": 4.0.14
+    "@vitest/utils": 4.0.15
     ast-v8-to-istanbul: ^0.3.8
     istanbul-lib-coverage: ^3.2.2
     istanbul-lib-report: ^3.0.1
@@ -741,12 +741,12 @@ __metadata:
     std-env: ^3.10.0
     tinyrainbow: ^3.0.3
   peerDependencies:
-    "@vitest/browser": 4.0.14
-    vitest: 4.0.14
+    "@vitest/browser": 4.0.15
+    vitest: 4.0.15
   peerDependenciesMeta:
     "@vitest/browser":
       optional: true
-  checksum: 994925503533f87ec7af03df78d26cc309071b808a735738aac88b018085ad93e80ff16136ef774e612c74d83a6030d7228531af7055b2b0dcadf2c62de73ebf
+  checksum: 0430a443d97ba533486c4239546f73eba5c84c3c5e0ba54d962ce6f3c6eee4b31e282815d5408830bbc46935e0dfd8e3293b722643416e5b8394348a18513317
   languageName: node
   linkType: hard
 
@@ -761,12 +761,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/pretty-format@npm:4.0.14":
-  version: 4.0.14
-  resolution: "@vitest/pretty-format@npm:4.0.14"
+"@vitest/pretty-format@npm:4.0.15":
+  version: 4.0.15
+  resolution: "@vitest/pretty-format@npm:4.0.15"
   dependencies:
     tinyrainbow: ^3.0.3
-  checksum: 07febc84f89126274ec3b7be3d640131771547d231063c4595edb6357726f52fc23f85e8e8bc183a8327451030f21f9a3d293eb4efa1a2f136e1792a6d820843
+  checksum: c63b4db13dfd2e058be5e3428791a070e7bef4eb0c6c09f52ea8188bc3ec007f6f4bff9b209d8736149772ba4049e081a204d2d08bf60c3e4bfe52d0a76a0180
   languageName: node
   linkType: hard
 
@@ -813,13 +813,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@vitest/utils@npm:4.0.14":
-  version: 4.0.14
-  resolution: "@vitest/utils@npm:4.0.14"
+"@vitest/utils@npm:4.0.15":
+  version: 4.0.15
+  resolution: "@vitest/utils@npm:4.0.15"
   dependencies:
-    "@vitest/pretty-format": 4.0.14
+    "@vitest/pretty-format": 4.0.15
     tinyrainbow: ^3.0.3
-  checksum: 61048d5f9c1555bda343f1c3d04fc51b622dbebd2c690720e0c97d54d7ccf9f94cf9a89baac45b2b9c2d02e1502caee52e7101ce0b60a31798e732abb273ff2f
+  checksum: 01225186e8eef81f51113f6d327eac9f6697088e4ac29f07753ab44dc5bf4c1e732e9f7e92609a4b25067a9ae7c495ddd5e2e6317e83517d7be367377783fd21
   languageName: node
   linkType: hard
 
