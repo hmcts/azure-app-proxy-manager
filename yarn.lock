@@ -39,7 +39,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-client@npm:^1.10.0, @azure/core-client@npm:^1.5.0, @azure/core-client@npm:^1.9.2":
+"@azure/core-client@npm:^1.9.2":
   version: 1.10.1
   resolution: "@azure/core-client@npm:1.10.1"
   dependencies:
@@ -51,17 +51,6 @@ __metadata:
     "@azure/logger": ^1.3.0
     tslib: ^2.6.2
   checksum: b1312966ec52dd4c48798bbdffbbd2faf18bc3eea65967a011cc2e4c0988e1135ecb937f91f13927585101941ee3f065f47db609155f2d337edbbad54a8d33b0
-  languageName: node
-  linkType: hard
-
-"@azure/core-http-compat@npm:^2.2.0":
-  version: 2.3.1
-  resolution: "@azure/core-http-compat@npm:2.3.1"
-  dependencies:
-    "@azure/abort-controller": ^2.1.2
-    "@azure/core-client": ^1.10.0
-    "@azure/core-rest-pipeline": ^1.22.0
-  checksum: 710a337c1da82cad026b244d2d4481b90c215bd5ba662e17b7c96c7da3d1423beb98efca1ae3b75c0a17fa5749953675766ab20b0c34e7e1afe52c973653146a
   languageName: node
   linkType: hard
 
@@ -140,39 +129,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/keyvault-common@npm:^2.0.0":
-  version: 2.0.0
-  resolution: "@azure/keyvault-common@npm:2.0.0"
+"@azure/keyvault-common@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "@azure/keyvault-common@npm:2.1.0"
   dependencies:
+    "@azure-rest/core-client": ^2.3.3
     "@azure/abort-controller": ^2.0.0
     "@azure/core-auth": ^1.3.0
-    "@azure/core-client": ^1.5.0
     "@azure/core-rest-pipeline": ^1.8.0
     "@azure/core-tracing": ^1.0.0
     "@azure/core-util": ^1.10.0
     "@azure/logger": ^1.1.4
     tslib: ^2.2.0
-  checksum: 36e37f71ef5f0963fb82b1bf86f1e6aa7066beb62ca2bf82a441e75df98b21ff111515b09af1a6d7bfe257c2f74187ddbef06e345a4c84496a6320d03214d2dd
+  checksum: 9787947ef3bcd13dd2a7e84410fad2805102266eb7da1fc3d6d5be3a68a56f8a1e9b2db9867c1aac10f8cf6cea3d7ba36b9f86b64b41fae0a7468674251787bf
   languageName: node
   linkType: hard
 
 "@azure/keyvault-secrets@npm:^4.7.0":
-  version: 4.10.0
-  resolution: "@azure/keyvault-secrets@npm:4.10.0"
+  version: 4.11.1
+  resolution: "@azure/keyvault-secrets@npm:4.11.1"
   dependencies:
     "@azure-rest/core-client": ^2.3.3
     "@azure/abort-controller": ^2.1.2
     "@azure/core-auth": ^1.9.0
-    "@azure/core-http-compat": ^2.2.0
     "@azure/core-lro": ^2.7.2
     "@azure/core-paging": ^1.6.2
     "@azure/core-rest-pipeline": ^1.19.0
     "@azure/core-tracing": ^1.2.0
     "@azure/core-util": ^1.11.0
-    "@azure/keyvault-common": ^2.0.0
+    "@azure/keyvault-common": ^2.1.0
     "@azure/logger": ^1.1.4
     tslib: ^2.8.1
-  checksum: d0d6b4ae3bc5b1a78455a4b2fcd999507e194784232e133e9174324109108a318a3c3641940f3d27154256a54d6de0e37b96e03a7a14a40a6ef5cebab443003a
+  checksum: 57766cc6a5264b7ec05d841107f3664bed25862e6f97e8f68c8ed2962968165f6fa37e44bd4543b6c8f32c5219ec1520701c3e2ea15eff2468ae16f1ae507b16
   languageName: node
   linkType: hard
 
