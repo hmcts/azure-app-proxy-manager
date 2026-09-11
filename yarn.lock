@@ -711,6 +711,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ansi-regex@npm:^6.2.2":
+  version: 6.3.0
+  resolution: "ansi-regex@npm:6.3.0"
+  checksum: 85e15deee80d6e52e75864897b6f7b8a8cfc5befe1868f03e3b6bf8925b9b667cf67d4aeafc6d038398f2f11c3813e7b40ad79affdd29a9c491b3585bfa125d5
+  languageName: node
+  linkType: hard
+
 "ansi-styles@npm:^6.2.1":
   version: 6.2.3
   resolution: "ansi-styles@npm:6.2.3"
@@ -1003,6 +1010,13 @@ __metadata:
   version: 1.4.0
   resolution: "get-east-asian-width@npm:1.4.0"
   checksum: 1d9a81a8004f4217ebef5d461875047d269e4b57e039558fd65130877cd4da8e3f61e1c4eada0c8b10e2816c7baf7d5fddb7006f561da13bc6f6dd19c1e964a4
+  languageName: node
+  linkType: hard
+
+"get-east-asian-width@npm:^1.5.0":
+  version: 1.6.0
+  resolution: "get-east-asian-width@npm:1.6.0"
+  checksum: 88faf98aaade2b24ad260be369b026d979ff4d0e6201bfd991654da17f2aa720bbddb812ce5612110eef6b469d8370c863f69a2f9818d61733f1eb2a83d779b8
   languageName: node
   linkType: hard
 
@@ -1853,12 +1867,31 @@ __metadata:
   languageName: node
   linkType: hard
 
+"string-width@npm:^8.2.1":
+  version: 8.2.2
+  resolution: "string-width@npm:8.2.2"
+  dependencies:
+    get-east-asian-width: ^1.5.0
+    strip-ansi: ^7.1.2
+  checksum: 37fc1e2bdb488404118b1a07747cf9bb1f5fddfe6f850ba4b1451d118d09fb03ca5948cc69740fec5c54bce384232bcc74e181e8bedf39b5d385e9565df1270e
+  languageName: node
+  linkType: hard
+
 "strip-ansi@npm:^7.1.0":
   version: 7.1.2
   resolution: "strip-ansi@npm:7.1.2"
   dependencies:
     ansi-regex: ^6.0.1
   checksum: db0e3f9654e519c8a33c50fc9304d07df5649388e7da06d3aabf66d29e5ad65d5e6315d8519d409c15b32fa82c1df7e11ed6f8cd50b0e4404463f0c9d77c8d0b
+  languageName: node
+  linkType: hard
+
+"strip-ansi@npm:^7.1.2":
+  version: 7.2.0
+  resolution: "strip-ansi@npm:7.2.0"
+  dependencies:
+    ansi-regex: ^6.2.2
+  checksum: 96da3bc6d73cfba1218625a3d66cf7d37a69bf0920d8735b28f9eeaafcdb6c1fe8440e1ae9eb1ba0ca355dbe8702da872e105e2e939fa93e7851b3cb5dd7d316
   languageName: node
   linkType: hard
 
@@ -2180,15 +2213,15 @@ __metadata:
   linkType: hard
 
 "yargs@npm:^18.0.0":
-  version: 18.0.0
-  resolution: "yargs@npm:18.0.0"
+  version: 18.1.0
+  resolution: "yargs@npm:18.1.0"
   dependencies:
     cliui: ^9.0.1
     escalade: ^3.1.1
     get-caller-file: ^2.0.5
-    string-width: ^7.2.0
+    string-width: ^8.2.1
     y18n: ^5.0.5
     yargs-parser: ^22.0.0
-  checksum: a7cf1b97cb4e81c059f78fd32a4160505d421ecdce5409f5e3840fdcc4c982885fc645b44af961eab94d673cb46f81207d831aa87862246907ffacf45884976a
+  checksum: bd56c39d72f5490d4605d75b482b4edc6c67bd673cd687871ba0b4343fb8a85a5675078f28824dbc7eebf31427b643b98151854cacea714431c82aaa6a6ca8e9
   languageName: node
   linkType: hard
