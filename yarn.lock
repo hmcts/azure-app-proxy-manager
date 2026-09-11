@@ -585,11 +585,11 @@ __metadata:
   linkType: hard
 
 "@vitest/coverage-v8@npm:^4.0.0":
-  version: 4.1.4
-  resolution: "@vitest/coverage-v8@npm:4.1.4"
+  version: 4.1.11
+  resolution: "@vitest/coverage-v8@npm:4.1.11"
   dependencies:
     "@bcoe/v8-coverage": ^1.0.2
-    "@vitest/utils": 4.1.4
+    "@vitest/utils": 4.1.11
     ast-v8-to-istanbul: ^1.0.0
     istanbul-lib-coverage: ^3.2.2
     istanbul-lib-report: ^3.0.1
@@ -599,12 +599,12 @@ __metadata:
     std-env: ^4.0.0-rc.1
     tinyrainbow: ^3.1.0
   peerDependencies:
-    "@vitest/browser": 4.1.4
-    vitest: 4.1.4
+    "@vitest/browser": 4.1.11
+    vitest: 4.1.11
   peerDependenciesMeta:
     "@vitest/browser":
       optional: true
-  checksum: 84530f5ece936c1f622d8f5647b513dd857e2ac0c739e46ce287cea129bfad38d905fe7fb3346f07fa324273593996abbd4be4f20a5e75e8ec05a93ef1402bd3
+  checksum: a328e37f0ff39c77fa7e12c6ec50b161587be4f500ba8a26b845266fce83fc9fd08e55e1b49c4498836824fd27fa99ba61654709748c45ba3040d6b0b9303472
   languageName: node
   linkType: hard
 
@@ -638,6 +638,15 @@ __metadata:
     vite:
       optional: true
   checksum: 4b28ee43c3b8cf82236bd24fbb9681c8e255ac04b2ca2b548724092481b20d5cfd66597a4bc51cc49319269a8c86ae95f68feb1fd0b9850a8d355cddc97c4132
+  languageName: node
+  linkType: hard
+
+"@vitest/pretty-format@npm:4.1.11":
+  version: 4.1.11
+  resolution: "@vitest/pretty-format@npm:4.1.11"
+  dependencies:
+    tinyrainbow: ^3.1.0
+  checksum: 94bec0dc9a43350ea6537405dc5e1c0f9ad08f9c9752b616488ea82735c8199e639f30a36ad8019425769548e88f7c616813ad88f82399361006f06fe372428d
   languageName: node
   linkType: hard
 
@@ -676,6 +685,17 @@ __metadata:
   version: 4.1.4
   resolution: "@vitest/spy@npm:4.1.4"
   checksum: b35457cafe52dc4d2f8f07c9f513e68f35671418f4d64aa98a2cbffb680f4d6370c968facd020944c34ea1d777a329ec2fb72a997ef0443d39609aa8f3bd9798
+  languageName: node
+  linkType: hard
+
+"@vitest/utils@npm:4.1.11":
+  version: 4.1.11
+  resolution: "@vitest/utils@npm:4.1.11"
+  dependencies:
+    "@vitest/pretty-format": 4.1.11
+    convert-source-map: ^2.0.0
+    tinyrainbow: ^3.1.0
+  checksum: 0425605735c5860ca1feb05d028bfc77f01187705407082ac741686bd4ee06e8a264c3d7ad945da142eb8f6d14d8a8dd83bba228a8205fc3409544c9a26a3cc0
   languageName: node
   linkType: hard
 
