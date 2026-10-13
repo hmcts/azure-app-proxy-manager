@@ -75,6 +75,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/core-process@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@azure/core-process@npm:1.0.0"
+  checksum: e9108278737059bbed6427b23513ac85d97377ba18e323d50951e2551c4887a078fa51345742d551ca446062347685599ac6659af63fca746753b8b7be3ef4d7
+  languageName: node
+  linkType: hard
+
 "@azure/core-rest-pipeline@npm:^1.17.0, @azure/core-rest-pipeline@npm:^1.19.0, @azure/core-rest-pipeline@npm:^1.22.0, @azure/core-rest-pipeline@npm:^1.8.0":
   version: 1.22.2
   resolution: "@azure/core-rest-pipeline@npm:1.22.2"
@@ -111,21 +118,22 @@ __metadata:
   linkType: hard
 
 "@azure/identity@npm:^4.0.0":
-  version: 4.13.1
-  resolution: "@azure/identity@npm:4.13.1"
+  version: 4.14.0
+  resolution: "@azure/identity@npm:4.14.0"
   dependencies:
     "@azure/abort-controller": ^2.0.0
     "@azure/core-auth": ^1.9.0
     "@azure/core-client": ^1.9.2
+    "@azure/core-process": ^1.0.0
     "@azure/core-rest-pipeline": ^1.17.0
     "@azure/core-tracing": ^1.0.0
     "@azure/core-util": ^1.11.0
     "@azure/logger": ^1.0.0
     "@azure/msal-browser": ^5.5.0
-    "@azure/msal-node": ^5.1.0
-    open: ^10.1.0
+    "@azure/msal-node": ^6.0.0
+    open: ^11.0.0
     tslib: ^2.2.0
-  checksum: 239ecc1759a61df725f9914e43f8f16571525ab2fc309ea9cb12c919c79da9869cbf0fe8734f0c405db7dac5838088a37342104695789021c5d8441db6c60028
+  checksum: d6d54211795b459adbe617fe8bc138b0f3d6750e313e64e5dfc71408336d101a807b32ab9406f449107eeda85f71d02c0577ccbbf2fdba622c9a74b0ba58e90a
   languageName: node
   linkType: hard
 
@@ -146,8 +154,8 @@ __metadata:
   linkType: hard
 
 "@azure/keyvault-secrets@npm:^4.7.0":
-  version: 4.11.1
-  resolution: "@azure/keyvault-secrets@npm:4.11.1"
+  version: 4.11.2
+  resolution: "@azure/keyvault-secrets@npm:4.11.2"
   dependencies:
     "@azure-rest/core-client": ^2.3.3
     "@azure/abort-controller": ^2.1.2
@@ -160,7 +168,7 @@ __metadata:
     "@azure/keyvault-common": ^2.1.0
     "@azure/logger": ^1.1.4
     tslib: ^2.8.1
-  checksum: 57766cc6a5264b7ec05d841107f3664bed25862e6f97e8f68c8ed2962968165f6fa37e44bd4543b6c8f32c5219ec1520701c3e2ea15eff2468ae16f1ae507b16
+  checksum: 484cb9ce18d0a9e74bd46f1ffff9941f85d969ed16866ddfcf2c099c4ff14f050fb33592312bc448028f103f0f11c96731f410a2657f5688a28107ae3f885697
   languageName: node
   linkType: hard
 
@@ -183,6 +191,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/msal-common@npm:16.14.1":
+  version: 16.14.1
+  resolution: "@azure/msal-common@npm:16.14.1"
+  checksum: d0ee1cb25597e51eb2e9d052e1cae0480295221b8ab5814e2b1741e107e610201a0cc1b37188a79a2235dafe805129b857c372276a11c5de98e43869b29572ba
+  languageName: node
+  linkType: hard
+
 "@azure/msal-common@npm:16.4.0":
   version: 16.4.0
   resolution: "@azure/msal-common@npm:16.4.0"
@@ -190,14 +205,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/msal-node@npm:^5.1.0":
-  version: 5.1.1
-  resolution: "@azure/msal-node@npm:5.1.1"
+"@azure/msal-node@npm:^6.0.0":
+  version: 6.0.1
+  resolution: "@azure/msal-node@npm:6.0.1"
   dependencies:
-    "@azure/msal-common": 16.4.0
+    "@azure/msal-common": 16.14.1
     jsonwebtoken: ^9.0.0
-    uuid: ^8.3.0
-  checksum: f8d4223e1da2af71b753e1db4c29ad2019f4c4cd1bb0fcdc92a290f9902edce261a4f7494fa86a3471584213b68060e71f2da7542924023c002bba09cfb5c9d6
+  checksum: 3ae0f23553e370cebe5286ae57dea0559e70565eb7aaddee7b398abca57c1c825ce0d2f1e2a3e076042a54b2f4aac1ef5e0f5deeb40a944c309d9c46e2bceb6d
   languageName: node
   linkType: hard
 
@@ -852,13 +866,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"default-browser@npm:^5.2.1":
-  version: 5.4.0
-  resolution: "default-browser@npm:5.4.0"
+"default-browser@npm:^5.5.1":
+  version: 5.5.1
+  resolution: "default-browser@npm:5.5.1"
   dependencies:
     bundle-name: ^4.1.0
     default-browser-id: ^5.0.0
-  checksum: cac0222ca5c9a3387d25337228689652ab33679a6566995c7194a75af7e554e91ec9ac92a70bfaa8e8089eae9f466ae99267bb38601282aade89b200f50a765c
+  checksum: e2a74668f0dffff543a2e207ff400a2a99a13f50e99db3c23ad288c6fbc26d6133145e13762c842350ea1d854d876ca6328abc0031e56fd9d33b8f5080ead028
   languageName: node
   linkType: hard
 
@@ -1094,6 +1108,13 @@ __metadata:
   bin:
     is-docker: cli.js
   checksum: b698118f04feb7eaf3338922bd79cba064ea54a1c3db6ec8c0c8d8ee7613e7e5854d802d3ef646812a8a3ace81182a085dfa0a71cc68b06f3fa794b9783b3c90
+  languageName: node
+  linkType: hard
+
+"is-in-ssh@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "is-in-ssh@npm:1.0.0"
+  checksum: d55cb39afdbca0cdc94cd493da7819c00d35048ea04fc1624aabde6e0c86aa6b91ddb38b2baf73c4b5d53cc8fbf1a8dfbf2e315594a808474b751ffb6b0d3e58
   languageName: node
   linkType: hard
 
@@ -1586,15 +1607,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"open@npm:^10.1.0":
-  version: 10.2.0
-  resolution: "open@npm:10.2.0"
+"open@npm:^11.0.0":
+  version: 11.0.4
+  resolution: "open@npm:11.0.4"
   dependencies:
-    default-browser: ^5.2.1
+    default-browser: ^5.5.1
     define-lazy-prop: ^3.0.0
+    is-in-ssh: ^1.0.0
     is-inside-container: ^1.0.0
-    wsl-utils: ^0.1.0
-  checksum: 64e2e1fb1dc5ab82af06c990467237b8fd349b1b9ecc6324d12df337a005d039cec11f758abea148be68878ccd616977005682c48ef3c5c7ba48bd3e5d6a3dbb
+    powershell-utils: ^0.2.1
+    wsl-utils: ^1.0.0
+  checksum: 91b2db6830be9f28f4d6adc8f4b62a637f29f5be69a126e3770df92524e67a6c10bf500735f2fdca4446187bd0657bebbd6e34b660b7ae7381e94d31a5df7cc2
   languageName: node
   linkType: hard
 
@@ -1644,6 +1667,13 @@ __metadata:
     picocolors: ^1.1.1
     source-map-js: ^1.2.1
   checksum: 118cbec9551c7107c7884a585b45d7cce1632159065c7f6e112bbb4c4811253e78d507e49082b36d9b89f36a02a611c5a8cd210548dead55795c20c4f37ab9e8
+  languageName: node
+  linkType: hard
+
+"powershell-utils@npm:^0.2.0, powershell-utils@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "powershell-utils@npm:0.2.1"
+  checksum: e718a32f904190d15917a0157b18fec567ef6a3de7dc797845aa19a68da95b14402684bc216c4aa8e4ba483754b6eeb30feec30859efb2b3a5716958f5e6dfa1
   languageName: node
   linkType: hard
 
@@ -1974,15 +2004,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.3.0":
-  version: 8.3.2
-  resolution: "uuid@npm:8.3.2"
-  bin:
-    uuid: dist/bin/uuid
-  checksum: 5575a8a75c13120e2f10e6ddc801b2c7ed7d8f3c8ac22c7ed0c7b2ba6383ec0abda88c905085d630e251719e0777045ae3236f04c812184b7c765f63a70e58df
-  languageName: node
-  linkType: hard
-
 "vite@npm:^6.0.0 || ^7.0.0 || ^8.0.0":
   version: 8.0.2
   resolution: "vite@npm:8.0.2"
@@ -2142,12 +2163,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"wsl-utils@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "wsl-utils@npm:0.1.0"
+"wsl-utils@npm:^1.0.0":
+  version: 1.0.1
+  resolution: "wsl-utils@npm:1.0.1"
   dependencies:
     is-wsl: ^3.1.0
-  checksum: de4c92187e04c3c27b4478f410a02e81c351dc85efa3447bf1666f34fc80baacd890a6698ec91995631714086992036013286aea3d77e6974020d40a08e00aec
+    powershell-utils: ^0.2.0
+  checksum: 24b4b83795eca684948fdf093165ee34ee775eca33d6fc298cb9f89b6504233f7047b976d1b09bb15c31510d1b40d208ae6c542819f86eb355040fa6bdd7a31e
   languageName: node
   linkType: hard
 
